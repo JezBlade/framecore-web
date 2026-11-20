@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/assets/icons/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="robots" content="noindex,nofollow">
+<title>FrameCore</title>
+<script>
+/* Conserva lo que venga (fbclid, ttclid, utm_content=clipNN) y estampa la fuente
+   del puente solo si no viene una propia. Va ANTES del meta a proposito: el meta
+   redirige a URL fija y a 0s le gana la carrera si queda arriba.
+
+   NO "ARREGLAR" EL GUARD POR CAMPO. Es todo-o-nada A PROPOSITO: o toda la terna
+   del link, o toda la del puente, nunca mezcladas. Completar campo por campo le
+   pondria utm_medium=bio a una utm_source=newsletter, o sea GA4 leeria "newsletter
+   que llego por el bio de este puente" -- etiqueta COMPLETA y FALSA, que contamina
+   el reporte sin que nadie la cache. Preferimos incompleta y verdadera
+   (newsletter / (not set)). Si un link de puerta trae utm_source propia, debe
+   traer las TRES: es requisito del etiquetado S8, no un descuido de este stub.
+
+   Y el <meta> de abajo mas el boton del body SI pierden el query: sin JS no hay
+   como leer location.search, y GH Pages no emite 301 real. Es limitacion de la
+   plataforma, no deuda -- solo cerraria migrando a CDN/Cloudflare. */
+(function(){
+  var p = new URLSearchParams(location.search);
+  if (!p.has('utm_source')) {
+    p.set('utm_source','whatsapp'); p.set('utm_medium','mensaje'); p.set('utm_campaign','grupos');
+  }
+  location.replace('/?' + p.toString() + location.hash);
+})();
+</script>
+<meta http-equiv="refresh" content="0;url=/?utm_source=whatsapp&amp;utm_medium=mensaje&amp;utm_campaign=grupos">
+<link rel="canonical" href="https://loomframing.com/">
+<style>
+  :root{--slate-900:#14110d;--line:#3a332a;--cream:#f4ecd7;--cream-dim:#c9c0ad;--orange:#ff6d00;--orange-ink:#14110d}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--slate-900);color:var(--cream);font-family:system-ui,-apple-system,'Segoe UI',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+  main{max-width:360px;width:100%;text-align:center}
+  .eyebrow{font-size:11px;letter-spacing:1px;color:var(--orange);text-transform:uppercase;font-family:ui-monospace,'Cascadia Mono',Consolas,monospace}
+  h1{font-size:28px;letter-spacing:0.5px;line-height:1.05;text-transform:uppercase;margin:10px 0 8px}
+  p{color:var(--cream-dim);font-size:15px;margin-bottom:22px}
+  a.btn{display:block;padding:16px;border-radius:12px;background:var(--orange);color:var(--orange-ink);font-weight:700;font-size:17px;letter-spacing:0.5px;text-transform:uppercase;text-decoration:none}
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">FrameCore</p>
+  <h1>Ya vas pa' allá</h1>
+  <p>Si no te movió solo, éntrale aquí.</p>
+  <a class="btn" href="/?utm_source=whatsapp&amp;utm_medium=mensaje&amp;utm_campaign=grupos">Abrir la casa del oficio</a>
+</main>
+</body>
+</html>
