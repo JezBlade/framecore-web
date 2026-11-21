@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
     <loc>https://loomframing.com/</loc>
     <lastmod>2026-11-10T04:29:39Z</lastmod>
@@ -122,7 +122,7 @@
   </url>
   <url>
     <loc>https://loomframing.com/blog/stair-stringer-throat-depth.html</loc>
-    <lastmod>2026-11-07T02:32:36Z</lastmod>
+    <lastmod>2026-11-21T06:39:18Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -152,7 +152,7 @@
   </url>
   <url>
     <loc>https://loomframing.com/blog/truss-engineering-no-field-modifications.html</loc>
-    <lastmod>2026-11-11T03:57:10Z</lastmod>
+    <lastmod>2026-11-21T06:39:18Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -170,7 +170,7 @@
   </url>
   <url>
     <loc>https://loomframing.com/blog/rough-openings-backing-idaho.html</loc>
-    <lastmod>2026-11-11T03:57:35Z</lastmod>
+    <lastmod>2026-11-21T06:39:18Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -179,5 +179,109 @@
     <lastmod>2026-11-11T03:57:45Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://loomframing.com/videos/</loc>
+    <lastmod>2026-11-21T06:39:18Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://loomframing.com/videos/stair-stringer-throat-depth.html</loc>
+    <lastmod>2026-11-21T06:39:18Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/f3Qc2cumVeQ/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Escaleras: la garganta de la zanca — un número de oficio, por si te suma</video:title>
+      <video:description>La garganta es lo que le queda a la zanca por debajo de los dientes, y es lo que carga. Un buen número de oficio: la garganta pide 5 pulgadas.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/f3Qc2cumVeQ</video:player_loc>
+      <video:duration>74</video:duration>
+      <video:publication_date>2026-08-14T04:08:27-07:00</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://loomframing.com/videos/truss-engineering-no-field-modifications.html</loc>
+    <lastmod>2026-11-21T06:39:18Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/mXW9X8qPPcs/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Leer la hoja de ingeniería del truss en el celular, en el jale</video:title>
+      <video:description>La hoja de ingeniería es palabra del ingeniero: el truss no se corta ni se modifica en campo. Aquí cómo traer la hoja en el celular, en el jale.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/mXW9X8qPPcs</video:player_loc>
+      <video:duration>50</video:duration>
+      <video:publication_date>2026-08-18T11:10:56-07:00</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://loomframing.com/videos/rough-openings-backing-idaho.html</loc>
+    <lastmod>2026-11-21T06:39:18Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/z8jzlGCojWA/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Rough openings de Idaho + el backing que se te olvida</video:title>
+      <video:description>El ancho del hueco es física, el alto es costumbre, y el backing va antes del drywall. Contado en la pantalla, en el jale.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/z8jzlGCojWA</video:player_loc>
+      <video:duration>59</video:duration>
+      <video:publication_date>2026-08-19T13:56:58-07:00</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://loomframing.com/videos/checklist-antes-del-inspector.html</loc>
+    <lastmod>2026-11-21T06:39:18Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/ytjhw3OQFhs/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Un checklist pa' repasar antes de que llegue el inspector</video:title>
+      <video:description>Un checklist de pre-inspección donde cada punto te dice por qué te reprueban: el sill plate tratado, los anchor bolts. Pa' repasar antes, no después.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/ytjhw3OQFhs</video:player_loc>
+      <video:duration>34</video:duration>
+      <video:publication_date>2026-08-25T15:44:11-07:00</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://loomframing.com/videos/el-plano-completo-en-el-celular.html</loc>
+    <lastmod>2026-11-21T06:39:18Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/jFrLY5UY3vU/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>El plano completo en el celular, y el detalle que dice NTS</video:title>
+      <video:description>Abres la hoja entera y te acercas al header, y se lee clarito. Y aguas: la hoja que dice SCALE: NTS no se mide con el scale, va con las medidas escritas.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/jFrLY5UY3vU</video:player_loc>
+      <video:duration>32</video:duration>
+      <video:publication_date>2026-10-06T03:16:07-07:00</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://loomframing.com/videos/asi-jala-framecore.html</loc>
+    <lastmod>2026-11-21T06:39:18Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/Pe5vN1_DL3Q/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>FrameCore: Calculadora Framing · Menos madera al scrap y cuentas que cuadran en el jale</video:title>
+      <video:description>Menos madera al scrap y cuentas que cuadran en el jale: el teclado de pies, pulgadas y fracciones, y las escaleras en 3D, en la app de verdad.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/Pe5vN1_DL3Q</video:player_loc>
+      <video:duration>90</video:duration>
+      <video:publication_date>2026-11-04T16:52:40-08:00</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://loomframing.com/videos/recorrido-por-la-app.html</loc>
+    <lastmod>2026-11-21T06:39:18Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/Wjjp8rlRyz0/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>FrameCore: Calculadora Framing · Un recorrido por la app</video:title>
+      <video:description>Un pequeño recorrido por FrameCore, calculadora por calculadora y en la app de verdad. La app trae mucho más.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/Wjjp8rlRyz0</video:player_loc>
+      <video:duration>343</video:duration>
+      <video:publication_date>2026-11-05T11:35:38-08:00</video:publication_date>
+    </video:video>
   </url>
 </urlset>
