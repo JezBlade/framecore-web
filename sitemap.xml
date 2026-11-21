@@ -122,7 +122,7 @@
   </url>
   <url>
     <loc>https://loomframing.com/blog/stair-stringer-throat-depth.html</loc>
-    <lastmod>2026-11-21T06:09:39Z</lastmod>
+    <lastmod>2026-11-21T06:14:04Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -152,7 +152,7 @@
   </url>
   <url>
     <loc>https://loomframing.com/blog/truss-engineering-no-field-modifications.html</loc>
-    <lastmod>2026-11-21T06:09:39Z</lastmod>
+    <lastmod>2026-11-21T06:14:04Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -170,7 +170,7 @@
   </url>
   <url>
     <loc>https://loomframing.com/blog/rough-openings-backing-idaho.html</loc>
-    <lastmod>2026-11-21T06:09:39Z</lastmod>
+    <lastmod>2026-11-21T06:14:04Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -182,13 +182,13 @@
   </url>
   <url>
     <loc>https://loomframing.com/videos/</loc>
-    <lastmod>2026-11-21T06:09:39Z</lastmod>
+    <lastmod>2026-11-21T06:14:04Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://loomframing.com/videos/stair-stringer-throat-depth.html</loc>
-    <lastmod>2026-11-21T06:09:39Z</lastmod>
+    <lastmod>2026-11-21T06:14:04Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <video:video>
@@ -202,7 +202,7 @@
   </url>
   <url>
     <loc>https://loomframing.com/videos/truss-engineering-no-field-modifications.html</loc>
-    <lastmod>2026-11-21T06:09:39Z</lastmod>
+    <lastmod>2026-11-21T06:14:04Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <video:video>
@@ -216,7 +216,7 @@
   </url>
   <url>
     <loc>https://loomframing.com/videos/rough-openings-backing-idaho.html</loc>
-    <lastmod>2026-11-21T06:09:39Z</lastmod>
+    <lastmod>2026-11-21T06:14:04Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <video:video>
@@ -230,7 +230,7 @@
   </url>
   <url>
     <loc>https://loomframing.com/videos/checklist-antes-del-inspector.html</loc>
-    <lastmod>2026-11-21T06:09:39Z</lastmod>
+    <lastmod>2026-11-21T06:14:04Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <video:video>
@@ -244,7 +244,7 @@
   </url>
   <url>
     <loc>https://loomframing.com/videos/el-plano-completo-en-el-celular.html</loc>
-    <lastmod>2026-11-21T06:09:39Z</lastmod>
+    <lastmod>2026-11-21T06:14:04Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <video:video>
@@ -257,8 +257,22 @@
     </video:video>
   </url>
   <url>
+    <loc>https://loomframing.com/videos/asi-jala-framecore.html</loc>
+    <lastmod>2026-11-21T06:14:04Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/Pe5vN1_DL3Q/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>FrameCore: Calculadora Framing · Menos madera al scrap y cuentas que cuadran en el jale</video:title>
+      <video:description>Menos madera al scrap y cuentas que cuadran en el jale. En este video: el teclado de pies, pulgadas y fracciones directas, y las escaleras en 3D con sus zancas, risers y tread.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/Pe5vN1_DL3Q</video:player_loc>
+      <video:duration>90</video:duration>
+      <video:publication_date>2026-11-04T16:52:40-08:00</video:publication_date>
+    </video:video>
+  </url>
+  <url>
     <loc>https://loomframing.com/videos/recorrido-por-la-app.html</loc>
-    <lastmod>2026-11-21T06:09:39Z</lastmod>
+    <lastmod>2026-11-21T06:14:04Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <video:video>
