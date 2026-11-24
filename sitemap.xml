@@ -182,7 +182,7 @@
   </url>
   <url>
     <loc>https://loomframing.com/videos/</loc>
-    <lastmod>2026-11-21T06:39:18Z</lastmod>
+    <lastmod>2026-11-24T21:56:39Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -282,6 +282,34 @@
       <video:player_loc>https://www.youtube.com/embed/Wjjp8rlRyz0</video:player_loc>
       <video:duration>343</video:duration>
       <video:publication_date>2026-11-05T11:35:38-08:00</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://loomframing.com/videos/largo-del-rafter.html</loc>
+    <lastmod>2026-11-24T21:56:39Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/kJUIDmz0Ogs/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>¿Con qué sacan el largo del rafter: con escuadra, con tabla o con calculadora?</video:title>
+      <video:description>En Rafters le das tu pitch y tu run, y FrameCore te da el largo del rafter, el HAP y el birdsmouth, con el ridge ya descontado.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/kJUIDmz0Ogs</video:player_loc>
+      <video:duration>13</video:duration>
+      <video:publication_date>2026-11-13T11:35:18-08:00</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://loomframing.com/videos/sumar-pies-pulgadas-y-fracciones.html</loc>
+    <lastmod>2026-11-24T21:56:39Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/jwZlO6NVCbU/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Sumar pies, pulgadas y fracciones sin pasar a decimales</video:title>
+      <video:description>En Jobsite tecleas las medidas como las dices: pies, pulgadas y fracciones, cada una en su bloque. El resultado te sale en fracción, no en decimales.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/jwZlO6NVCbU</video:player_loc>
+      <video:duration>17</video:duration>
+      <video:publication_date>2026-11-14T11:35:34-08:00</video:publication_date>
     </video:video>
   </url>
 </urlset>
