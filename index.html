@@ -19,219 +19,360 @@
 <meta property="og:url" content="https://loomframing.com/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://loomframing.com/assets/og-framecore-1200x630.png">
-<meta name="theme-color" content="#14110d">
+<meta name="theme-color" content="#faf9f7">
 <link rel="canonical" href="https://loomframing.com/">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"SoftwareApplication","name":"FrameCore","alternateName":["Loom Framing","Loom Framing App","FrameCore App","FrameCore Calculadora Framing"],"image":"https://loomframing.com/assets/og-framecore-1200x630.png","applicationCategory":"BusinessApplication","operatingSystem":"Android","inLanguage":"es","description":"El oficio del framing en tu teléfono: más de 10 calculadoras, Manual de más de 100 artículos con el código en tu idioma, juego de planos, cut list a PDF, checklist de inspección. IRC 2018; jala off-line. Hecha por un framero, para frameros.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Person","name":"Jesús (JezBlade)"},"sameAs":["https://www.facebook.com/61560599675507","https://www.linkedin.com/company/117094824","https://www.instagram.com/framecoreapp/","https://www.tiktok.com/@framecoreapp","https://www.youtube.com/@FrameCoreApp","https://play.google.com/store/apps/details?id=com.loomframing.app"],"downloadUrl":"https://play.google.com/store/apps/details?id=com.loomframing.app"}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
-  :root{
-    --slate-900:#14110d; --slate-800:#1e1a15; --slate-700:#2a241d; --line:#3a332a;
-    --cream:#f4ecd7; --cream-dim:#c9c0ad; --muted:#8a8172;
-    --orange:#ff6d00; --orange-ink:#14110d;
-    --green:#4caf50; --blue:#4a9eff; --amber:#ffb020; --red:#ef5350; --gray:#8a8172;
-    --sans:'Inter',system-ui,sans-serif; --head:'Big Shoulders Display',sans-serif; --mono:'JetBrains Mono',monospace;
+  :root {
+    --gold-100:#f7eed1; --gold-300:#d9bf6a; --gold-400:#c8a440; --gold-500:#b8941f; --gold-700:#816710;
+    --cafe-500:#5a4f3a; --cafe-700:#3d3422; --cafe-800:#2a2418; --cafe-900:#1c1810;
+    --cream:#faf9f7; --canvas:#f0ead6; --canvas-2:#e4dcc2; --line:#d9d3c1; --mute:#736952; --confirm:#4a7c3a;
+    --display:"Big Shoulders Display", Impact, sans-serif; --body:"IBM Plex Sans", system-ui, sans-serif;
+    --r:14px; --wrap:1120px;
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{background:var(--slate-900);color:var(--cream);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
-  a{color:inherit;text-decoration:none}
-  .wrap{max-width:440px;margin:0 auto;padding:0 20px}
-  h1,h2,h3{font-family:var(--head);font-weight:800;letter-spacing:0.5px;line-height:0.95;text-transform:uppercase}
-  .mono{font-family:var(--mono)}
-  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--orange);text-transform:uppercase}
-.h1-sub{font-family:var(--mono);font-size:13px;letter-spacing:.5px;color:var(--cream-dim);margin-top:8px}
-  .btn{display:block;width:100%;text-align:center;padding:16px;border-radius:12px;font-family:var(--head);font-weight:700;font-size:18px;letter-spacing:0.5px;text-transform:uppercase}
-  .btn-primary{background:var(--orange);color:var(--orange-ink)}
-  .btn-ghost{background:transparent;color:var(--cream);border:1.5px solid var(--line)}
-  .chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;padding:5px 11px;border:1px solid var(--line);border-radius:20px;color:var(--cream-dim)}
-  header.nav{position:sticky;top:0;z-index:20;background:rgba(20,17,13,0.94);border-bottom:1px solid var(--line);backdrop-filter:blur(6px)}
-  .nav .wrap{display:flex;align-items:center;gap:14px;height:56px}
-  .brand{font-family:var(--head);font-weight:800;font-size:18px;letter-spacing:1px}
-  .nav a.link{margin-left:auto;font-size:13px;color:var(--cream-dim)}
-  .nav a.link+a.link{margin-left:16px}
-  .nav a.cta{margin-left:16px;background:var(--orange);color:var(--orange-ink);font-weight:600;font-size:13px;padding:7px 14px;border-radius:8px}
-  /* En teléfono el gap del flex ya separa: sin el margen doble, el nav cabe a 360 y a 375. */
-  @media (max-width:879px){.nav .wrap{gap:10px}.nav a.link+a.link,.nav a.cta{margin-left:0}}
-  @media (max-width:380px){.nav a.cta{padding:7px 10px}}
-  section{padding:44px 0}
-  .sec-label{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--orange);text-transform:uppercase;margin-bottom:6px}
-  .lead{color:var(--cream-dim);font-size:15px;margin-top:10px}
-  .shot{width:100%;border:1px solid var(--line);border-radius:14px;background:var(--slate-800);display:block;aspect-ratio:9/16;object-fit:cover}
-  .row{border-top:1px solid var(--line);padding:20px 0}
-  .row h3{font-size:21px;letter-spacing:0.5px}
-  .state{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:8px}
-  .num{font-family:var(--mono);font-weight:500;color:var(--orange)}
-  table.irc{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px;margin-top:14px}
-  table.irc th,table.irc td{border:1px solid var(--line);padding:7px 6px;text-align:center}
-  table.irc th{color:var(--orange);font-weight:500}
-  table.irc td:first-child{text-align:left;color:var(--cream-dim)}
-  .hit{color:var(--orange);font-weight:500}
-  .card{background:var(--slate-800);border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:12px}
-  .foot{padding:36px 0 48px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
-  .foot a{color:var(--cream-dim)}
-  .social{display:flex;gap:16px;margin:14px 0}
-  svg.ico{flex:none}
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--cream); color:var(--cafe-800); font-family:var(--body); font-size:17px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  img, svg { max-width:100%; }
+  a { color:inherit; }
+  .wrap { max-width:var(--wrap); margin:0 auto; padding:0 24px; }
+  h1, h2, h3 { font-family:var(--display); font-weight:800; letter-spacing:.01em; line-height:1.02; margin:0; text-transform:uppercase; }
+  h1 { font-size:clamp(44px, 7.2vw, 84px); }
+  h2 { font-size:clamp(32px, 4.4vw, 52px); }
+  h3 { font-size:26px; line-height:1.08; }
+  p { margin:0; }
+  .kicker { font-weight:600; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-700); }
+  .lead { font-size:clamp(18px, 2vw, 21px); color:var(--cafe-700); max-width:34em; }
+  .btn { display:inline-flex; align-items:center; gap:10px; min-height:52px; padding:0 26px; border-radius:999px; font-weight:600; font-size:17px; text-decoration:none; transition:transform .15s ease, background .15s ease; }
+  .btn:focus-visible { outline:3px solid var(--cafe-800); outline-offset:3px; }
+  .btn-gold { background:var(--gold-500); color:var(--cafe-900); box-shadow:0 1px 0 rgba(28,24,16,.25), 0 10px 24px -12px rgba(129,103,16,.7); }
+  .btn-gold:hover { background:var(--gold-400); transform:translateY(-1px); }
+  .btn-ghost { border:1.5px solid var(--cafe-800); color:var(--cafe-800); }
+  .btn-ghost:hover { background:var(--cafe-800); color:var(--cream); }
 
-  /* ===== Desktop (>=880px) — mismo codigo responsive; mobile-first queda intacto, solo mejoras de ancho ===== */
-  @media (min-width:880px){
-    .wrap{max-width:1060px;padding:0 32px}
-    .nav .wrap{height:64px}
-    .brand{font-size:20px}
-    .nav a.link{font-size:14px}
-    section{padding:60px 0}
-    /* Texto largo con ancho de lectura (no se estira por todo el monitor) */
-    .lead{max-width:760px}
-    /* CTAs con tope de ancho, centrados */
-    .btn{max-width:340px;margin-left:auto;margin-right:auto}
-    /* Listas de features -> grid de 2 columnas tipo tarjeta (llena el ancho) */
-    #jala,#horno{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:28px;row-gap:20px;align-items:start}
-    #jala>.sec-label,#jala>h2,#jala>.lead,#horno>.sec-label,#horno>h2,#horno>.lead{grid-column:1/-1}
-    #jala>.row,#horno>.row{border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:0}
-    #jala>.row .shot{max-width:280px;margin:14px auto 0}
-    /* Tarjetas y tabla: centradas y con tope de ancho */
-    .card{max-width:760px;margin-left:auto;margin-right:auto}
-    table.irc{max-width:760px;margin-left:auto;margin-right:auto}
-    /* Estados de honestidad (5 tarjetas) en 2 columnas dentro de su seccion */
+  /* NAV */
+  .nav { position:sticky; top:0; z-index:10; background:rgba(250,249,247,.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); }
+  .nav .wrap { display:flex; align-items:center; justify-content:space-between; height:68px; }
+  .brand { display:flex; align-items:center; gap:10px; font-family:var(--display); font-weight:800; font-size:26px; letter-spacing:.02em; text-decoration:none; }
+  .brand svg { width:34px; height:34px; flex:none; color:var(--cafe-800); --core:var(--gold-500); }
+  .nav nav { display:flex; align-items:center; gap:28px; font-weight:500; font-size:16px; }
+  .nav nav a { text-decoration:none; color:var(--cafe-700); white-space:nowrap; }
+  .nav nav a:hover { color:var(--cafe-900); }
+  .nav .btn { min-height:44px; padding:0 20px; font-size:16px; color:var(--cafe-900); }
+  section[id] { scroll-margin-top:84px; }
+
+  /* HERO */
+  .hero { background:linear-gradient(180deg, var(--cream) 0%, var(--canvas) 100%); border-bottom:1px solid var(--line); overflow:hidden; }
+  .hero .wrap { display:grid; grid-template-columns:1.1fr .9fr; gap:48px; align-items:center; padding-top:72px; padding-bottom:0; }
+  .hero h1 em { font-style:normal; color:var(--gold-700); }
+  .h1-sub { margin-top:12px; font-size:14px; font-weight:500; letter-spacing:.06em; color:var(--mute); }
+  .hero .lead { margin-top:20px; }
+  .cta-row { display:flex; flex-wrap:wrap; gap:14px; margin-top:32px; }
+  .hero .nota { margin-top:16px; font-size:15px; color:var(--mute); }
+  .hero .col-txt { padding-bottom:72px; }
+  .phone-wrap { align-self:end; display:flex; justify-content:center; }
+  .phone { width:320px; background:var(--cafe-900); border-radius:38px 38px 0 0; padding:14px 14px 0; box-shadow:0 30px 60px -30px rgba(28,24,16,.6); }
+  .phone img { display:block; width:100%; height:auto; border-radius:26px 26px 0 0; background:#15130f; }
+
+  /* FRANJA DE CONFIANZA */
+  .franja { background:var(--cafe-800); color:var(--cream); }
+  .franja ul { list-style:none; margin:0; padding:18px 0; display:flex; flex-wrap:wrap; justify-content:space-between; gap:10px 28px; font-weight:500; font-size:15.5px; }
+  .franja li { display:flex; align-items:center; gap:10px; }
+  .franja li::before { content:""; width:8px; height:8px; background:var(--gold-400); transform:rotate(45deg); }
+
+  section { padding:88px 0; }
+  .sec-head { max-width:40em; margin-bottom:44px; }
+  .sec-head h2 { margin-top:10px; }
+  .sec-head p { margin-top:14px; color:var(--cafe-700); }
+
+  /* LO QUE RESUELVE: tres grandes */
+  .trio { display:grid; grid-template-columns:repeat(3, 1fr); gap:22px; }
+  .tarjeta { background:#fff; border:1px solid var(--line); border-radius:var(--r); padding:28px; display:flex; flex-direction:column; gap:12px; }
+  .tarjeta .cap { display:block; width:240px; max-width:100%; height:auto; margin:0 auto 10px; border-radius:18px; border:1px solid var(--cafe-700); background:#15130f; }
+  .tarjeta .num { font-family:var(--display); font-weight:800; font-size:20px; color:var(--gold-700); letter-spacing:.06em; }
+  .tarjeta p { color:var(--cafe-700); font-size:16.5px; }
+  .tarjeta .mini { margin-top:auto; padding-top:16px; border-top:1px solid var(--line); font-size:14.5px; color:var(--mute); }
+
+  /* Y ADEMÁS: lista compacta */
+  .ademas { margin-top:22px; background:var(--canvas); border-radius:var(--r); padding:30px 28px; display:grid; grid-template-columns:repeat(3, 1fr); gap:22px 32px; }
+  .ademas h4 { margin:0 0 4px; font-family:var(--body); font-weight:600; font-size:17px; }
+  .ademas p { font-size:15.5px; color:var(--cafe-700); }
+
+  /* DE DÓNDE SALIÓ ESE NÚMERO: la entrada a la izquierda y, a la derecha, el bloque de la autoridad tal cual */
+  .prueba { background:var(--cafe-900); color:var(--cream); --cream-dim:#ddd3bf; --muted:#b8af96; }
+  .prueba .duo { display:grid; grid-template-columns:.85fr 1.15fr; gap:56px; align-items:start; }
+  .prueba .kicker { color:var(--gold-300); }
+  .prueba .intro h2 { margin-top:10px; }
+  .prueba .intro p + p, .prueba .intro h2 + p { margin-top:16px; color:var(--cream-dim); }
+  #autoridad-irc { max-width:none; margin:0; padding:0; min-width:0; }
+  #autoridad-irc .sec-label { font-weight:600; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-300); margin-bottom:10px; }
+  #autoridad-irc .lead { font-size:17px; color:var(--cream-dim); max-width:44em; margin-top:14px; }
+  #autoridad-irc .mono { font-variant-numeric:tabular-nums; }
+  #autoridad-irc .card { background:#231e15; border:1px solid var(--cafe-700); border-radius:var(--r); padding:20px 22px; margin-top:22px; max-width:760px; }
+  #autoridad-irc .hit { color:var(--gold-300); font-weight:600; }
+  #autoridad-irc table.irc { width:100%; max-width:760px; border-collapse:collapse; font-size:14px; margin-top:14px; font-variant-numeric:tabular-nums; }
+  #autoridad-irc table.irc th, #autoridad-irc table.irc td { border:1px solid var(--cafe-700); padding:9px 8px; text-align:center; }
+  #autoridad-irc table.irc th { color:var(--gold-300); font-weight:600; }
+  #autoridad-irc table.irc td:first-child { text-align:left; color:var(--cream-dim); }
+
+  /* VIDEOS */
+  .videos { display:grid; grid-template-columns:repeat(3, 1fr); gap:22px; }
+  .video { text-decoration:none; background:#fff; border:1px solid var(--line); border-radius:var(--r); overflow:hidden; display:block; transition:transform .15s ease, box-shadow .15s ease; }
+  .video:hover { transform:translateY(-2px); box-shadow:0 14px 30px -18px rgba(28,24,16,.5); }
+  .video .thumb { position:relative; aspect-ratio:16/9; background:linear-gradient(135deg, var(--cafe-700), var(--cafe-900)); display:grid; place-items:center; overflow:hidden; }
+  .video .thumb img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; max-width:none; }
+  .video .play { position:relative; width:58px; height:58px; border-radius:50%; background:var(--gold-500); display:grid; place-items:center; box-shadow:0 6px 18px -6px rgba(28,24,16,.7); }
+  .video .play::after { content:""; border-left:18px solid var(--cafe-900); border-top:11px solid transparent; border-bottom:11px solid transparent; margin-left:5px; }
+  .video .txt { padding:18px 20px 20px; }
+  .video .txt b { display:block; font-weight:600; font-size:17px; line-height:1.3; }
+  .video .txt span { display:block; margin-top:6px; font-size:14.5px; color:var(--mute); }
+
+  /* DEL BLOG */
+  .blog { padding-top:0; }
+  .articulos { display:grid; grid-template-columns:repeat(3, 1fr); gap:22px; }
+  .articulo { text-decoration:none; border-top:3px solid var(--gold-500); padding:18px 4px 0; display:block; }
+  .articulo span { display:block; font-weight:600; font-size:12.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--gold-700); }
+  .articulo b { display:block; margin-top:8px; font-weight:600; font-size:19px; line-height:1.35; }
+  .articulo:hover b { text-decoration:underline; text-underline-offset:3px; }
+
+  /* QUIÉN LA HACE */
+  .quien { background:var(--canvas); }
+  .quien .wrap { display:grid; grid-template-columns:240px 1fr; gap:48px; align-items:center; }
+  .foto { display:block; width:240px; height:240px; border-radius:50%; object-fit:cover; background:var(--canvas-2); border:6px solid #fff; box-shadow:0 14px 30px -18px rgba(28,24,16,.5); }
+  blockquote { margin:0; font-family:var(--display); font-weight:700; text-transform:uppercase; font-size:clamp(28px, 3.6vw, 42px); line-height:1.08; }
+  .quien .firma { margin-top:18px; color:var(--cafe-700); }
+
+  /* EN EL HORNO */
+  .horno { display:grid; grid-template-columns:repeat(3, 1fr); gap:22px; }
+  .horno .tarjeta { background:transparent; border-style:dashed; border-color:#b8af96; }
+  .etq { align-self:flex-start; display:inline-flex; align-items:center; gap:7px; font-size:12.5px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; padding:5px 12px; border-radius:999px; background:var(--gold-100); color:var(--gold-700); }
+  .etq.ya { background:#d8e6cf; color:#2f5a22; }
+
+  /* CIERRE */
+  .cierre { background:var(--cafe-800); color:var(--cream); text-align:center; }
+  .cierre h2 { font-size:clamp(40px, 6vw, 72px); }
+  .cierre h2 em { font-style:normal; color:var(--gold-300); }
+  .cierre p { margin:18px auto 0; max-width:32em; color:#ddd3bf; }
+  .cierre .cta-row { justify-content:center; }
+  .cierre .btn-ghost { border-color:var(--cream); color:var(--cream); }
+  .cierre .btn-ghost:hover { background:var(--cream); color:var(--cafe-900); }
+  footer { background:var(--cafe-900); color:#b8af96; font-size:15px; padding:36px 0; }
+  footer .wrap { display:flex; flex-wrap:wrap; justify-content:space-between; gap:16px; align-items:center; }
+  footer .brand { color:var(--cream); font-size:22px; } footer .brand svg { width:28px; height:28px; color:var(--gold-400); --core:#e6c45a; }
+  footer nav { display:flex; flex-wrap:wrap; gap:8px 22px; } footer a { text-decoration:none; } footer a:hover { color:var(--cream); }
+
+  @media (max-width: 900px) {
+    body { font-size:16.5px; }
+    /* En teléfono se quedan las puertas a las páginas (Videos y Blog) y el botón; las anclas de esta misma página se esconden. */
+    .nav nav a.ancla { display:none; }
+    .nav nav { gap:16px; font-size:15px; }
+    .nav .btn { padding:0 16px; font-size:15px; }
+    .hero .wrap { grid-template-columns:1fr; padding-top:44px; gap:36px; }
+    .hero .col-txt { padding-bottom:0; }
+    .cta-row .btn { width:100%; justify-content:center; }
+    .phone { width:290px; }
+    .franja ul { justify-content:flex-start; }
+    section { padding:60px 0; }
+    .trio, .ademas, .videos, .horno, .articulos, .prueba .duo { grid-template-columns:1fr; }
+    .prueba .duo { gap:36px; }
+    .quien .wrap { grid-template-columns:1fr; gap:28px; justify-items:start; }
+    .foto { width:150px; height:150px; }
   }
+  @media (max-width: 480px) {
+    .wrap { padding:0 18px; }
+    .nav .wrap { height:60px; }
+    .brand { font-size:21px; gap:7px; } .brand svg { width:28px; height:28px; }
+    .nav nav { gap:12px; font-size:14.5px; }
+    .nav .btn { padding:0 13px; font-size:14.5px; }
+    #autoridad-irc table.irc { font-size:12px; }
+    #autoridad-irc table.irc th, #autoridad-irc table.irc td { padding:7px 4px; }
+  }
+  @media (max-width: 380px) {
+    .brand { font-size:19px; } .brand svg { width:24px; height:24px; }
+    .nav nav { gap:9px; font-size:14px; }
+    .nav .btn { padding:0 11px; font-size:14px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition:none !important; scroll-behavior:auto; } }
+  /* ============ PASADA DE DESIGN · N331 · 2026-11-24 ============
+     Solo vestido (CSS). No cambia texto, números, capturas, ligas ni anclas.
+     Va al final de la hoja de estilos, encima de lo portado. */
+
+  /* 0 · Tipografía que no deja viudas, y foco visible en toda liga */
+  h1, h2, h3, blockquote { text-wrap:balance; }
+  p { text-wrap:pretty; }
+  a:focus-visible { outline:3px solid var(--gold-500); outline-offset:3px; border-radius:6px; }
+  .sec-head .kicker { display:flex; align-items:center; gap:10px; }
+  .sec-head .kicker::before { content:""; width:28px; height:3px; border-radius:2px; background:var(--gold-500); }
+
+  /* 1 · HERO: el titular en dos renglones y el teléfono a su altura */
+  .hero { background:
+      radial-gradient(60% 70% at 78% 62%, rgba(200,164,64,.20) 0%, rgba(200,164,64,0) 70%),
+      linear-gradient(180deg, var(--cream) 0%, var(--canvas) 100%); }
+  .hero .wrap { grid-template-columns:1.25fr .75fr; gap:40px; padding-top:64px; }
+  h1 { font-size:clamp(42px, 5.6vw, 70px); line-height:1; }
+  .hero .col-txt { padding-bottom:64px; }
+  .h1-sub { display:inline-block; margin-top:16px; padding:5px 12px; border:1px solid var(--line); border-radius:999px; background:rgba(255,255,255,.6); font-size:13px; }
+  .hero .lead { margin-top:18px; }
+  .phone { width:340px; box-shadow:0 0 0 1px rgba(28,24,16,.5), 0 40px 70px -34px rgba(28,24,16,.75); }
+
+  /* 2 · FRANJA: en teléfono, dos columnas en vez de cinco renglones */
+  .franja ul { padding:16px 0; }
+
+  /* 3 · LAS TRES GRANDES: la captura como cabecera de la tarjeta, del ancho de la tarjeta.
+        Se ve la parte de arriba de la pantalla (lo que se lee) y la tarjeta baja de alto. */
+  .tarjeta, .video { border-radius:16px; box-shadow:0 1px 2px rgba(28,24,16,.04), 0 16px 34px -24px rgba(28,24,16,.35); }
+  .trio .tarjeta { overflow:hidden; transition:transform .15s ease, box-shadow .15s ease; }
+  .trio .tarjeta:hover { transform:translateY(-2px); box-shadow:0 1px 2px rgba(28,24,16,.04), 0 22px 40px -24px rgba(28,24,16,.45); }
+  .trio .tarjeta .cap { width:calc(100% + 56px); max-width:none; margin:-28px -28px 10px; aspect-ratio:10/9; object-fit:cover; object-position:50% 0; border:0; border-radius:0; border-bottom:3px solid var(--gold-500); }
+  .tarjeta .num { font-size:18px; }
+
+  /* 4 · Y ADEMÁS: cada renglón con su regla de oro */
+  .ademas { padding:34px 32px; gap:26px 36px; }
+  .ademas > div { padding-left:16px; border-left:2px solid var(--gold-400); }
+
+  /* 5 · LA BANDA OSCURA: la entrada se queda a la vista mientras baja la tabla */
+  .prueba .intro { position:sticky; top:104px; }
+  #autoridad-irc .card { border-left:3px solid var(--gold-400); }
+  #autoridad-irc table.irc { border-radius:10px; overflow:hidden; border-style:hidden; box-shadow:0 0 0 1px var(--cafe-700); }
+  #autoridad-irc table.irc thead th { background:#231e15; }
+  #autoridad-irc table.irc tbody tr:nth-child(even) td { background:rgba(255,255,255,.03); }
+  #autoridad-irc table.irc td.hit { background:rgba(200,164,64,.16); box-shadow:inset 0 0 0 1.5px var(--gold-400); }
+  #autoridad-irc table.irc td:first-child, #autoridad-irc table.irc th:first-child { white-space:nowrap; }
+
+  /* 6 · VIDEOS: la miniatura entera (4:3, como la manda YouTube), sin recortarle la cabeza */
+  .video .thumb { aspect-ratio:4/3; }
+  .video .thumb::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(28,24,16,0) 45%, rgba(28,24,16,.55) 100%); }
+  .video .play { z-index:1; width:52px; height:52px; }
+  .video .play::after { border-left-width:16px; border-top-width:10px; border-bottom-width:10px; }
+
+  /* 7 · DEL BLOG: que se note que son ligas */
+  .articulo { transition:border-color .15s ease; }
+  .articulo b::after { content:" →"; color:var(--gold-700); white-space:nowrap; }
+  .articulo:hover { border-top-color:var(--cafe-800); }
+
+  /* 8 · QUIÉN LA HACE: más recogida */
+  .quien { padding:64px 0; }
+  .quien .wrap { grid-template-columns:200px 1fr; gap:40px; }
+  .foto { width:200px; height:200px; }
+  blockquote { font-size:clamp(26px, 3.2vw, 38px); }
+
+  /* 9 · EN EL HORNO: la leyenda, como nota al pie */
+  .leyenda { font-size:13.5px; }
+
+  @media (max-width: 900px) {
+    .hero .wrap { grid-template-columns:1fr; padding-top:40px; gap:32px; }
+    .phone { width:290px; }
+    .franja ul { display:grid; grid-template-columns:1fr 1fr; gap:10px 16px; font-size:14.5px; }
+    .franja li:last-child { grid-column:1 / -1; }
+    .trio .tarjeta .cap { aspect-ratio:5/4; }
+    .ademas { padding:26px 22px; }
+    .prueba .intro { position:static; }
+    .video .thumb { aspect-ratio:16/10; }
+    .quien { padding:52px 0; }
+    .quien .wrap { grid-template-columns:1fr; gap:24px; }
+    .foto { width:132px; height:132px; }
+  }
+  @media (max-width: 480px) {
+    /* la tabla ya no se encoge a 12px: conserva su letra y se desliza de lado */
+    #autoridad-irc table.irc { display:block; overflow-x:auto; font-size:13.5px; -webkit-overflow-scrolling:touch; }
+    #autoridad-irc table.irc th, #autoridad-irc table.irc td { padding:9px 10px; white-space:nowrap; }
+  }
+  /* Las tres capturas ya vienen recortadas a su proporción, con el corte entre renglones: el CSS no las vuelve a recortar. */
+  .trio .tarjeta .cap { aspect-ratio:auto; height:auto; }
+  /* La forma de cada etiqueta, más marcada: se tiene que distinguir sin el color. */
+  .etq > span[aria-hidden] { font-size:15px; font-weight:700; line-height:1; }
 </style>
 </head>
 <body>
 
 <header class="nav">
   <div class="wrap">
-    <span class="brand">FRAMECORE</span>
-    <a class="link" href="#jala">Qué jala</a>
-    <a class="link" href="#horno">En el horno</a>
-    <a class="link" href="/blog/">Blog</a>
-    <a class="cta" href="https://play.google.com/store/apps/details?id=com.loomframing.app&amp;referrer=utm_source%3Dloomframing.com%26utm_medium%3Dweb%26utm_campaign%3Dhome%26utm_content%3Dnav">Descargar</a>
+    <a class="brand" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><mask id="fc-c" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><rect width="100" height="100" fill="#fff"></rect><g clip-path="url(#fc-cc0)" fill="none" stroke="#000" stroke-width="2.4"><circle cx="25" cy="77" r="10"></circle><circle cx="25" cy="77" r="17.5"></circle><circle cx="25" cy="77" r="25"></circle></g><g clip-path="url(#fc-cc1)" fill="none" stroke="#000" stroke-width="2.4"><circle cx="75" cy="23" r="10"></circle><circle cx="75" cy="23" r="17.5"></circle><circle cx="75" cy="23" r="25"></circle></g><g clip-path="url(#fc-cc2)" fill="none" stroke="#000" stroke-width="2.4"><circle cx="50.6" cy="52.5" r="7.5"></circle><circle cx="50.6" cy="52.5" r="14"></circle></g></mask><clipPath id="fc-cc0"><rect x="20.4" y="29" width="18" height="42"></rect></clipPath><clipPath id="fc-cc1"><rect x="61.6" y="29" width="18" height="42"></rect></clipPath><clipPath id="fc-cc2"><rect x="41" y="29" width="18" height="42"></rect></clipPath></defs><g fill="currentColor" mask="url(#fc-c)"><rect x="20.4" y="29" width="18" height="42" rx="1.5"></rect><rect x="41" y="29" width="18" height="42" rx="1.5"></rect><rect x="61.6" y="29" width="18" height="42" rx="1.5"></rect></g><circle cx="50.6" cy="52.5" r="3.2" fill="var(--core, #a07f15)"></circle></svg>FrameCore</a>
+    <nav>
+      <a class="ancla" href="#resuelve">Qué resuelve</a>
+      <a href="/videos/">Videos</a>
+      <a class="ancla" href="#horno">En el horno</a>
+      <a href="/blog/">Blog</a>
+      <a class="btn btn-gold" href="https://play.google.com/store/apps/details?id=com.loomframing.app&amp;referrer=utm_source%3Dloomframing.com%26utm_medium%3Dweb%26utm_campaign%3Dhome%26utm_content%3Dnav">Bajar gratis</a>
+    </nav>
   </div>
 </header>
 
-<!-- HERO -->
-<section class="wrap" style="padding-top:36px">
-  <p class="eyebrow">FrameCore · El oficio del framing en tu teléfono · Ya en Google Play</p>
-  <h1 style="font-size:52px;margin-top:12px">Así está la app.<br><span style="color:var(--orange)">Tal cual.</span></h1>
-  <p class="h1-sub" lang="en">Framing calculator app for framers</p>
-  <p class="lead" style="font-size:17px;margin-top:16px">Lo que jala, te lo afirmamos. Lo que viene, te lo etiquetamos. Cada claim en esta página es de la versión más nueva, verificada en teléfono real — sin humo.</p>
-
-  <div style="display:flex;flex-wrap:wrap;gap:8px;margin:20px 0">
-    <span class="state" style="color:var(--green)">● Funciona</span>
-    <span class="state" style="color:var(--blue)">◆ Puliendo</span>
-    <span class="state" style="color:var(--amber)">▲ WIP</span>
-    <span class="state" style="color:var(--red)">■ Corrigiendo</span>
-    <span class="state" style="color:var(--gray)">◌ No-aún</span>
+<main>
+<div class="hero">
+  <div class="wrap">
+    <div class="col-txt">
+      <p class="kicker">El núcleo del framing</p>
+      <h1>Del plano a la sierra, <em>sin perder la cuenta.</em></h1>
+      <p class="h1-sub" lang="en">Framing calculator app for framers</p>
+      <p class="lead">Rafters, headers, trusses, shear walls y escaleras: más de 10 calculadoras, tu plano y los cortes pa'l chalán. Hecha en Idaho por un framero, para frameros.</p>
+      <div class="cta-row">
+        <a class="btn btn-gold" href="https://play.google.com/store/apps/details?id=com.loomframing.app&amp;referrer=utm_source%3Dloomframing.com%26utm_medium%3Dweb%26utm_campaign%3Dhome%26utm_content%3Dhero">Bájala de Google Play</a>
+        <a class="btn btn-ghost" href="/rafter-calculator.html">Prueba la de rafters aquí</a>
+      </div>
+      <p class="nota">Gratis · Android · off-line · en español del oficio</p>
+    </div>
+    <div class="phone-wrap">
+      <div class="phone"><img src="assets/landing-hero-rafter-441.webp" width="600" height="789" fetchpriority="high" alt="La calculadora de rafters de FrameCore: un common 6/12 con run de 12 pies da 14' 5 1/2+&quot; de punta a punta"></div>
+    </div>
   </div>
+</div>
 
-  <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.loomframing.app&amp;referrer=utm_source%3Dloomframing.com%26utm_medium%3Dweb%26utm_campaign%3Dhome%26utm_content%3Dhero">Descargar la app →</a>
-  <p class="lead" style="font-size:14px;margin-top:12px;text-align:center">La primera vez que metes tu proyecto, la app lo recuerda pa'l próximo jale.</p>
-  <a class="btn btn-ghost" href="#jala" style="margin-top:10px">Qué jala y qué no — la lista</a>
+<div class="franja"><div class="wrap"><ul>
+  <li>Jala off-line</li><li>En español del oficio</li><li>Gratis en Google Play</li><li>Cada número con su porqué</li><li>Hecha por un framero</li>
+</ul></div></div>
 
-  <div style="display:flex;gap:8px;justify-content:center;margin-top:16px">
-    <span class="chip">Android · Español del oficio</span>
-    <span class="chip">100% off-line</span>
+<section id="resuelve"><div class="wrap">
+  <div class="sec-head">
+    <p class="kicker">Lo que ya jala</p>
+    <h2>Las cuentas del jale, en tu teléfono</h2>
+    <p>Verificado en teléfono real. Úsalo hoy en el jale.</p>
   </div>
-</section>
-
-<!-- LO QUE YA JALA -->
-<section id="jala" class="wrap">
-  <p class="sec-label">Device-verified · La más nueva</p>
-  <h2 style="font-size:34px">Lo que ya jala</h2>
-  <p class="lead">Verificado en teléfono real. Si está en esta lista, lo puedes usar hoy.</p>
-
-  <div class="row">
-    <span class="state" style="color:var(--green)">● Funciona</span>
-    <h3>Trusses: del paquete al techo</h3>
-    <p class="lead">Cómo leer el paquete de ingeniería, la secuencia del izaje y las trampas que cuestan la inspección. Con la cita del <span class="mono">BCSI</span> a la vista y quién lo dice — y si a una le falta segunda fuente, la app te lo marca en vez de callárselo.</p>
-    <img class="shot" src="assets/01-trusses-del-paquete-al-techo-440.png" alt="El módulo Trusses: del paquete al techo, con la cita del BCSI a la vista" loading="lazy">
+  <div class="trio">
+    <article class="tarjeta">
+      <img class="cap" src="assets/landing-calcula-jobsite-441.webp" width="682" height="574" loading="lazy" alt="La Calculadora de Jobsite de FrameCore: 15' 8 3/4&quot; más 3' 2 1/2&quot; da 18' 11 1/4&quot;, con el teclado en pies, pulgadas y fracción">
+      <span class="num">01 · CALCULA</span>
+      <h3>Habla como tu cinta</h3>
+      <p>El teclado va en pies, pulgadas y fracción, con el sistema «plus». Rafters, studs, headers, stairs, OC layout y más.</p>
+      <p class="mini">Más de 10 calculadoras · resultado al toque</p>
+    </article>
+    <article class="tarjeta">
+      <img class="cap" src="assets/landing-corta-plan-de-corte-441.webp" width="682" height="574" loading="lazy" alt="Plan de corte en modo jobsite: una pared capturada a mano, 1 de 4 grupos completos, y los kings a 92 5/8&quot; ya palomeados">
+      <span class="num">02 · CORTA</span>
+      <h3>De la pared al chalán</h3>
+      <p>Capturas la pared y sale la cut list, con el porqué de cada pieza. La confirmas y se la mandas al chalán pa' que le entre a la sierra.</p>
+      <p class="mini">Plan de corte en modo jobsite · pieza por pieza</p>
+    </article>
+    <article class="tarjeta">
+      <img class="cap" src="assets/landing-checa-por-etapa-441.webp" width="682" height="574" loading="lazy" alt="Checar por etapa: Fundación desplegada, con su avance de 0 de 4 y su primer punto, el de los anchor bolts">
+      <span class="num">03 · CHECA</span>
+      <h3>Llega listo a la inspección</h3>
+      <p>Checar por etapa: siete etapas, más de 25 puntos, cada uno con su código IRC 2018. Tu avance se guarda solo.</p>
+      <p class="mini">Fundación · Piso · Framing · Headers · Shear · Techo · Escaleras</p>
+    </article>
   </div>
-
-  <div class="row">
-    <span class="state" style="color:var(--green)">● Funciona</span>
-    <h3>En español, aunque tu teléfono esté en inglés</h3>
-    <p class="lead">La app no te cambia el idioma porque el sistema esté en otro. El framero que trae el Android en inglés — o sea casi todos — la lee en español de corrido, con los trade terms donde van.</p>
-    <img class="shot" src="assets/02-glosario-232-bilingue-440.png" alt="Glosario del oficio: los trade terms en inglés con su explicación en español" loading="lazy">
+  <div class="ademas">
+    <div><h4>Tu plano con todo su juego</h4><p>El plano de la casa, el layout de trusses y la ingeniería de cada truss, y regresa justo donde lo dejaste.</p></div>
+    <div><h4>El manual del framero en tu bolsa</h4><p>Más de 100 artículos, glosario con más de 200 términos y más de 100 Pro Tips con su porqué.</p></div>
+    <div><h4>Trusses: del paquete al techo</h4><p>Cómo leer el paquete de ingeniería y la secuencia del izaje, con la cita del BCSI a la vista.</p></div>
+    <div><h4>Header sizing, de la tabla del código</h4><p>Tu carga, tu zona de nieve y el ancho de la casa: sale de la Tabla R602.7(1), con sus jacks.</p></div>
+    <div><h4>El corte que más paga</h4><p>Hip y valley regular y bastard, y el valley irregular dual-pitch, con los cortes exactos.</p></div>
+    <div><h4>Los contactos del jale</h4><p>Más de 80 recursos: lumber yards, trusses, rentas, grúas e inspectores, con teléfono, mapa y web.</p></div>
   </div>
+</div></section>
 
-  <div class="row">
-    <span class="state" style="color:var(--green)">● Funciona</span>
-    <h3>Habla como tu cinta</h3>
-    <p class="lead">El teclado canon: tres paneles (pies / pulgadas / fracción) + el sistema "plus". Piensa como el framero, no como una calculadora de escuela.</p>
-    <img class="shot" src="assets/03b-teclado-canon-6ft-440.png" alt="Teclado canon de FrameCore: paneles de pies, pulgadas y fracción, con la tecla del sistema plus" loading="lazy">
+<section class="prueba"><div class="wrap duo">
+  <div class="intro">
+    <p class="kicker">Sin humo</p>
+    <h2>¿De dónde salió ese número?</h2>
+    <p>Cada resultado trae su paso escrito: el pitch, la deducción y el código que lo respalda. Chécale las cuentas a FrameCore antes de cortar.</p>
+    <p>Y lo que todavía no jala, te lo decimos con su etiqueta. Aquí no se promete lo que no está.</p>
   </div>
-
-  <div class="row">
-    <span class="state" style="color:var(--green)">● Funciona</span>
-    <h3>¿De dónde salió ese número?</h3>
-    <p class="lead">Cada resultado trae su paso escrito: el pitch, la deducción, el código que lo respalda. Chécale las cuentas a FrameCore igual que le checarías las cuentas a un compa.</p>
-    <img class="shot" src="assets/04-de-donde-sale-rafter-440.png" alt="El resultado del rafter con su paso escrito: el pitch, los ángulos y el HAP" loading="lazy">
-  </div>
-
-  <div class="row">
-    <span class="state" style="color:var(--green)">● Funciona</span>
-    <h3>Más de <span class="num">10</span> calculadoras</h3>
-    <p class="lead">Rafters, studs, headers, stairs, OC layout y más — y la cut list de pared saca su plan de corte en modo jobsite: cada grupo con su medida y de qué stock sale, y le vas palomeando pieza por pieza parado en la sierra. Resultado al toque.</p>
-    <img class="shot" src="assets/05b-plan-de-corte-con-avance-440.png" alt="Plan de corte en modo jobsite: los grupos con su medida y de qué stock salen, y el avance de cortes que vas palomeando en la sierra" loading="lazy">
-    <a class="btn btn-ghost" href="/rafter-calculator.html" style="margin-top:14px">Prueba la de rafters aquí, sin bajar nada →</a>
-  </div>
-
-  <div class="row">
-    <span class="state" style="color:var(--green)">● Funciona</span>
-    <h3>Pasa la inspección a la primera</h3>
-    <p class="lead">Pre-Inspección en siete categorías — Fundación, Piso, Framing, Headers, Shear, Techo y Escaleras — más de 25 puntos, cada uno con su código IRC 2018, y tu avance se guarda solo.</p>
-    <img class="shot" src="assets/06-preinspeccion-hub-440.png" alt="Pre-Inspección: las categorías con su avance vivo y los puntos de código IRC" loading="lazy">
-  </div>
-
-  <div class="row">
-    <span class="state" style="color:var(--green)">● Funciona</span>
-    <h3>El manual del framero en tu bolsa</h3>
-    <p class="lead">Saber: Manual con más de <span class="num">100</span> artículos · Glosario con más de <span class="num">200</span> términos · más de <span class="num">100</span> Pro Tips con su porqué · Trusses. La escuela del oficio en tu bolsa — en español, como se habla en el jale, 100% off-line.</p>
-    <img class="shot" src="assets/07-saber-hub-440.png" alt="El Saber completo: Manual del Framer, Glosario, Consejos Pro, Quick Lookup IRC, Leer Planos y Trusses" loading="lazy">
-  </div>
-
-  <div class="row">
-    <span class="state" style="color:var(--green)">● Funciona</span>
-    <h3>Del muro al chalán</h3>
-    <p class="lead">Capturas la pared y sale la cut list, con el porqué de cada pieza: header al plate, sándwich por material, kings precut. La confirmas y se la mandas al chalán pa' que le entre a la sierra. Verificado en device.</p>
-    <img class="shot" src="assets/08-confirma-cut-list-chalan-440.png" alt="Confirma tu cut list: cada pieza con su porqué en las notas del motor, y el botón pa' mandarle los cortes al chalán" loading="lazy">
-  </div>
-
-  <div class="row">
-    <span class="state" style="color:var(--green)">● Funciona</span>
-    <h3>Header Sizing, de la tabla del código</h3>
-    <p class="lead">Le dices qué carga el muro, tu zona de nieve y el ancho de tu casa, y el header sale de la Tabla R602.7(1) del IRC 2018, celda por celda, con sus jacks. Si el muro es interior de carga, sale de la R602.7(2). Y si arriba van cripples, te aplica la nota f.</p>
-  </div>
-
-  <div class="row">
-    <span class="state" style="color:var(--green)">● Funciona</span>
-    <h3>Los contactos del jale</h3>
-    <p class="lead">Herramientas por familia, consumibles del trailer, lumber yards, trusses, rentas, grúas que vuelan trusses e inspectores — más de <span class="num">80</span> recursos curados, con teléfono, mapa y web.</p>
-    <img class="shot" src="assets/09-recursos-obra-familias-440.png" alt="Los recursos de la app ordenados por familia: herramientas, tiendas, trusses y entregas al jobsite" loading="lazy">
-  </div>
-
-  <div class="row">
-    <span class="state" style="color:var(--green)">● Funciona</span>
-    <h3>El corte que más paga</h3>
-    <p class="lead">Roof suite: hip y valley regular + bastard (el drop del hip: corrigiendo), y el valley irregular dual-pitch — con los cortes exactos, verificado en teléfono real. <a href="/blog/hip-valley-rafter-jacks.html">Cómo sacar el drop a mano →</a></p>
-  </div>
-
-  <div class="row">
-    <span class="state" style="color:var(--green)">● Funciona</span>
-    <h3>Tu plano con todo su juego</h3>
-    <p class="lead">El visor arma el juego del proyecto: el plano de la casa + el truss layout + la ingeniería de cada truss, y regresa a cada papel justo donde lo dejaste. Con buscador de trusses: tecleas, filtra y te lleva a la hoja.</p>
-    <img class="shot" src="assets/10-buscador-trusses-440.png" alt="Buscador de trusses: tecleas el número y te lleva a su hoja del paquete" loading="lazy">
-  </div>
-
-  <div class="row">
-    <span class="state" style="color:var(--green)">● Funciona</span>
-    <h3>100% off-line · en español del oficio</h3>
-    <p class="lead">Todo corre en el teléfono y jala off-line. En español, con los trade terms en inglés como se dicen en el jobsite.</p>
-  </div>
-</section>
-
 <!-- BEAT DE AUTORIDAD IRC — SLOT · COPY GATEADO POR CF (verbatim, no cambiar números a mano) -->
 <section id="autoridad-irc" class="wrap" data-gated-copy="CF">
   <p class="sec-label">Autoridad · IRC 2018</p>
@@ -257,81 +398,76 @@
   </table>
   <p class="mono" style="font-size:11px;color:var(--muted);margin-top:10px">Span arriostrado / sin arriostre · IRC 2018 · Table R602.7(1) · Nota f. La nota-f aplica de 2x8 en adelante.</p>
 </section>
+</div></section>
 
-<!-- EN EL HORNO -->
-<section id="horno" class="wrap">
-  <p class="sec-label">Roadmap · lo que viene</p>
-  <h2 style="font-size:34px">En el horno</h2>
-  <p class="lead">No vaporware. Cada cosa con su etiqueta de qué tan cerca está. Te avisamos cuando jale.</p>
-
-  <div class="row">
-    <span class="state" style="color:var(--gray)">◌ No-aún</span>
-    <h3>El recibo de tu plano</h3>
-    <p class="lead">Que le des tap a cualquier número y veas de dónde salió — de tu plano, hoja por hoja, con tu corrección que gana y persiste. Es la estrella del roadmap. Todavía no la dibuja el build; la prometemos etiquetada como promesa.</p>
+<section id="videos"><div class="wrap">
+  <div class="sec-head">
+    <p class="kicker">Míralo jalar</p>
+    <h2>En video, en el jale</h2>
+    <p>Los frameros somos más de dibujitos que de lectura. Aquí está en video.</p>
   </div>
-  <div class="row">
-    <span class="state" style="color:var(--amber)">▲ WIP</span>
-    <h3>El Visor que lee tu plano solo</h3>
-    <p class="lead">Hoy te abre el PDF y lo organiza por hojas. La lectura estructural completa está en desarrollo — la mostramos cuando lea bien.</p>
+  <div class="videos">
+    <a class="video" href="/videos/stair-stringer-throat-depth.html"><div class="thumb"><img src="https://i.ytimg.com/vi/f3Qc2cumVeQ/hqdefault.jpg" width="480" height="360" loading="lazy" alt=""><span class="play"></span></div><div class="txt"><b>Escaleras: la garganta del stringer</b><span>1:14 · un número de oficio</span></div></a>
+    <a class="video" href="/videos/truss-engineering-no-field-modifications.html"><div class="thumb"><img src="https://i.ytimg.com/vi/mXW9X8qPPcs/hqdefault.jpg" width="480" height="360" loading="lazy" alt=""><span class="play"></span></div><div class="txt"><b>Leer la hoja de ingeniería del truss en el celular</b><span>En el jale</span></div></a>
+    <a class="video" href="/videos/el-plano-completo-en-el-celular.html"><div class="thumb"><img src="https://i.ytimg.com/vi/jFrLY5UY3vU/hqdefault.jpg" width="480" height="360" loading="lazy" alt=""><span class="play"></span></div><div class="txt"><b>El plano completo en el celular, y el detalle que dice NTS</b><span>El visor de planos</span></div></a>
   </div>
-  <div class="row">
-    <span class="state" style="color:var(--gray)">◌ No-aún</span>
-    <h3>Pregúntale a FrameCore</h3>
-    <p class="lead">Un chat framero que cita el IRC — no un ChatGPT genérico. El motor ya existe; el chat en la app viene en un próximo release.</p>
+</div></section>
+
+<section id="blog" class="blog"><div class="wrap">
+  <div class="sec-head">
+    <p class="kicker">Del blog</p>
+    <h2>El código en tu idioma, con el porqué</h2>
   </div>
-</section>
-
-<!-- SISTEMA DE 5 ESTADOS -->
-<section class="wrap">
-  <p class="sec-label">Cada cosa con su etiqueta</p>
-  <h2 style="font-size:30px">Cómo leemos honesto</h2>
-  <div class="card"><span class="state" style="color:var(--green)">● Funciona</span><p class="lead" style="margin-top:2px">Verificado en teléfono real. Úsalo hoy en el jale.</p></div>
-  <div class="card"><span class="state" style="color:var(--blue)">◆ Puliendo</span><p class="lead" style="margin-top:2px">Jala, pero andamos afinando detalles antes de afirmarlo.</p></div>
-  <div class="card"><span class="state" style="color:var(--amber)">▲ Work-in-progress</span><p class="lead" style="margin-top:2px">A medias. Lo ves en la app pero no está completo.</p></div>
-  <div class="card"><span class="state" style="color:var(--red)">■ Corrigiendo</span><p class="lead" style="margin-top:2px">Encontramos un fallo y lo estamos arreglando. No lo uses pa' decisiones todavía.</p></div>
-  <div class="card"><span class="state" style="color:var(--gray)">◌ No-aún</span><p class="lead" style="margin-top:2px">No existe todavía. Roadmap — promesa etiquetada como promesa.</p></div>
-  <p class="lead" style="margin-top:14px">Color + forma juntos (círculo / rombo / triángulo / cuadrado / anillo punteado) — legible pa' daltónicos y a sol directo.</p>
-</section>
-
-<!-- CIERRE -->
-<section class="wrap" style="text-align:center">
-  <h2 style="font-size:40px">Sin humo.<br>Etiquetado todo.</h2>
-  <p class="lead" style="margin-top:14px">Ya está en Google Play, gratis. Tu reporte sigue moldeando la herramienta: lo que nos avientes desde el trabajo es lo que sigue.</p>
-  <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.loomframing.app&amp;referrer=utm_source%3Dloomframing.com%26utm_medium%3Dweb%26utm_campaign%3Dhome%26utm_content%3Dcierre" style="margin-top:20px">Bájala de Google Play →</a>
-</section>
-
-<!-- FUNDADOR -->
-<section class="wrap">
-  <div class="card" style="text-align:center">
-    <p class="eyebrow">Quién la hace</p>
-    <p style="font-family:var(--head);font-weight:700;font-size:22px;margin-top:8px;text-transform:uppercase">Jesús · framero</p>
-    <p class="lead" style="margin-top:8px">"La herramienta que yo hubiera querido en la bolsa."</p>
+  <div class="articulos">
+    <a class="articulo" href="/blog/squash-block-web-stiffener-blocking-panel-tji.html"><span>Piso</span><b>Los cinco bloques del piso de I-joist: se parecen, y ninguno hace la chamba del otro</b></a>
+    <a class="articulo" href="/blog/load-path-continuo-cadena-techo-fundacion.html"><span>Estructura</span><b>El load path continuo: la casa no se cae por la madera, se cae por el eslabón que faltó</b></a>
+    <a class="articulo" href="/blog/truss-engineering-no-field-modifications.html"><span>Trusses</span><b>Trusses: al truss no le pones criterio, le pones el detalle</b></a>
   </div>
-</section>
+</div></section>
 
-<section class="wrap">
-  <div class="card" style="text-align:center">
-    <p class="eyebrow">Guía gratis</p>
-    <p style="font-family:var(--head);font-weight:800;font-size:28px;margin-top:8px;text-transform:uppercase">El framero completo</p>
-    <p class="lead" style="margin-top:10px">Las marcas del oficio — mente, cuerpo, voluntad y alma — en una hoja pa' traer en la troca.</p>
-    <a class="btn btn-ghost" href="/guias/el-framero-completo.html" style="margin-top:18px">Guía gratis: El framero completo</a>
+<section class="quien"><div class="wrap">
+  <img class="foto" src="assets/founder-jesus-480.webp" width="480" height="480" loading="lazy" alt="Jesús, framero">
+  <div>
+    <p class="kicker">Quién la hace</p>
+    <blockquote>«La herramienta que yo hubiera querido en la bolsa.»</blockquote>
+    <p class="firma"><strong>Jesús</strong> · framero, más de 20 años en el framing · Idaho</p>
   </div>
-</section>
+</div></section>
 
-<!-- FOOTER -->
-<footer class="foot">
-  <div class="wrap">
-    <span class="brand">FRAMECORE</span>
-    <p style="margin-top:6px">Te explica lo que no entiendes.</p>
-    <div class="social">
-      <a href="https://www.youtube.com/@FrameCoreApp">YouTube</a>
-      <a href="https://www.tiktok.com/@framecoreapp">TikTok</a>
-      <a href="https://www.instagram.com/framecoreapp/">Instagram</a>
-      <a href="https://www.linkedin.com/company/117094824">LinkedIn</a>
-    </div>
-    <p style="margin-top:10px">IRC 2018 · Android · Google Play · © 2026 FrameCore</p>
+<section id="horno"><div class="wrap">
+  <div class="sec-head">
+    <p class="kicker">Lo que viene</p>
+    <h2>En el horno</h2>
+    <p>Cada cosa con su etiqueta de qué tan cerca está. Te avisamos cuando jale.</p>
   </div>
-</footer>
+  <div class="horno">
+    <article class="tarjeta"><span class="etq"><span aria-hidden="true">◌</span>Todavía no</span><h3>El recibo de tu plano</h3><p>Que le des tap a cualquier número y veas de dónde salió, de tu plano, hoja por hoja.</p></article>
+    <article class="tarjeta"><span class="etq ya"><span aria-hidden="true">▲</span>A medias</span><h3>El visor que lee tu plano solo</h3><p>Hoy te abre el PDF y lo organiza por hojas. La lectura estructural completa está en desarrollo.</p></article>
+    <article class="tarjeta"><span class="etq"><span aria-hidden="true">◌</span>Todavía no</span><h3>Pregúntale a FrameCore</h3><p>Un chat framero que cita el IRC. El motor ya existe; el chat en la app, todavía no.</p></article>
+  </div>
+</div></section>
+
+<section class="cierre" id="bajar"><div class="wrap">
+  <h2>Ya está en Google Play. <em>Gratis.</em></h2>
+  <p>Tu reporte sigue moldeando la herramienta: lo que nos avientes desde el trabajo es lo que sigue.</p>
+  <div class="cta-row">
+    <a class="btn btn-gold" href="https://play.google.com/store/apps/details?id=com.loomframing.app&amp;referrer=utm_source%3Dloomframing.com%26utm_medium%3Dweb%26utm_campaign%3Dhome%26utm_content%3Dcierre">Bájala de Google Play</a>
+    <a class="btn btn-ghost" href="/guias/el-framero-completo.html">Guía gratis: El framero completo</a>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <a class="brand" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><mask id="fcp-c" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><rect width="100" height="100" fill="#fff"></rect><g clip-path="url(#fcp-cc0)" fill="none" stroke="#000" stroke-width="2.4"><circle cx="25" cy="77" r="10"></circle><circle cx="25" cy="77" r="17.5"></circle><circle cx="25" cy="77" r="25"></circle></g><g clip-path="url(#fcp-cc1)" fill="none" stroke="#000" stroke-width="2.4"><circle cx="75" cy="23" r="10"></circle><circle cx="75" cy="23" r="17.5"></circle><circle cx="75" cy="23" r="25"></circle></g><g clip-path="url(#fcp-cc2)" fill="none" stroke="#000" stroke-width="2.4"><circle cx="50.6" cy="52.5" r="7.5"></circle><circle cx="50.6" cy="52.5" r="14"></circle></g></mask><clipPath id="fcp-cc0"><rect x="20.4" y="29" width="18" height="42"></rect></clipPath><clipPath id="fcp-cc1"><rect x="61.6" y="29" width="18" height="42"></rect></clipPath><clipPath id="fcp-cc2"><rect x="41" y="29" width="18" height="42"></rect></clipPath></defs><g fill="currentColor" mask="url(#fcp-c)"><rect x="20.4" y="29" width="18" height="42" rx="1.5"></rect><rect x="41" y="29" width="18" height="42" rx="1.5"></rect><rect x="61.6" y="29" width="18" height="42" rx="1.5"></rect></g><circle cx="50.6" cy="52.5" r="3.2" fill="var(--core, #a07f15)"></circle></svg>FrameCore</a>
+  <nav>
+    <a href="https://www.youtube.com/@FrameCoreApp">YouTube</a>
+    <a href="https://www.tiktok.com/@framecoreapp">TikTok</a>
+    <a href="https://www.instagram.com/framecoreapp/">Instagram</a>
+    <a href="https://www.linkedin.com/company/117094824">LinkedIn</a>
+    <a href="/blog/">Blog</a>
+  </nav>
+  <span>IRC 2018 · Android · © 2026 FrameCore</span>
+</div></footer>
 
 <!-- GA4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBQ9B5CTEK"></script>
