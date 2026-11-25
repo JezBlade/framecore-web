@@ -182,7 +182,7 @@
   </url>
   <url>
     <loc>https://loomframing.com/videos/</loc>
-    <lastmod>2026-11-24T21:56:39Z</lastmod>
+    <lastmod>2026-11-25T02:53:26Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -286,7 +286,7 @@
   </url>
   <url>
     <loc>https://loomframing.com/videos/largo-del-rafter.html</loc>
-    <lastmod>2026-11-24T21:56:39Z</lastmod>
+    <lastmod>2026-11-25T02:53:26Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <video:video>
@@ -310,6 +310,20 @@
       <video:player_loc>https://www.youtube.com/embed/jwZlO6NVCbU</video:player_loc>
       <video:duration>17</video:duration>
       <video:publication_date>2026-11-14T11:35:34-08:00</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://loomframing.com/videos/sumar-medidas-de-corrido.html</loc>
+    <lastmod>2026-11-25T02:53:26Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <video:video>
+      <video:thumbnail_loc>https://i.ytimg.com/vi/oF1aGUnLmqs/hqdefault.jpg</video:thumbnail_loc>
+      <video:title>Las 9 medidas de afuera, sumadas de corrido en Jobsite</video:title>
+      <video:description>Las 9 medidas de afuera de un lado de la casa, sumadas de corrido en Jobsite: 73', igual que el lado de enfrente. Se teclean como se dicen.</video:description>
+      <video:player_loc>https://www.youtube.com/embed/oF1aGUnLmqs</video:player_loc>
+      <video:duration>21</video:duration>
+      <video:publication_date>2026-11-24T14:41:37-08:00</video:publication_date>
     </video:video>
   </url>
 </urlset>
