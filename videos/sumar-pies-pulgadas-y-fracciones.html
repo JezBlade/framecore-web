@@ -43,68 +43,195 @@
 
     <style>
       :root {
-        --gold-500: #b8941f; --gold-700: #816710;
-        --cafe-500: #5a4f3a; --cafe-700: #3d3422; --cafe-800: #2a2418;
-        --cream: #faf9f7; --canvas: #f0ead6; --line: #d9d3c1;
-        --font-display: "Big Shoulders Display", "Arial Narrow", sans-serif;
-        --font-body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        --gold-100:#f7eed1; --gold-300:#d9bf6a; --gold-400:#c8a440; --gold-500:#b8941f; --gold-700:#816710;
+        --cafe-500:#5a4f3a; --cafe-700:#3d3422; --cafe-800:#2a2418; --cafe-900:#1c1810;
+        --cream:#faf9f7; --canvas:#f0ead6; --line:#d9d3c1; --mute:#736952;
+        --display:"Big Shoulders Display", Impact, sans-serif; --body:"IBM Plex Sans", system-ui, sans-serif;
+        --r:16px; --wrap:1120px;
+        --sombra:0 1px 2px rgba(28,24,16,.04), 0 16px 34px -24px rgba(28,24,16,.35);
       }
-      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-      body { font-family: var(--font-body); background: var(--cream); color: var(--cafe-800); -webkit-font-smoothing: antialiased; line-height: 1.6; }
-      .blog-header { background: var(--cafe-800); color: var(--cream); padding: 1.25rem 1.5rem 1.5rem; text-align: center; }
-      .blog-header a.back { color: var(--gold-500); text-decoration: none; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
-      .blog-header h1 { font-family: var(--font-display); font-size: clamp(1.7rem, 5vw, 2.6rem); font-weight: 800; margin-top: 0.5rem; letter-spacing: 0.02em; line-height: 1.08; max-width: 920px; margin-left: auto; margin-right: auto; }
-      .blog-header .sub { margin-top: 0.6rem; color: #a09882; max-width: 620px; margin-left: auto; margin-right: auto; }
-      .watch { max-width: 760px; margin: 0 auto; padding: 1.25rem 1.5rem 1rem; }
-      .video-marco { position: relative; height: 0; overflow: hidden; margin: 0 auto; border-radius: 12px; background: #000; }
-      .video-marco.vertical { max-width: 360px; padding-bottom: min(177.78%, 640px); }
-      .video-marco.horizontal { padding-bottom: 56.25%; }
-      .video-marco iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-      .ia-nota { text-align: center; color: var(--cafe-500); font-size: 0.85rem; margin-top: 0.6rem; }
-      .descripcion { margin-top: 1.5rem; font-size: 1.1rem; color: var(--cafe-700); }
-      .nota { margin-top: 0.9rem; color: var(--cafe-500); font-size: 0.95rem; }
-      .sigue { margin-top: 1.75rem; background: white; border: 1px solid var(--line); border-radius: 12px; padding: 1.1rem 1.25rem; }
-      .sigue a { color: var(--gold-700); font-weight: 700; text-decoration: none; }
-      .sigue a:hover { text-decoration: underline; }
-      .cta-card { background: var(--cafe-800); color: var(--cream); border-radius: 14px; padding: 1.5rem; margin: 2rem 0 1rem; text-align: center; }
-      .cta-card a.play { display: block; width: fit-content; margin: 0 auto; padding: 0.8rem 1.1rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.95rem; background: transparent; color: var(--gold-500); border: 2px solid var(--gold-500); }
-      .cta-card a.play:hover { background: var(--gold-500); color: var(--cafe-800); }
-      .lista { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.25rem; margin-top: 0.5rem; }
-      .lista a { display: block; background: white; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; text-decoration: none; color: var(--cafe-800); }
-      .lista a:hover { border-color: var(--gold-500); }
-      .lista img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: var(--canvas); }
-      .lista .t { display: block; padding: 0.75rem 0.9rem 0.2rem; font-weight: 700; line-height: 1.3; }
-      .lista .d { display: block; padding: 0 0.9rem 0.85rem; color: var(--cafe-500); font-size: 0.85rem; }
-      .blog-footer { text-align: center; padding: 2rem 1.5rem 3rem; border-top: 1px solid var(--line); margin-top: 2rem; }
-      .blog-footer a { color: var(--cafe-500); text-decoration: none; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin: 0 0.6rem; }
-      .blog-footer a:hover { color: var(--gold-700); }
+      * { box-sizing:border-box; }
+      body { margin:0; background:var(--cream); color:var(--cafe-800); font-family:var(--body); font-size:17px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+      img { max-width:100%; }
+      a { color:inherit; }
+      a:focus-visible { outline:3px solid var(--gold-500); outline-offset:3px; border-radius:6px; }
+      p { margin:0; text-wrap:pretty; }
+      h1, h2 { font-family:var(--display); font-weight:800; letter-spacing:.01em; line-height:1.02; margin:0; text-transform:uppercase; text-wrap:balance; }
+      .wrap { max-width:var(--wrap); margin:0 auto; padding:0 24px; }
+      .btn { display:inline-flex; align-items:center; gap:10px; min-height:52px; padding:0 26px; border-radius:999px; font-weight:600; font-size:17px; text-decoration:none; transition:transform .15s ease, background .15s ease; }
+      .btn-gold { background:var(--gold-500); color:var(--cafe-900); box-shadow:0 1px 0 rgba(28,24,16,.25), 0 10px 24px -12px rgba(129,103,16,.7); }
+      .btn-gold:hover { background:var(--gold-400); transform:translateY(-1px); }
+
+      /* La barra: la de la portada, con «Videos» marcado */
+      .nav { position:sticky; top:0; z-index:10; background:rgba(250,249,247,.92); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); }
+      .nav .wrap { display:flex; align-items:center; justify-content:space-between; height:68px; }
+      .brand { display:flex; align-items:center; gap:10px; font-family:var(--display); font-weight:800; font-size:26px; letter-spacing:.02em; text-decoration:none; }
+      .brand svg { width:34px; height:34px; flex:none; color:var(--cafe-800); --core:var(--gold-500); }
+      .nav nav { display:flex; align-items:center; gap:28px; font-weight:500; font-size:16px; }
+      .nav nav a { text-decoration:none; color:var(--cafe-700); white-space:nowrap; }
+      .nav nav a:hover { color:var(--cafe-900); }
+      .nav nav a[aria-current] { color:var(--cafe-900); box-shadow:inset 0 -2px 0 var(--gold-500); }
+      .nav .btn { min-height:44px; padding:0 20px; font-size:16px; color:var(--cafe-900); }
+
+      /* La cabecera: el degradado de la portada; el título en la letra de la casa */
+      .cabeza { background:linear-gradient(180deg, var(--cream) 0%, var(--canvas) 100%); border-bottom:1px solid var(--line); padding:40px 0 36px; }
+      .kicker, .volver { display:inline-flex; align-items:center; gap:10px; font-weight:600; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-700); text-decoration:none; }
+      .kicker::before { content:""; width:28px; height:3px; border-radius:2px; background:var(--gold-500); }
+      .volver:hover { color:var(--cafe-900); }
+      .cabeza h1 { margin-top:12px; max-width:24em; font-size:clamp(32px, 4.6vw, 56px); }
+      .cabeza .sub { margin-top:14px; max-width:40em; font-size:clamp(17px, 1.9vw, 20px); color:var(--cafe-700); }
+
+      /* La página de un video: el video a la izquierda y lo que dice a su lado, sin columna angosta en medio */
+      .watch { display:grid; gap:44px; align-items:start; padding-top:44px; padding-bottom:64px; }
+      .watch.vertical { grid-template-columns:360px minmax(0, 1fr); }
+      .watch.horizontal { grid-template-columns:minmax(0, 1fr); }
+      .watch.horizontal .marco-col { max-width:960px; }
+      .video-marco { position:relative; height:0; overflow:hidden; border-radius:var(--r); background:var(--cafe-900); box-shadow:0 0 0 1px rgba(28,24,16,.5), 0 34px 60px -34px rgba(28,24,16,.7); }
+      .video-marco.vertical { width:100%; max-width:360px; padding-bottom:min(177.78%, 640px); }
+      .video-marco.horizontal { padding-bottom:56.25%; }
+      .video-marco iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+      .ia-nota { margin-top:10px; text-align:center; font-size:13.5px; color:var(--mute); }
+      .texto { max-width:36em; padding-top:4px; }
+      .descripcion { font-size:clamp(18px, 2vw, 21px); color:var(--cafe-700); }
+      .nota { margin-top:14px; font-size:15.5px; color:var(--cafe-500); padding-left:14px; border-left:2px solid var(--gold-400); }
+      .prueba { margin-top:22px; }
+      .prueba a { display:inline-flex; align-items:center; min-height:48px; padding:0 22px; border-radius:999px; border:2px solid var(--gold-500); color:var(--gold-700); font-weight:700; font-size:16px; text-decoration:none; transition:background .15s ease, color .15s ease; }
+      .prueba a:hover { background:var(--gold-500); color:var(--cafe-900); }
+      .sigue { margin-top:28px; background:#fff; border:1px solid var(--line); border-radius:var(--r); padding:18px 22px; box-shadow:var(--sombra); }
+      .sigue a { color:var(--gold-700); font-weight:700; text-decoration:none; }
+      .sigue a:hover { text-decoration:underline; }
+
+      /* Las tarjetas de video: las de la portada (miniatura entera, velo y botón dorado) */
+      .videos { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:22px; margin:0; padding:0; list-style:none; }
+      .video { display:block; height:100%; text-decoration:none; background:#fff; border:1px solid var(--line); border-radius:var(--r); overflow:hidden; box-shadow:var(--sombra); transition:transform .15s ease, box-shadow .15s ease; }
+      .video:hover { transform:translateY(-2px); box-shadow:0 1px 2px rgba(28,24,16,.04), 0 22px 40px -24px rgba(28,24,16,.45); }
+      .video .thumb { position:relative; aspect-ratio:4/3; background:linear-gradient(135deg, var(--cafe-700), var(--cafe-900)); display:grid; place-items:center; overflow:hidden; }
+      .video .thumb img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; max-width:none; }
+      .video .thumb::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(28,24,16,0) 45%, rgba(28,24,16,.55) 100%); }
+      .video .play { position:relative; z-index:1; width:52px; height:52px; border-radius:50%; background:var(--gold-500); display:grid; place-items:center; box-shadow:0 6px 18px -6px rgba(28,24,16,.7); }
+      .video .play::after { content:""; border-left:16px solid var(--cafe-900); border-top:10px solid transparent; border-bottom:10px solid transparent; margin-left:5px; }
+      .dura { position:absolute; z-index:1; right:10px; bottom:10px; padding:2px 8px; border-radius:6px; background:rgba(28,24,16,.82); color:var(--cream); font-size:13px; font-weight:600; font-variant-numeric:tabular-nums; }
+      .video .txt { display:block; padding:16px 18px 18px; font-weight:600; font-size:17px; line-height:1.3; text-wrap:balance; }
+      .lista-sec { padding:44px 0 72px; }
+      /* «Más videos»: chiquitos, en la columna del texto, pa' que no quede hueco junto al video vertical */
+      .mas-col { margin-top:40px; }
+      .mas-col h2 { font-size:30px; margin-bottom:14px; }
+      .minis { list-style:none; margin:0; padding:0; display:grid; gap:12px; }
+      .mini { display:grid; grid-template-columns:128px minmax(0, 1fr); gap:16px; align-items:center; padding:10px 14px 10px 10px; background:#fff; border:1px solid var(--line); border-radius:14px; text-decoration:none; box-shadow:var(--sombra); transition:border-color .15s ease, transform .15s ease; }
+      .mini:hover { border-color:var(--gold-500); transform:translateY(-1px); }
+      .mini .thumb { position:relative; aspect-ratio:4/3; border-radius:9px; overflow:hidden; background:var(--cafe-900); }
+      .mini .thumb img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; max-width:none; }
+      .mini .dura { right:6px; bottom:6px; font-size:12px; padding:1px 6px; }
+      .mini b { font-weight:600; font-size:16px; line-height:1.3; text-wrap:balance; }
+      .watch.horizontal .texto { max-width:none; }
+      .watch.horizontal .descripcion, .watch.horizontal .nota, .watch.horizontal .sigue { max-width:44em; }
+      .watch.horizontal .minis { grid-template-columns:repeat(3, minmax(0, 1fr)); }
+
+      /* La banda de cierre: la de la portada; el botón de siempre, con su mismo referrer */
+      .cierre { background:var(--cafe-800); color:var(--cream); text-align:center; padding:72px 0; }
+      .cierre h2 { font-size:clamp(36px, 5.4vw, 64px); }
+      .cierre h2 em { font-style:normal; color:var(--gold-300); }
+      .cierre .btn { margin-top:28px; }
+
+      /* El pie: el de la portada */
+      footer { background:var(--cafe-900); color:#b8af96; font-size:15px; padding:36px 0; }
+      footer .wrap { display:flex; flex-wrap:wrap; justify-content:space-between; gap:16px; align-items:center; }
+      footer .brand { color:var(--cream); font-size:22px; }
+      footer .brand svg { width:28px; height:28px; color:var(--gold-400); --core:#e6c45a; }
+      footer nav { display:flex; flex-wrap:wrap; gap:8px 22px; }
+      footer a { text-decoration:none; } footer nav a:hover { color:var(--cream); }
+
+      @media (max-width: 900px) {
+        .nav nav { gap:16px; font-size:15px; }
+        .nav .btn { padding:0 16px; font-size:15px; }
+        .watch.vertical { grid-template-columns:minmax(0, 1fr); justify-items:center; gap:28px; }
+        .watch.vertical .marco-col { width:100%; max-width:360px; }
+        .texto { justify-self:stretch; max-width:none; }
+        .videos { grid-template-columns:repeat(2, minmax(0, 1fr)); gap:16px; }
+        .watch.horizontal .minis { grid-template-columns:minmax(0, 1fr); }
+        .cierre { padding:56px 0; }
+        .cierre .btn { width:100%; justify-content:center; }
+      }
+      @media (max-width: 600px) {
+        .videos { grid-template-columns:minmax(0, 1fr); }
+        .video .thumb { aspect-ratio:16/10; }
+        .mini { grid-template-columns:112px minmax(0, 1fr); gap:12px; }
+        .mini b { font-size:15px; }
+      }
+      @media (max-width: 480px) {
+        .wrap { padding:0 18px; }
+        .nav .wrap { height:60px; }
+        .brand { font-size:21px; gap:7px; } .brand svg { width:28px; height:28px; }
+        .nav nav { gap:12px; font-size:14.5px; }
+        .nav .btn { padding:0 13px; font-size:14.5px; }
+        .cabeza { padding:28px 0 26px; }
+        .watch { padding-top:28px; padding-bottom:48px; }
+      }
+      @media (max-width: 380px) {
+        .brand { font-size:19px; } .brand svg { width:24px; height:24px; }
+        .nav nav { gap:9px; font-size:14px; }
+        .nav .btn { padding:0 11px; font-size:14px; }
+      }
+      @media (prefers-reduced-motion: reduce) { * { transition:none !important; } }
     </style>
 </head>
 <body>
 
-<header class="blog-header">
-    <a class="back" href="./">&larr; Videos</a>
-    <h1>Sumar pies, pulgadas y fracciones sin pasar a decimales</h1>
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><mask id="fc-c" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><rect width="100" height="100" fill="#fff"></rect><g clip-path="url(#fc-cc0)" fill="none" stroke="#000" stroke-width="2.4"><circle cx="25" cy="77" r="10"></circle><circle cx="25" cy="77" r="17.5"></circle><circle cx="25" cy="77" r="25"></circle></g><g clip-path="url(#fc-cc1)" fill="none" stroke="#000" stroke-width="2.4"><circle cx="75" cy="23" r="10"></circle><circle cx="75" cy="23" r="17.5"></circle><circle cx="75" cy="23" r="25"></circle></g><g clip-path="url(#fc-cc2)" fill="none" stroke="#000" stroke-width="2.4"><circle cx="50.6" cy="52.5" r="7.5"></circle><circle cx="50.6" cy="52.5" r="14"></circle></g></mask><clipPath id="fc-cc0"><rect x="20.4" y="29" width="18" height="42"></rect></clipPath><clipPath id="fc-cc1"><rect x="61.6" y="29" width="18" height="42"></rect></clipPath><clipPath id="fc-cc2"><rect x="41" y="29" width="18" height="42"></rect></clipPath></defs><g fill="currentColor" mask="url(#fc-c)"><rect x="20.4" y="29" width="18" height="42" rx="1.5"></rect><rect x="41" y="29" width="18" height="42" rx="1.5"></rect><rect x="61.6" y="29" width="18" height="42" rx="1.5"></rect></g><circle cx="50.6" cy="52.5" r="3.2" fill="var(--core, #a07f15)"></circle></svg>FrameCore</a>
+    <nav>
+      <a href="/videos/" aria-current="page">Videos</a>
+      <a href="/blog/">Blog</a>
+      <a class="btn btn-gold" href="https://play.google.com/store/apps/details?id=com.loomframing.app&amp;referrer=utm_source%3Dloomframing.com%26utm_medium%3Dvideos%26utm_campaign%3Dtarjeta-play%26utm_content%3Dvideos-nav" target="_blank" rel="noopener" data-play-slug="videos-nav">Bajar gratis</a>
+    </nav>
+  </div>
 </header>
 
-<main class="watch">
-    <div class="video-marco vertical">
-        <iframe src="https://www.youtube.com/embed/jwZlO6NVCbU" title="Sumar pies, pulgadas y fracciones sin pasar a decimales" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<div class="cabeza"><div class="wrap">
+    <a class="volver" href="./">&larr; Videos</a>
+    <h1>Sumar pies, pulgadas y fracciones sin pasar a decimales</h1>
+</div></div>
+
+<main class="wrap watch vertical">
+    <div class="marco-col">
+        <div class="video-marco vertical">
+            <iframe src="https://www.youtube.com/embed/jwZlO6NVCbU" title="Sumar pies, pulgadas y fracciones sin pasar a decimales" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <p class="ia-nota">La voz de este video es generada con IA.</p>
     </div>
-    <p class="ia-nota">La voz de este video es generada con IA.</p>
-    <p class="descripcion">¿Cuántas veces al día suman pies, pulgadas y fracciones de memoria? En Jobsite las tecleas como las dices: pies, pulgadas y fracciones, cada una en su bloque. Sumas, restas y divides una medida entre otra, y el resultado te sale en fracción, no en decimales.</p>
-    <div class="sigue">
-        <p><a href="../">Ve qué trae FrameCore</a>: la calculadora de framing, hecha por un framero en Idaho.</p>
-    </div>
-    <div class="cta-card">
-        <a class="play" href="https://play.google.com/store/apps/details?id=com.loomframing.app&amp;referrer=utm_source%3Dloomframing.com%26utm_medium%3Dvideos%26utm_campaign%3Dtarjeta-play%26utm_content%3Dvideo-sumar-pies-pulgadas-y-fracciones" target="_blank" rel="noopener" data-play-slug="video-sumar-pies-pulgadas-y-fracciones">Bájala de Google Play</a>
+    <div class="texto">
+        <p class="descripcion">¿Cuántas veces al día suman pies, pulgadas y fracciones de memoria? En Jobsite las tecleas como las dices: pies, pulgadas y fracciones, cada una en su bloque. Sumas, restas y divides una medida entre otra, y el resultado te sale en fracción, no en decimales.</p>
+        <div class="sigue">
+            <p><a href="../">Ve qué trae FrameCore</a>: la calculadora de framing, hecha por un framero en Idaho.</p>
+        </div>
+        <div class="mas-col">
+            <h2>Más videos</h2>
+            <ul class="minis">
+                <li><a class="mini" href="sumar-medidas-de-corrido.html"><span class="thumb"><img src="https://i.ytimg.com/vi/oF1aGUnLmqs/hqdefault.jpg" width="480" height="360" loading="lazy" alt=""><span class="dura">0:21</span></span><b>Las 9 medidas de afuera, sumadas de corrido en Jobsite</b></a></li>
+                <li><a class="mini" href="stair-stringer-throat-depth.html"><span class="thumb"><img src="https://i.ytimg.com/vi/f3Qc2cumVeQ/hqdefault.jpg" width="480" height="360" loading="lazy" alt=""><span class="dura">1:14</span></span><b>Escaleras: la garganta de la zanca — un número de oficio, por si te suma</b></a></li>
+                <li><a class="mini" href="truss-engineering-no-field-modifications.html"><span class="thumb"><img src="https://i.ytimg.com/vi/mXW9X8qPPcs/hqdefault.jpg" width="480" height="360" loading="lazy" alt=""><span class="dura">0:50</span></span><b>Leer la hoja de ingeniería del truss en el celular, en el jale</b></a></li>
+            </ul>
+        </div>
     </div>
 </main>
 
-<footer class="blog-footer">
-    <a href="./">&larr; Todos los videos</a>
-    <a href="../blog/">Blog del Framero</a>
-</footer>
+<section class="cierre"><div class="wrap">
+  <h2>Ya está en Google Play. <em>Gratis.</em></h2>
+  <a class="btn btn-gold" href="https://play.google.com/store/apps/details?id=com.loomframing.app&amp;referrer=utm_source%3Dloomframing.com%26utm_medium%3Dvideos%26utm_campaign%3Dtarjeta-play%26utm_content%3Dvideo-sumar-pies-pulgadas-y-fracciones" target="_blank" rel="noopener" data-play-slug="video-sumar-pies-pulgadas-y-fracciones">Bájala de Google Play</a>
+</div></section>
+
+<footer><div class="wrap">
+  <a class="brand" href="/"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true" focusable="false"><defs><mask id="fcp-c" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><rect width="100" height="100" fill="#fff"></rect><g clip-path="url(#fcp-cc0)" fill="none" stroke="#000" stroke-width="2.4"><circle cx="25" cy="77" r="10"></circle><circle cx="25" cy="77" r="17.5"></circle><circle cx="25" cy="77" r="25"></circle></g><g clip-path="url(#fcp-cc1)" fill="none" stroke="#000" stroke-width="2.4"><circle cx="75" cy="23" r="10"></circle><circle cx="75" cy="23" r="17.5"></circle><circle cx="75" cy="23" r="25"></circle></g><g clip-path="url(#fcp-cc2)" fill="none" stroke="#000" stroke-width="2.4"><circle cx="50.6" cy="52.5" r="7.5"></circle><circle cx="50.6" cy="52.5" r="14"></circle></g></mask><clipPath id="fcp-cc0"><rect x="20.4" y="29" width="18" height="42"></rect></clipPath><clipPath id="fcp-cc1"><rect x="61.6" y="29" width="18" height="42"></rect></clipPath><clipPath id="fcp-cc2"><rect x="41" y="29" width="18" height="42"></rect></clipPath></defs><g fill="currentColor" mask="url(#fcp-c)"><rect x="20.4" y="29" width="18" height="42" rx="1.5"></rect><rect x="41" y="29" width="18" height="42" rx="1.5"></rect><rect x="61.6" y="29" width="18" height="42" rx="1.5"></rect></g><circle cx="50.6" cy="52.5" r="3.2" fill="var(--core, #a07f15)"></circle></svg>FrameCore</a>
+  <nav>
+      <a href="https://www.youtube.com/@FrameCoreApp">YouTube</a>
+      <a href="https://www.tiktok.com/@framecoreapp">TikTok</a>
+      <a href="https://www.instagram.com/framecoreapp/">Instagram</a>
+      <a href="https://www.linkedin.com/company/117094824">LinkedIn</a>
+      <a href="/blog/">Blog</a>
+    </nav>
+  <span>IRC 2018 · Android · © 2026 FrameCore</span>
+</div></footer>
 
 <!-- UTM handler (espeja el del blog). Va después del bloque GA4, que define gtag dentro del guard de hostname. -->
 <script>
