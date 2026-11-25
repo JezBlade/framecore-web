@@ -281,9 +281,15 @@
     /* la tabla ya no se encoge a 12px: conserva su letra y se desliza de lado */
     #autoridad-irc table.irc { display:block; overflow-x:auto; font-size:13.5px; -webkit-overflow-scrolling:touch; }
     #autoridad-irc table.irc th, #autoridad-irc table.irc td { padding:9px 10px; white-space:nowrap; }
+    /* la zona se queda fija al deslizar de lado: los números nunca se quedan sin su zona de nieve */
+    #autoridad-irc table.irc th:first-child, #autoridad-irc table.irc td:first-child { position:sticky; left:0; z-index:1; box-shadow:inset -1px 0 0 var(--cafe-700); }
+    #autoridad-irc table.irc td:first-child { background:var(--cafe-900); }
+    #autoridad-irc table.irc tbody tr:nth-child(even) td:first-child { background:linear-gradient(rgba(255,255,255,.03), rgba(255,255,255,.03)) var(--cafe-900); }
   }
-  /* Las tres capturas ya vienen recortadas a su proporción, con el corte entre renglones: el CSS no las vuelve a recortar. */
-  .trio .tarjeta .cap { aspect-ratio:auto; height:auto; }
+  /* Las tres capturas ya vienen recortadas a su proporción, con el corte entre renglones: el CSS no las vuelve a recortar.
+     Antes de cargar guardan su hueco (682 × 574, el width y height de las tres): si no, crecen al llegar
+     y el que entra por un ancla (#autoridad-irc) queda una pantalla arriba. */
+  .trio .tarjeta .cap { aspect-ratio:auto 682 / 574; height:auto; }
   /* La forma de cada etiqueta, más marcada: se tiene que distinguir sin el color. */
   .etq > span[aria-hidden] { font-size:15px; font-weight:700; line-height:1; }
 </style>
