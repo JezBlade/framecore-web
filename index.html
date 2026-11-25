@@ -152,7 +152,6 @@
   .horno .tarjeta { background:transparent; border-style:dashed; border-color:#b8af96; }
   .etq { align-self:flex-start; display:inline-flex; align-items:center; gap:7px; font-size:12.5px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; padding:5px 12px; border-radius:999px; background:var(--gold-100); color:var(--gold-700); }
   .etq.ya { background:#d8e6cf; color:#2f5a22; }
-  .leyenda { margin-top:22px; font-size:14.5px; color:var(--mute); }
 
   /* CIERRE */
   .cierre { background:var(--cafe-800); color:var(--cream); text-align:center; }
@@ -199,6 +198,94 @@
     .nav .btn { padding:0 11px; font-size:14px; }
   }
   @media (prefers-reduced-motion: reduce) { * { transition:none !important; scroll-behavior:auto; } }
+  /* ============ PASADA DE DESIGN · N331 · 2026-11-24 ============
+     Solo vestido (CSS). No cambia texto, números, capturas, ligas ni anclas.
+     Va al final de la hoja de estilos, encima de lo portado. */
+
+  /* 0 · Tipografía que no deja viudas, y foco visible en toda liga */
+  h1, h2, h3, blockquote { text-wrap:balance; }
+  p { text-wrap:pretty; }
+  a:focus-visible { outline:3px solid var(--gold-500); outline-offset:3px; border-radius:6px; }
+  .sec-head .kicker { display:flex; align-items:center; gap:10px; }
+  .sec-head .kicker::before { content:""; width:28px; height:3px; border-radius:2px; background:var(--gold-500); }
+
+  /* 1 · HERO: el titular en dos renglones y el teléfono a su altura */
+  .hero { background:
+      radial-gradient(60% 70% at 78% 62%, rgba(200,164,64,.20) 0%, rgba(200,164,64,0) 70%),
+      linear-gradient(180deg, var(--cream) 0%, var(--canvas) 100%); }
+  .hero .wrap { grid-template-columns:1.25fr .75fr; gap:40px; padding-top:64px; }
+  h1 { font-size:clamp(42px, 5.6vw, 70px); line-height:1; }
+  .hero .col-txt { padding-bottom:64px; }
+  .h1-sub { display:inline-block; margin-top:16px; padding:5px 12px; border:1px solid var(--line); border-radius:999px; background:rgba(255,255,255,.6); font-size:13px; }
+  .hero .lead { margin-top:18px; }
+  .phone { width:340px; box-shadow:0 0 0 1px rgba(28,24,16,.5), 0 40px 70px -34px rgba(28,24,16,.75); }
+
+  /* 2 · FRANJA: en teléfono, dos columnas en vez de cinco renglones */
+  .franja ul { padding:16px 0; }
+
+  /* 3 · LAS TRES GRANDES: la captura como cabecera de la tarjeta, del ancho de la tarjeta.
+        Se ve la parte de arriba de la pantalla (lo que se lee) y la tarjeta baja de alto. */
+  .tarjeta, .video { border-radius:16px; box-shadow:0 1px 2px rgba(28,24,16,.04), 0 16px 34px -24px rgba(28,24,16,.35); }
+  .trio .tarjeta { overflow:hidden; transition:transform .15s ease, box-shadow .15s ease; }
+  .trio .tarjeta:hover { transform:translateY(-2px); box-shadow:0 1px 2px rgba(28,24,16,.04), 0 22px 40px -24px rgba(28,24,16,.45); }
+  .trio .tarjeta .cap { width:calc(100% + 56px); max-width:none; margin:-28px -28px 10px; aspect-ratio:10/9; object-fit:cover; object-position:50% 0; border:0; border-radius:0; border-bottom:3px solid var(--gold-500); }
+  .tarjeta .num { font-size:18px; }
+
+  /* 4 · Y ADEMÁS: cada renglón con su regla de oro */
+  .ademas { padding:34px 32px; gap:26px 36px; }
+  .ademas > div { padding-left:16px; border-left:2px solid var(--gold-400); }
+
+  /* 5 · LA BANDA OSCURA: la entrada se queda a la vista mientras baja la tabla */
+  .prueba .intro { position:sticky; top:104px; }
+  #autoridad-irc .card { border-left:3px solid var(--gold-400); }
+  #autoridad-irc table.irc { border-radius:10px; overflow:hidden; border-style:hidden; box-shadow:0 0 0 1px var(--cafe-700); }
+  #autoridad-irc table.irc thead th { background:#231e15; }
+  #autoridad-irc table.irc tbody tr:nth-child(even) td { background:rgba(255,255,255,.03); }
+  #autoridad-irc table.irc td.hit { background:rgba(200,164,64,.16); box-shadow:inset 0 0 0 1.5px var(--gold-400); }
+  #autoridad-irc table.irc td:first-child, #autoridad-irc table.irc th:first-child { white-space:nowrap; }
+
+  /* 6 · VIDEOS: la miniatura entera (4:3, como la manda YouTube), sin recortarle la cabeza */
+  .video .thumb { aspect-ratio:4/3; }
+  .video .thumb::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(28,24,16,0) 45%, rgba(28,24,16,.55) 100%); }
+  .video .play { z-index:1; width:52px; height:52px; }
+  .video .play::after { border-left-width:16px; border-top-width:10px; border-bottom-width:10px; }
+
+  /* 7 · DEL BLOG: que se note que son ligas */
+  .articulo { transition:border-color .15s ease; }
+  .articulo b::after { content:" →"; color:var(--gold-700); white-space:nowrap; }
+  .articulo:hover { border-top-color:var(--cafe-800); }
+
+  /* 8 · QUIÉN LA HACE: más recogida */
+  .quien { padding:64px 0; }
+  .quien .wrap { grid-template-columns:200px 1fr; gap:40px; }
+  .foto { width:200px; height:200px; }
+  blockquote { font-size:clamp(26px, 3.2vw, 38px); }
+
+  /* 9 · EN EL HORNO: la leyenda, como nota al pie */
+  .leyenda { font-size:13.5px; }
+
+  @media (max-width: 900px) {
+    .hero .wrap { grid-template-columns:1fr; padding-top:40px; gap:32px; }
+    .phone { width:290px; }
+    .franja ul { display:grid; grid-template-columns:1fr 1fr; gap:10px 16px; font-size:14.5px; }
+    .franja li:last-child { grid-column:1 / -1; }
+    .trio .tarjeta .cap { aspect-ratio:5/4; }
+    .ademas { padding:26px 22px; }
+    .prueba .intro { position:static; }
+    .video .thumb { aspect-ratio:16/10; }
+    .quien { padding:52px 0; }
+    .quien .wrap { grid-template-columns:1fr; gap:24px; }
+    .foto { width:132px; height:132px; }
+  }
+  @media (max-width: 480px) {
+    /* la tabla ya no se encoge a 12px: conserva su letra y se desliza de lado */
+    #autoridad-irc table.irc { display:block; overflow-x:auto; font-size:13.5px; -webkit-overflow-scrolling:touch; }
+    #autoridad-irc table.irc th, #autoridad-irc table.irc td { padding:9px 10px; white-space:nowrap; }
+  }
+  /* Las tres capturas ya vienen recortadas a su proporción, con el corte entre renglones: el CSS no las vuelve a recortar. */
+  .trio .tarjeta .cap { aspect-ratio:auto; height:auto; }
+  /* La forma de cada etiqueta, más marcada: se tiene que distinguir sin el color. */
+  .etq > span[aria-hidden] { font-size:15px; font-weight:700; line-height:1; }
 </style>
 </head>
 <body>
@@ -248,21 +335,21 @@
   </div>
   <div class="trio">
     <article class="tarjeta">
-      <img class="cap" src="assets/landing-calcula-jobsite-441.webp" width="480" height="821" loading="lazy" alt="La Calculadora de Jobsite de FrameCore: 15' 8 3/4&quot; más 3' 2 1/2&quot; da 18' 11 1/4&quot;, con el teclado en pies, pulgadas y fracción">
+      <img class="cap" src="assets/landing-calcula-jobsite-441.webp" width="682" height="574" loading="lazy" alt="La Calculadora de Jobsite de FrameCore: 15' 8 3/4&quot; más 3' 2 1/2&quot; da 18' 11 1/4&quot;, con el teclado en pies, pulgadas y fracción">
       <span class="num">01 · CALCULA</span>
       <h3>Habla como tu cinta</h3>
       <p>El teclado va en pies, pulgadas y fracción, con el sistema «plus». Rafters, studs, headers, stairs, OC layout y más.</p>
       <p class="mini">Más de 10 calculadoras · resultado al toque</p>
     </article>
     <article class="tarjeta">
-      <img class="cap" src="assets/landing-corta-plan-de-corte-441.webp" width="480" height="821" loading="lazy" alt="Plan de corte en modo jobsite: los grupos con su medida y de qué stock salen, y el avance de cortes que vas palomeando en la sierra">
+      <img class="cap" src="assets/landing-corta-plan-de-corte-441.webp" width="682" height="574" loading="lazy" alt="Plan de corte en modo jobsite: los grupos con su medida y de qué stock salen, y el avance de cortes que vas palomeando en la sierra">
       <span class="num">02 · CORTA</span>
       <h3>De la pared al chalán</h3>
       <p>Capturas la pared y sale la cut list, con el porqué de cada pieza. La confirmas y se la mandas al chalán pa' que le entre a la sierra.</p>
       <p class="mini">Plan de corte en modo jobsite · pieza por pieza</p>
     </article>
     <article class="tarjeta">
-      <img class="cap" src="assets/landing-checa-por-etapa-441.webp" width="480" height="821" loading="lazy" alt="Checar por etapa: Fundación desplegada, con sus puntos y el código IRC de cada uno">
+      <img class="cap" src="assets/landing-checa-por-etapa-441.webp" width="682" height="574" loading="lazy" alt="Checar por etapa: Fundación desplegada, con sus puntos y el código IRC de cada uno">
       <span class="num">03 · CHECA</span>
       <h3>Llega listo a la inspección</h3>
       <p>Checar por etapa: siete etapas, más de 25 puntos, cada uno con su código IRC 2018. Tu avance se guarda solo.</p>
@@ -358,7 +445,6 @@
     <article class="tarjeta"><span class="etq ya"><span aria-hidden="true">▲</span>A medias</span><h3>El visor que lee tu plano solo</h3><p>Hoy te abre el PDF y lo organiza por hojas. La lectura estructural completa está en desarrollo.</p></article>
     <article class="tarjeta"><span class="etq"><span aria-hidden="true">◌</span>Todavía no</span><h3>Pregúntale a FrameCore</h3><p>Un chat framero que cita el IRC. El motor ya existe; el chat en la app, todavía no.</p></article>
   </div>
-  <p class="leyenda">Color + forma juntos (triángulo / anillo punteado): legible pa' daltónicos y a sol directo.</p>
 </div></section>
 
 <section class="cierre" id="bajar"><div class="wrap">
