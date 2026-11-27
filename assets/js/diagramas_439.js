@@ -1,43 +1,8 @@
-/* ===========================================================
-   FrameCore · diagramas_439.js — el DIBUJO de Escaleras y Roof
-   Diseño en vivo sobre la app de HOY (4.22.0+439, main b3024592).
-   Seal 015cb320 · 25-oct-2026 · v58: la tabla de marcas (stairBoard) · v59: los rótulos en toda la matriz de obra
-   v60 · 9-nov-2026 · N230: el D/4 del asiento manda siempre (R802.7.1), con overhang o a ras; con overhang se suman
-   los 3 1/2" que quedan y las 24" (R802.7.1.1). Dos veredictos (endOk y remOk) y un chip que dice el tope que truena.
-   v61 · 9-nov-2026 · con overhang, cada tope de la R802.7.1.1 se dice por su nombre: lo que queda contra 3 1/2" (restOk)
-   y el overhang contra 24" (overOk). Ningún renglón ni chip afirma una comparación que no es.
-   v63 · 16-nov-2026 · N266: en el globo del birdsmouth los círculos numerados se pintan al último, encima de sus rayas.
-   Antes la raya de «queda» (③) se pintaba después del círculo ① y le pasaba por encima a 4/12 y 6/12 con 2x6 y 2x8.
-   No cambia ninguna cuenta ni ninguna coordenada: solo el orden de pintado dentro de birdsmouthDetail.
-   v64 · 27-nov-2026 · N215 al motor JS (como ya está la app desde el 6-nov): en Escaleras sale la diagonal
-   rise × run. En stairs2D ya no se pinta la cota «Stringer length», y en stairBoard sale la nota «es de nariz
-   a nariz». Se quedan el rise, el run, la garganta y el drop del 1er riser. Con opt.stringerLength = true
-   vuelve lo de antes (nomás pa' cotejar). No cambia ninguna cuenta.
-
-   Lo que hace este archivo:
-   1. Las CUENTAS son las de la app, portadas tal cual (no se tocan):
-      calcStairs (fraction_utils.dart), calculateRafter y
-      calculateRafterMeasure (rafter_formula.dart), y el formato B6 de
-      fracciones (inchFraction: el 1/16 impar sale como «+»).
-   2. El DIBUJO sale de esas cuentas: el stringer dentado con sus cortes,
-      la muesca del birdsmouth donde la pone el cálculo, la cola, el ridge.
-   3. Dos paletas: PAPER (la hoja de taller clara, la recomendada) y DARK
-      (el fondo oscuro de la app hoy), pa' que el Initiate escoja.
-
-   Lo que dc porta a Dart: stairGeom, rafterGeom y las funciones de
-   pintado (la geometría y el orden). Los números ya existen en la app.
-   =========================================================== */
 (function (root) {
   'use strict';
 
-  // ---------------------------------------------------------------
-  // 1 · NÚMEROS — el formato de la app (B6: el 1/16 impar = «+»)
-  // ---------------------------------------------------------------
   function gcd(a, b) { a = Math.abs(a); b = Math.abs(b); while (b) { const t = b; b = a % b; a = t; } return a || 1; }
 
-  /** inchFraction de fraction_utils.dart, letra por letra. */
-  /*  N361 (27-nov-2026, palabra del Initiate): «si 1/16" que se escriba 0+"». Sin pulgadas enteras,
-      el dieciseisavo solo va «0+"» (y en pies, «3' 0+"»), no «+"». Nada más cambia. */
   function inch(x) {
     const neg = x < 0; x = Math.abs(x);
     const tot = Math.round(x * 16), w = Math.floor(tot / 16), n = tot % 16, s = neg ? '-' : '';
@@ -46,13 +11,12 @@
       const b = n - 1;
       let p;
       if (b === 0) p = '+'; else { const g = gcd(b, 16); p = (b / g) + '/' + (16 / g) + '+'; }
-      return w > 0 ? s + w + (b === 0 ? '' : ' ') + p + '"' : s + (b === 0 ? '0' : '') + p + '"';   // N361: sin entero, 1/16 = «0+"»
+      return w > 0 ? s + w + (b === 0 ? '' : ' ') + p + '"' : s + (b === 0 ? '0' : '') + p + '"';
     }
     const g = gcd(n, 16);
     return w > 0 ? s + w + ' ' + (n / g) + '/' + (16 / g) + '"' : s + (n / g) + '/' + (16 / g) + '"';
   }
 
-  /** fmtFt: redondea primero a 1/16 y luego parte en pies (N70). */
   function ftin(x) {
     const neg = x < 0, u = Math.round(Math.abs(x) * 16);
     if (u >= 192) {
@@ -65,9 +29,6 @@
   const deg = (r) => r * 180 / Math.PI;
   const f1 = (v) => v.toFixed(1);
 
-  // ---------------------------------------------------------------
-  // 2 · PALETAS — Layer 2.5 (structural_tokens.css del DS, sobre bone)
-  // ---------------------------------------------------------------
   const PAPER = {
     name: 'paper',
     bg: '#F8F5F0', grid: '#ECE7DD', ink: '#1F2937', inkSoft: '#4B5563', inkMute: '#736952',
@@ -78,12 +39,11 @@
     plate: '#6F5230', plateLine: '#4F3A20', plateSoft: '#E7DAC4',
     stud: '#3E6E8E', studLine: '#2B4E66', studSoft: '#DCE7EE',
     concrete: '#AEB4B9', concreteLine: '#7C848A', concreteSoft: '#E4E7E9',
-    craft: '#B45309', craftSoft: '#FDF0D5',          // ámbar de oficio (info-amber)
+    craft: '#B45309', craftSoft: '#FDF0D5',
     ok: '#15803D', warn: '#B91C1C', warnSoft: '#FDE0E0', okSoft: '#D6F0DD',
     hi: '#C8E600', hiLine: '#3A4200', hiOn: '#1F2937', rafterOn: '#1F2937',
   };
-  // DARK: el lienzo que la app trae hoy (#263238); mismas familias, trazos
-  // más claros pa' que el contorno pase 3:1 sobre el fondo oscuro.
+
   const DARK = Object.assign({}, PAPER, {
     name: 'dark',
     bg: '#263238', grid: '#2F3D44', ink: '#ECEFF1', inkSoft: '#B0BEC5', inkMute: '#90A4AE',
@@ -94,9 +54,6 @@
     ok: '#16A34A', warn: '#DC2626', hi: '#C8E600', hiOn: '#1F2937',
   });
 
-  // ---------------------------------------------------------------
-  // 3 · SVG — utilidades
-  // ---------------------------------------------------------------
   const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   const pts = (arr) => arr.map((p) => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
   function poly(arr, fill, stroke, sw, extra) {
@@ -113,7 +70,7 @@
     const fam = o.mono === false ? 'var(--font-body, Inter, system-ui, sans-serif)' : 'var(--font-mono, "JetBrains Mono", ui-monospace, monospace)';
     return '<text x="' + p[0].toFixed(1) + '" y="' + p[1].toFixed(1) + '" text-anchor="' + a + '" font-family=\'' + fam + '\' font-size="' + size + '" font-weight="' + w + '" fill="' + fill + '"' + halo + rot + '>' + esc(s) + '</text>';
   }
-  /** Rótulo con su cajita de fondo: el trazo de la cota no lo atraviesa. */
+
   function label(p, s, P, o) {
     o = o || {};
     const size = o.size || 10, a = o.anchor || 'middle';
@@ -124,14 +81,14 @@
       '<rect x="' + x0.toFixed(1) + '" y="' + (-h / 2).toFixed(1) + '" width="' + w.toFixed(1) + '" height="' + h + '" rx="3" fill="' + (o.bg || P.bg) + '" fill-opacity="' + (o.bgOp != null ? o.bgOp : 1) + '"' + (o.box ? ' stroke="' + o.box + '" stroke-width="1"' : '') + '/>' +
       text([tx, size * 0.36], s, { size, weight: o.weight || 700, fill: o.fill || P.ink, anchor: a, mono: o.mono }) + '</g>';
   }
-  /** v59 · la caja de un rótulo tal como la pinta label(): centro, ancho, alto, giro y anclaje → 4 esquinas. */
+
   function labelW(txt, size, mono) { return String(txt).length * (size || 10) * (mono === false ? 0.56 : 0.61) + 8; }
   function boxOf(c, w, h, rot, anchor) {
     const a = anchor || 'middle', x0 = a === 'middle' ? -w / 2 : a === 'start' ? -3 : -w + 3, y0 = -h / 2;
     const r = (rot || 0) * Math.PI / 180, cs = Math.cos(r), sn = Math.sin(r);
     return [[x0, y0], [x0 + w, y0], [x0 + w, y0 + h], [x0, y0 + h]].map((q) => [c[0] + q[0] * cs - q[1] * sn, c[1] + q[0] * sn + q[1] * cs]);
   }
-  /** Eje separador entre dos polígonos convexos: la hondura del encime (0 si no se tocan). */
+
   function overlap(A, Bq) {
     let min = Infinity;
     for (const Q of [A, Bq]) for (let i = 0; i < Q.length; i++) {
@@ -150,13 +107,12 @@
   const inSheet = (P, W, H, m) => P.every((q) => q[0] >= (m || 1) && q[0] <= W - (m || 1) && q[1] >= (m || 1) && q[1] <= H - (m || 1));
   const clear = (P, obs, tol) => obs.every((o) => overlap(P, o) <= (tol == null ? 0.5 : tol));
 
-  /** Marcador numerado (①, ②…) que amarra el dibujo con su leyenda. */
   function marker(p, n, col, P) {
     return '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="8" fill="' + col + '" stroke="' + P.bg + '" stroke-width="1.5"/>' +
       text([p[0], p[1] + 3.6], String(n), { size: 10, weight: 800, fill: '#FFFFFF' });
   }
   let UID = 0;
-  /** Cota: línea con remates y su rótulo encajado al centro. */
+
   function dimLine(a, b, lab, P, o) {
     o = o || {};
     const col = o.color || P.dim;
@@ -177,19 +133,13 @@
     return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + w.toFixed(0) + ' ' + h.toFixed(0) + '" width="100%" role="img" aria-label="' + esc(title || '') + '" style="display:block;background:' + P.bg + '">' + body + '</svg>';
   }
 
-  // ===============================================================
-  // 4 · ESCALERAS
-  // ===============================================================
-  /** calcStairs tal como la 439 lo llama (framer_pro_screen.dart:417):
-   *  tread 0 y llegada dropped por default → los cortes del motor son
-   *  parejos; los dos AJUSTES son oficio (tarjeta «AJUSTES DEL STRINGER»). */
   function calcStairs(o) {
     const rise = o.totalRise;
     let n = Math.max(1, Math.round(rise / (o.targetRiser || 7.0)));
     let r = rise / n;
     while (r > 7.75 && n < 200) { n++; r = rise / n; }
     const t = o.treadDepth;
-    const treadsCut = n - 1;                        // llegada dropped: el piso de arriba es el último escalón
+    const treadsCut = n - 1;
     const run = treadsCut * t;
     const stringer = Math.hypot(run, rise);
     const notchPerp = r * t / Math.hypot(r, t);
@@ -204,26 +154,23 @@
     };
   }
 
-  /** Geometría del stringer y de la escalera armada, en pulgadas (y pa' arriba).
-   *  craft = los dos ajustes de la tarjeta (#252): tread 1⅛ y riser ¾.
-   *  x = 0 en la cara del corte del 1er riser; y = 0 en el piso de abajo. */
   function stairGeom(R, opt) {
     opt = opt || {};
     const on = opt.craft !== false;
-    const tt = opt.treadThk != null ? opt.treadThk : 1.125;   // grosor del tread (mide TU tread)
-    const rt = opt.riserThk != null ? opt.riserThk : 0.75;    // material del riser
-    const nos = opt.nosing != null ? opt.nosing : 1.125;      // nosing en cascadita
-    const deck = opt.deckThk != null ? opt.deckThk : 0.875;   // decking de arriba (7/8)
-    const joist = opt.joist != null ? opt.joist : 14;          // joist de 14"
+    const tt = opt.treadThk != null ? opt.treadThk : 1.125;
+    const rt = opt.riserThk != null ? opt.riserThk : 0.75;
+    const nos = opt.nosing != null ? opt.nosing : 1.125;
+    const deck = opt.deckThk != null ? opt.deckThk : 0.875;
+    const joist = opt.joist != null ? opt.joist : 14;
     const r = R.r, t = R.t, n = R.n, m = R.treadsCut, D = R.D;
-    const d = on ? tt : 0;                                     // el drop baja toda la zanca
-    const cut = on ? rt : 0;                                   // el último tread del stringer
+    const d = on ? tt : 0;
+    const cut = on ? rt : 0;
     const slope = r / t, cosA = t / Math.hypot(r, t);
-    const vOff = D / cosA;                                     // canto medido a plomo
-    const top = (x) => (r - d) + slope * x;                    // orilla de arriba (puntas de los dientes)
-    const bot = (x) => top(x) - vOff;                          // orilla de abajo
-    const xTop = (m - 1) * t + (t - cut);                      // corte a plomo contra la cabecera
-    const x0 = (vOff - (r - d)) / slope;                       // donde la orilla de abajo toca el piso
+    const vOff = D / cosA;
+    const top = (x) => (r - d) + slope * x;
+    const bot = (x) => top(x) - vOff;
+    const xTop = (m - 1) * t + (t - cut);
+    const x0 = (vOff - (r - d)) / slope;
     const prof = [[0, 0], [0, r - d]];
     const teeth = [];
     for (let k = 1; k <= m; k++) {
@@ -236,7 +183,7 @@
     prof.push([x0, 0]);
     const treads = [], risers = [];
     for (let k = 1; k <= m; k++) {
-      const back = k * t - rt;                                 // contra la cara del riser de atrás (o la cabecera)
+      const back = k * t - rt;
       const backX = on ? back : (k === m ? xTop : k * t);
       treads.push({ k, x0: backX - (t + nos) + (on ? 0 : rt), x1: backX, y0: k * r - (on ? tt : 0), y1: k * r + (on ? 0 : tt) });
     }
@@ -253,7 +200,6 @@
     };
   }
 
-  /** La lista de cortes, amarrada a los números de los dientes del dibujo. */
   function stairCutList(R, G) {
     return G.teeth.map((tt) => ({
       k: tt.k,
@@ -265,14 +211,6 @@
     }));
   }
 
-  /** v58 · LA TABLA DE MARCAS. La tabla mínima que contiene la pieza: su extremo de abajo pasa por la
-   *  esquina del 1er riser con el piso, y el de arriba por la esquina del último tread con el plomo.
-   *  Todo en pulgadas, medido con la cinta enganchada en el extremo de abajo:
-   *  - marks[k-1]: la punta del diente k, sobre la orilla de los dientes = (r − d)·sinA + (k − 1)·h;
-   *  - length: el largo de la tabla = xTop·cosA + (m·r − d)·sinA;
-   *  - floorCut: el corte del piso sobre la orilla lisa, desde el extremo de abajo = x0·cosA;
-   *  - topCut: el plomo de arriba sobre la orilla lisa, desde el extremo de ARRIBA.
-   *  u = a lo largo de la tabla, v = a lo ancho (0 en la orilla lisa, D en la de los dientes). */
   function stairBoardMarks(R, G) {
     const h = Math.hypot(G.r, G.t), sinA = G.r / h, cosA = G.t / h;
     const u = (p) => p[0] * cosA + p[1] * sinA, v = (p) => -p[0] * sinA + p[1] * cosA;
@@ -285,32 +223,28 @@
     return { h, sinA, cosA, length, marks, floorCut, topCut, toBoard };
   }
 
-  /** v58 · La tabla parada, como una cinta: la pieza cortada encima de la tabla, el desperdicio de las
-   *  puntas en tono suave, una marca por diente con su medida corrida y su número (los de la lista de
-   *  cortes), las marcas de los dos cortes de las puntas en la orilla lisa, y el largo. Una sola
-   *  composición pa' todos los anchos. El renglón tocado prende su diente y su marca (marcatextos). */
   function stairBoard(R, opt) {
     opt = opt || {};
     const P = opt.palette || PAPER;
     const G = stairGeom(R, opt);
     const M = stairBoardMarks(R, G);
     const W = opt.width || 360;
-    const s = Math.min(W * 0.0062, 620 / M.length);         // px por pulgada: ~27 px por diente a 342
-    const padT = 58, padB = 46, xB = Math.round(W * 0.3);   // la tabla, a un tercio de la hoja
+    const s = Math.min(W * 0.0062, 620 / M.length);
+    const padT = 58, padB = 46, xB = Math.round(W * 0.3);
     const Lpx = M.length * s, Dpx = G.D * s;
     const H = Math.round(padT + Lpx + padB);
     const yBot = padT + Lpx;
     const X = (vv) => xB + vv * s, Y = (uu) => yBot - uu * s;
     const p = (pt) => { const b = M.toBoard(pt); return [X(b[1]), Y(b[0])]; };
-    const onCol = (hex) => {                                 // dígitos: blanco u obscuro según el relleno
+    const onCol = (hex) => {
       const c = hex.replace('#', ''), f = (i) => { const q = parseInt(c.substr(i, 2), 16) / 255; return q <= 0.03928 ? q / 12.92 : Math.pow((q + 0.055) / 1.055, 2.4); };
       return 0.2126 * f(0) + 0.7152 * f(2) + 0.0722 * f(4) > 0.3 ? '#1F2937' : '#FFFFFF';
     };
     let b = '';
-    // la tabla entera (el desperdicio queda en suave) y encima la pieza
+
     b += '<rect x="' + X(0).toFixed(1) + '" y="' + Y(M.length).toFixed(1) + '" width="' + Dpx.toFixed(1) + '" height="' + Lpx.toFixed(1) + '" fill="' + P.rafterSoft + '" stroke="' + P.rafterLine + '" stroke-width="0.8" stroke-dasharray="3 2"/>';
     b += poly(G.prof.map(p), P.rafter, P.rafterLine, 1.6);
-    // el diente tocado
+
     if (opt.step) {
       const tth = G.teeth[opt.step - 1];
       if (tth) {
@@ -318,7 +252,7 @@
         b += poly([p([tth.xa, ya]), p([tth.xa, tth.y]), p([tth.xb, tth.y])], P.hi, P.hiLine || P.rafterLine, P.hiLine ? 2.2 : 1.4);
       }
     }
-    // las marcas, en la orilla de los dientes: tick, número y medida corrida
+
     const xE = X(G.D), xT = xE + 10, xN = xT + 10;
     G.teeth.forEach((tth, i) => {
       const lit = opt.step === tth.k, craft = G.on && (tth.k === 1 || tth.k === G.m);
@@ -329,7 +263,7 @@
         text([xN, y + 3.6], String(tth.k), { size: 9, weight: 800, fill: lit ? P.hiOn : onCol(fill) });
       b += label([xN + 12, y], inch(M.marks[i]), P, { size: 9.5, anchor: 'start', fill: lit ? P.hiLine : craft ? P.craft : P.ink, weight: lit ? 800 : 700 });
     });
-    // los dos cortes de las puntas, en la orilla lisa (desde su extremo)
+
     const xL = X(0), xK = xL - 7;
     const bracket = (uA, uB, txt, col) => {
       const yA = Y(uA), yB = Y(uB);
@@ -338,16 +272,15 @@
     };
     bracket(0, M.floorCut, 'piso ' + inch(M.floorCut), P.ink);
     bracket(M.length - M.topCut, M.length, 'plomo ' + inch(M.topCut), P.ink);
-    // cabecera (v59: el largo de la tabla va aquí, con su nombre, y el Stringer length de la app con el suyo) y pie
+
     b += text([8, 15], R.board + ' · la tabla de marcas · mide ' + ftin(M.length), { size: 10.5, weight: 800, fill: P.ink, anchor: 'start', mono: false });
     b += text([8, 30], 'un diente cada ' + inch(M.h) + ' · cinta enganchada en el extremo de abajo', { size: 9, weight: 600, fill: P.inkMute, anchor: 'start', mono: false });
-    if (opt.stringerLength === true) b += text([8, 43], 'Stringer length ' + ftin(R.stringer) + ' (la app) es de nariz a nariz', { size: 9, weight: 600, fill: P.inkMute, anchor: 'start', mono: false });   // v64 · N215
+    if (opt.stringerLength === true) b += text([8, 43], 'Stringer length ' + ftin(R.stringer) + ' (la app) es de nariz a nariz', { size: 9, weight: 600, fill: P.inkMute, anchor: 'start', mono: false });
     b += text([8, H - 22], 'Las marcas van en la orilla de los dientes.', { size: 9, weight: 600, fill: P.inkMute, anchor: 'start', mono: false });
     b += text([8, H - 9], 'Los cortes de las puntas, en la orilla lisa.', { size: 9, weight: 600, fill: P.inkMute, anchor: 'start', mono: false });
     return svgWrap(W, H, P, b, 'La tabla de marcas: el stringer ' + R.board);
   }
 
-  // --- 4a · 2D: la pieza que se corta, con la escalera armada en fantasma ---
   function stairs2D(R, opt) {
     opt = opt || {};
     const P = opt.palette || PAPER;
@@ -356,7 +289,7 @@
     const xL = -10, xR = G.xTop + 26;
     const padL = 30, padR = 10, padT = 26;
     const s = (W - padL - padR) / (xR - xL);
-    // v57 (F7): la leyenda de oficio parte su renglón en « = » cuando no cabe a lo ancho de la hoja
+
     const legTxt = G.on ? [
       ['1er riser ' + inch(G.r - G.d), '= ' + inch(R.r) + ' − ' + inch(G.tt) + ' del tread'],
       ['último tread del stringer ' + inch(G.teeth[G.m - 1].run), '= ' + inch(R.t) + ' − ' + inch(G.rt) + ' del riser']] : [];
@@ -364,7 +297,7 @@
     const legendH = G.on ? 6 + legTxt.reduce((a, pr) => a + (legFits(pr) ? 19 : 38), 0) : 6;
     const X = (x) => padL + (x - xL) * s, Y = (y) => padT + (G.finishTop + 4 - y) * s;
     const p = (a) => [X(a[0]), Y(a[1])];
-    // v59 · el acomodo se decide ANTES de pintar: qué cabe junto a la pieza y qué baja a la banda de cotas
+
     const kT = Math.max(2, G.m - 3);
     const vT = [kT * G.t, kT * G.r - G.d];
     const nl = Math.hypot(G.slope, 1);
@@ -377,8 +310,7 @@
     const runA = G.on ? -G.rt : 0, runB = G.on ? G.xTop : R.run;
     const SA = p([0, 0]), SB = p([R.run, R.rise]);
     const Lpx = Math.hypot(SB[0] - SA[0], SB[1] - SA[1]);
-    // v59 · la cota del stringer va ARRIBA de la línea de narices (el aire sobre los escalones), a 22 px: nunca baja al piso ni a la banda
-    // la línea (0,0)→(run,rise) pasa por el fondo de los risers; las puntas de los dientes están (r − d)·cosA más arriba, y los treads sin ajustes otro tt·cosA
+
     const tipsIn = (G.r - G.d) * G.cosA + (G.on ? 0 : G.tt * G.cosA);
     const nIn = [-R.rise / R.stringer, R.run / R.stringer], offIn = tipsIn + 26 / s;
     const A2 = p([nIn[0] * offIn, nIn[1] * offIn]), B2 = p([R.run + nIn[0] * offIn, R.rise + nIn[1] * offIn]);
@@ -387,18 +319,18 @@
     const slBox = boxOf(slMid, slW, slH, slAng, 'middle');
     const hdrBox = [p([G.header.x0, G.header.y0]), p([xR, G.header.y0]), p([xR, G.header.y1]), p([G.header.x0, G.header.y1])];
     const floorY = Y(0);
-    // la garganta junto al pie: si cabe en la hoja, arriba del piso, sin tocar la cabecera ni el rótulo del stringer
+
     const thBeside = boxOf([fp[0] + 8, fp[1] + 11], thW, thH, 0, 'start');
     let thAtFoot = fp[0] + 8 + thW <= W - 4 && thBeside.every((q) => q[1] < floorY - 2) && clear(thBeside, [hdrBox]) && clear(thBeside, [slBox]);
-    // el stringer a lo largo de su cota: si cabe en la línea y no choca con la garganta junto al pie ni con el run (la banda)
+
     const runBox0 = boxOf([(X(runA) + X(runB)) / 2, floorY + 14], runW, 15.5, 0, 'middle');
-    let slAlong = slW + 16 <= Lpx && (!thAtFoot || clear(slBox, [thBeside])) && clear(slBox, [runBox0]) && inSheet(slBox, W, 1e9, 1) && slBox.every((q) => q[1] >= 28) && A2[1] >= 24 && B2[1] >= 24;   // debajo de la cabecera
-    if (slAlong && !thAtFoot && overlap(slBox, segBox([fp[0], fp[1]], [fp[0], floorY + 60], 1.5)) > 0) slAlong = false;   // la guía lo cruzaría
-    const conSL = opt.stringerLength === true;          // v64 · N215: la diagonal rise × run salió de la app
+    let slAlong = slW + 16 <= Lpx && (!thAtFoot || clear(slBox, [thBeside])) && clear(slBox, [runBox0]) && inSheet(slBox, W, 1e9, 1) && slBox.every((q) => q[1] >= 28) && A2[1] >= 24 && B2[1] >= 24;
+    if (slAlong && !thAtFoot && overlap(slBox, segBox([fp[0], fp[1]], [fp[0], floorY + 60], 1.5)) > 0) slAlong = false;
+    const conSL = opt.stringerLength === true;
     if (!conSL) slAlong = false;
-    if (!slAlong && thAtFoot === false && fp[0] + 8 + thW <= W - 4 && thBeside.every((q) => q[1] < floorY - 2) && clear(thBeside, [hdrBox])) thAtFoot = true; // sin el stringer en la línea, la garganta sí cabe junto al pie
-    // la banda: renglón 1 el run; renglón 2 la garganta (con su guía); el último, el stringer en plano
-    const rows = [];                                     // [qué, y]
+    if (!slAlong && thAtFoot === false && fp[0] + 8 + thW <= W - 4 && thBeside.every((q) => q[1] < floorY - 2) && clear(thBeside, [hdrBox])) thAtFoot = true;
+
+    const rows = [];
     let yRow = floorY + 14;
     rows.push(['run', yRow]);
     let thRow = null, slRow = null, gx = fp[0];
@@ -406,7 +338,7 @@
     if (!slAlong && conSL) { yRow += 18; slRow = yRow; }
     const below = (yRow - floorY) + 16;
     const H = padT + (G.finishTop + 4) * s + below + 26 + legendH;
-    // el rótulo del run: centrado, salvo que la guía de la garganta lo cruce; entonces a la izquierda
+
     const runMid = [(X(runA) + X(runB)) / 2, floorY + 14];
     let runBox = boxOf(runMid, runW, 15.5, 0, 'middle'), runAnchor = 'middle', runPos = runMid, jog = null;
     if (thRow != null) {
@@ -417,16 +349,16 @@
       if (!ok) { const gx2 = Math.min(runBox[1][0] + 8, W - 10); jog = [gx, gx2]; gx = gx2; }
     }
     let b = '';
-    // piso de abajo, cabecera (el último riser) y el deck de arriba
+
     b += poly([p([xL, 0]), p([xR, 0]), p([xR, -1.6]), p([xL, -1.6])], P.concreteSoft, P.concreteLine, 1);
     b += poly([p([G.header.x0, G.header.y0]), p([xR, G.header.y0]), p([xR, G.header.y1]), p([G.header.x0, G.header.y1])], P.headerSoft, P.headerLine, 1.2);
     b += poly([p([G.deck.x0, G.deck.y0]), p([xR, G.deck.y0]), p([xR, G.deck.y1]), p([G.deck.x0, G.deck.y1])], P.sheathing, P.sheathingLine, 1);
-    // la escalera armada, en fantasma
+
     if (opt.ghost !== false) {
       G.risers.forEach((q) => { b += poly([p([q.x0, q.y0]), p([q.x1, q.y0]), p([q.x1, q.y1]), p([q.x0, q.y1])], P.sheathingSoft, P.sheathingLine, 0.8, ' opacity=".9"'); });
       G.treads.forEach((q) => { b += poly([p([q.x0, q.y0]), p([q.x1, q.y0]), p([q.x1, q.y1]), p([q.x0, q.y1])], P.sheathingSoft, P.sheathingLine, 0.8, ' opacity=".9"'); });
     }
-    // EL STRINGER — la pieza
+
     b += poly(G.prof.map(p), P.rafter, P.rafterLine, 1.8);
     if (opt.step) {
       const tth = G.teeth[opt.step - 1];
@@ -435,7 +367,7 @@
         b += poly([p([tth.xa, ya]), p([tth.xa, tth.y]), p([tth.xb, tth.y])], P.hi, P.hiLine || P.rafterLine, P.hiLine ? 2.2 : 1.4);
       }
     }
-    // números de los dientes (los de la lista de cortes)
+
     const every = G.m > 12 ? 2 : 1;
     G.teeth.forEach((tth) => {
       const lit = opt.step === tth.k;
@@ -443,14 +375,14 @@
       const c = p([tth.xa + tth.run * 0.36, tth.y - G.r * 0.36]);
       b += text([c[0], c[1] + 3.4], String(tth.k), { size: 9, weight: 800, fill: lit ? P.hiOn : P.rafterOn });
     });
-    // garganta: del vértice de una muesca, perpendicular a la orilla de abajo
+
     const thCol = R.band === 'ideal' ? P.ok : R.band === 'aguas' ? P.craft : P.warn;
     b += dimLine(p(vT), fp, '', P, { color: thCol });
-    // cota del rise (izquierda) y del run (en la banda, renglón 1)
+
     b += dimLine([padL - 16, Y(0)], [padL - 16, Y(G.finishTop)], 'Rise ' + ftin(R.rise), P, { size: 9.5 });
     b += dimLine([X(runA), floorY + 14], [X(runB), floorY + 14], '', P, {});
     b += label(runPos, runTxt, P, { size: 9.5, anchor: runAnchor });
-    // cota del stringer: paralela a la pieza, 14 px por debajo; el texto en la línea si cabe, si no en la banda
+
     if (slAlong) {
       const e0 = tipsIn + 8 / s;
       const E1 = p([nIn[0] * e0, nIn[1] * e0]), E2 = p([R.run + nIn[0] * e0, R.rise + nIn[1] * e0]);
@@ -458,7 +390,7 @@
       b += dimLine(A2, B2, slTxt, P, { size: 9.5, color: P.rafterLine });
     }
     if (slRow != null) b += label([X(xL) + 2, slRow], slTxt, P, { size: 9.5, anchor: 'start', fill: P.rafterLine });
-    // la garganta: junto al pie, o en la banda con su guía punteada (v59: la guía no cruza ningún rótulo)
+
     if (thAtFoot) {
       b += label([fp[0] + 8, fp[1] + 11], thTxt, P, { size: 9.5, fill: thCol, anchor: 'start' });
     } else {
@@ -469,7 +401,7 @@
       if (conH) b += line([gx, thRow], [lxEnd - 7, thRow], thCol, 0.9, ' stroke-dasharray="2 2"');
       b += label([lxEnd, thRow], thTxt, P, { size: 9.5, fill: thCol, anchor: 'start' });
     }
-    // los dos ajustes de oficio: marcador en el dibujo, leyenda abajo
+
     if (G.on) {
       b += marker([X(0) - 12, Y((G.r - G.d) / 2)], 1, P.craft, P);
       const tl = G.teeth[G.m - 1];
@@ -486,7 +418,6 @@
     return svgWrap(W, H, P, b, 'Escalera 2D: el stringer ' + R.board);
   }
 
-  // --- 4b · 3D / 3D+: isométrico armado (risers de frente, stringer cercano a la vista) ---
   const C30 = Math.cos(Math.PI / 6), S30 = 0.5;
   function isoMap(x, y, z) { return [(x - z) * C30, (x + z) * S30 + y]; }
   function shade(hex, f) {
@@ -495,7 +426,7 @@
     const k = (c) => Math.max(0, Math.min(255, Math.round(c * f)));
     return '#' + ((1 << 24) + (k(r) << 16) + (k(g) << 8) + k(b)).toString(16).slice(1);
   }
-  /** Caja alineada a ejes: dibuja nomás las caras que ve el ojo (−x, +y, −z). */
+
   function isoBox(T, b, fill, stroke, sw) {
     const [x0, x1, y0, y1, z0, z1] = b;
     const top = [[x0, y1, z0], [x1, y1, z0], [x1, y1, z1], [x0, y1, z1]];
@@ -509,7 +440,7 @@
     const G = stairGeom(R, opt);
     const Wd = opt.stairWidth || 36, nStr = opt.stringers || 3;
     const ann = !!opt.annotate;
-    // marco de la proyección
+
     const box = [];
     const add = (x, y, z) => box.push(isoMap(x, y, z));
     [[-24, 0, -8], [G.deck.x1 - 10, 0, -8], [-24, 0, Wd + 8], [G.deck.x1 - 10, 0, Wd + 8], [G.deck.x1 - 10, G.finishTop, Wd + 8], [G.xTop, G.header.y0, -8], [-24, -2, -8]].forEach((q) => add(q[0], q[1], q[2]));
@@ -517,30 +448,30 @@
     const minY = Math.min(...box.map((q) => q[1])), maxY = Math.max(...box.map((q) => q[1]));
     const Wpx = opt.width || 360, pad = ann ? 30 : 16;
     const s = (Wpx - pad * 2) / (maxX - minX);
-    // v57 (F7): en la hoja angosta la tira de recibos va en dos renglones, pa' que no se corte la cita
+
     const chipW = (txt) => 8 + txt.length * 0.61 * 9.5 + 8;
     const chipTxt = [(R.riserOk ? '✓ ' : '✕ ') + 'Riser ' + inch(R.r) + ' ≤ 7 3/4" · R311.7.5.1', (R.treadOk ? '✓ ' : '✕ ') + 'Tread ' + inch(R.t) + ' ≥ 10" · R311.7.5.2'];
     const chips2 = ann && 10 + chipW(chipTxt[0]) + 6 + chipW(chipTxt[1]) > Wpx - 10;
     const H = (maxY - minY) * s + pad * 2 + (ann ? (chips2 ? 58 : 34) : 0);
     const T = (q) => { const m = isoMap(q[0], q[1], q[2]); return [pad + (m[0] - minX) * s, H - pad - (m[1] - minY) * s]; };
     let b = '';
-    // piso, cabecera y deck (lo de más atrás primero)
+
     b += poly([T([-24, 0, -8]), T([G.deck.x1 - 10, 0, -8]), T([G.deck.x1 - 10, 0, Wd + 8]), T([-24, 0, Wd + 8])], P.concreteSoft, P.concreteLine, 1);
     b += isoBox(T, [G.header.x0, G.header.x1, G.header.y0, G.header.y1, -8, Wd + 8], P.header, P.headerLine);
     b += isoBox(T, [G.deck.x0, G.deck.x1 - 10, G.deck.y0, G.deck.y1, -8, Wd + 8], P.sheathing, P.sheathingLine);
-    // escalones del de arriba pa' abajo (de lejos a cerca)
+
     for (let k = G.m; k >= 1; k--) {
       const ri = G.risers[k - 1], tr = G.treads[k - 1];
       const hl = opt.step === k;
       b += isoBox(T, [ri.x0, ri.x1, ri.y0, ri.y1, 0, Wd], hl ? P.hi : P.sheathingSoft, hl && P.hiLine ? P.hiLine : P.sheathingLine, hl && P.hiLine ? 1.6 : 0.7);
       b += isoBox(T, [tr.x0, tr.x1, tr.y0, tr.y1, 0, Wd], hl ? P.hi : P.sheathing, hl && P.hiLine ? P.hiLine : P.sheathingLine, hl && P.hiLine ? 1.6 : 0.8);
     }
-    // stringer cercano: la pieza dentada se ve entera (cara −z)
+
     b += poly(G.prof.map((q) => T([q[0], q[1], 0])), P.rafter, P.rafterLine, 1.6);
-    // el grueso del stringer (1½) en el corte de abajo y en el de arriba
+
     b += poly([T([0, 0, 0]), T([0, 0, 1.5]), T([0, G.r - G.d, 1.5]), T([0, G.r - G.d, 0])], shade(P.rafter, 0.85), P.rafterLine, 1);
     if (ann) {
-      // cotas en el plano del stringer cercano (z = 0)
+
       b += dimLine(T([-10, 0, Wd + 10]), T([-10, G.finishTop, Wd + 10]), 'Rise ' + ftin(R.rise), P, { size: 10 });
       b += dimLine(T([G.on ? -G.rt : 0, 0, -10]), T([G.on ? G.xTop : R.run, 0, -10]), 'Run ' + ftin(R.run), P, { size: 10 });
       const kT = Math.max(2, Math.round(G.m * 0.55));
@@ -548,7 +479,7 @@
       const nl = Math.hypot(G.slope, 1), foot = [v[0] + G.slope / nl * R.throat, v[1] - 1 / nl * R.throat];
       b += dimLine(T([v[0], v[1], 0]), T([foot[0], foot[1], 0]), '', P, { color: P.craft });
       const fp = T([foot[0], foot[1], 0]);
-      // v59 · las cajas de las cotas ya pintadas (rise y run), pa' que nada se les encime
+
       const dimBox = (a, bq, txt, size) => { let ang = Math.atan2(bq[1] - a[1], bq[0] - a[0]) * 180 / Math.PI; if (ang > 90) ang -= 180; if (ang < -90) ang += 180; return boxOf([(a[0] + bq[0]) / 2, (a[1] + bq[1]) / 2], labelW(txt, size), size + 6, ang, 'middle'); };
       const riseBox = dimBox(T([-10, 0, Wd + 10]), T([-10, G.finishTop, Wd + 10]), 'Rise ' + ftin(R.rise), 10);
       const runBox = dimBox(T([G.on ? -G.rt : 0, 0, -10]), T([G.on ? G.xTop : R.run, 0, -10]), 'Run ' + ftin(R.run), 10);
@@ -565,15 +496,15 @@
       if (gc) b += label([gc[0], gc[1]], gTxt, P, { size: 9.5, fill: R.band === 'ideal' ? P.ok : P.craft, anchor: gc[2] });
       const mid = T([G.t * 4, G.r * 4 - G.d, 0]);
       const rtTxt = 'riser ' + inch(R.r) + ' · tread ' + inch(R.t), rtW = labelW(rtTxt, 9.5);
-      // v57 (F7): si no tiene lugar libre, no se pinta: la tira de recibos de abajo ya dice el riser y el tread.
+
       const rc = place([[mid[0] - 8, mid[1] - 10, 'end']], rtW, 15.5);
       if (rc) b += label([rc[0], rc[1]], rtTxt, P, { size: 9.5, anchor: rc[2] });
       const tp = T([G.xTop, G.finishTop + 4, Wd]);
       const stTxt = nStr + ' stringers ' + R.board + ' · ' + ftin(R.stringer), stW = labelW(stTxt, 9.5);
-      // v59 · si no cabe arriba del stringer de atrás (la escalera corta), va a la esquina de arriba a la derecha
+
       const sc = place([[tp[0] - 4, tp[1] - 8, 'end'], [Wpx - 6, 14, 'end'], [Wpx - 6, 32, 'end']], stW, 15.5);
       if (sc) b += label([sc[0], sc[1]], stTxt, P, { size: 9.5, anchor: sc[2] });
-      // tira IRC: recibo, no «Aprobado»
+
       let yS = chips2 ? H - 38 : H - 14;
       const chips = [
         [R.riserOk, 'Riser ' + inch(R.r) + ' ≤ 7 3/4" · R311.7.5.1'],
@@ -590,11 +521,8 @@
     return svgWrap(Wpx, H, P, b, 'Escalera ' + (ann ? '3D+' : '3D'));
   }
 
-  // ===============================================================
-  // 5 · ROOF
-  // ===============================================================
   const RAFTER_DEPTHS = { '2x6': 5.5, '2x8': 7.25, '2x10': 9.25, '2x12': 11.25 };
-  /** calculateRafter + calculateRafterMeasure + el veredicto del notch (rafter_formula.dart). */
+
   function calcRafter(o) {
     const type = o.type || 'common';
     const pitch = o.pitch, size = o.size, D = RAFTER_DEPTHS[size];
@@ -608,7 +536,7 @@
       type, pitch, size, D, seat, over, runIn, unitLen,
       plumbDeg: deg(plumb), seatDeg: 90 - deg(plumb),
       cheekDeg: type === 'common' ? null : deg(Math.atan(Math.cos(plumb))),
-      birdsmouth: seat * Math.sin(plumb),                        // la muesca, perpendicular al canto
+      birdsmouth: seat * Math.sin(plumb),
       hapFraming: D / Math.cos(plumb) - seat * Math.tan(plumb),
     };
     if (type === 'common' || type === 'jack') {
@@ -626,10 +554,10 @@
         flush: over <= 0,
         rule: over <= 0 ? 'R802.7.1' : 'R802.7.1.1',
         endMax: D / 4,
-        // v60 · N230: dos veredictos. El D/4 del asiento manda siempre (R802.7.1); con overhang se suman lo que queda y las 24" (R802.7.1.1)
+
         endOk: notch <= D / 4 + 1e-9,
         remOk: remaining >= 3.5 - 1e-9 && over <= 24,
-        // v61: los dos topes de la R802.7.1.1 por separado, pa' que el dibujo diga cuál truena (remOk = restOk && overOk)
+
         restOk: remaining >= 3.5 - 1e-9,
         overOk: over <= 24,
         ok: notch <= D / 4 + 1e-9 && (over <= 0 || (remaining >= 3.5 - 1e-9 && over <= 24)),
@@ -640,19 +568,16 @@
     return res;
   }
 
-  /** Rafter común: x = 0 al centro del ridge, y = 0 arriba de la placa.
-   *  Con overhang: la cola sigue la orilla de abajo hasta el corte a plomo.
-   *  A ras: el corte va a plomo en la línea de la pared, de la orilla de arriba al asiento. */
   function rafterGeom(M) {
     const m = M.pitch / 12;
-    const xi = M.runIn - M.seat, xh = M.runIn;           // cara de adentro y línea de la pared (heel)
-    const yb = (x) => -(x - xi) * m;                     // orilla de abajo
-    const yt = (x) => yb(x) + M.plumbDepth;              // orilla de arriba
-    const xr = M.halfRidge, xe = M.runIn + M.over;       // corte del ridge y corte de la cola
+    const xi = M.runIn - M.seat, xh = M.runIn;
+    const yb = (x) => -(x - xi) * m;
+    const yt = (x) => yb(x) + M.plumbDepth;
+    const xr = M.halfRidge, xe = M.runIn + M.over;
     const prof = M.over > 0
       ? [[xr, yt(xr)], [xe, yt(xe)], [xe, yb(xe)], [xh, yb(xh)], [xh, 0], [xi, 0], [xr, yb(xr)]]
       : [[xr, yt(xr)], [xh, yt(xh)], [xh, 0], [xi, 0], [xr, yb(xr)]];
-    const notchTri = [[xi, 0], [xh, 0], [xh, yb(xh)]];   // lo que se quita
+    const notchTri = [[xi, 0], [xh, 0], [xh, yb(xh)]];
     return { m, xi, xh, yb, yt, xr, xe, prof, notchTri };
   }
 
@@ -670,16 +595,16 @@
     const X = (x) => padL + (x - x0) * s, Y = (y) => padT + (yMax - y) * s;
     const p = (q) => [X(q[0]), Y(q[1])];
     let b = '';
-    // muro: doble placa y studs (cortados)
+
     b += poly([p([g.xi, -3]), p([g.xh, -3]), p([g.xh, yMin + 4]), p([g.xi, yMin + 4])], P.stud, P.studLine, 1);
     b += poly([p([g.xi, -3]), p([g.xh, -3]), p([g.xh, 0]), p([g.xi, 0])], P.plate, P.plateLine, 1);
-    // ridge (una medida más grande que el rafter)
+
     const rTop = g.yt(g.xr) + 0.8, rDepth = M.D + 2;
     b += poly([p([-0.75, rTop]), p([0.75, rTop]), p([0.75, rTop - rDepth]), p([-0.75, rTop - rDepth])], P.header, P.headerLine, 1.2);
-    // EL RAFTER — la pieza, y la muesca que se le quita (rayada)
+
     b += poly(g.prof.map(p), P.rafter, P.rafterLine, 1.8);
     b += poly(g.notchTri.map(p), colSoft, col, 1.2, ' stroke-dasharray="3 2"');
-    // cotas sobre la orilla de arriba (normal hacia afuera del techo)
+
     const a = Math.atan(g.m), nU = [Math.sin(a), -Math.cos(a)];
     const sh = (q, k) => [q[0] + nU[0] * k, q[1] + nU[1] * k];
     const A = p([g.xr, g.yt(g.xr)]), Bw = p([g.xh, g.yt(g.xh)]), E = p([g.xe, g.yt(g.xe)]);
@@ -693,23 +618,23 @@
       const tp = p([g.xe, g.yb(g.xe)]);
       b += label([tp[0] - 4, tp[1] + 13], 'cola ' + ftin(M.tail), P, { size: 9, anchor: 'end', fill: P.inkSoft });
     }
-    // pitch y ángulos, pegaditos a la orilla de abajo
+
     const xq = g.xr + (g.xh - g.xr) * 0.5;
     const pc = p([xq, g.yb(xq)]);
     if (!narrow) b += label([pc[0] - nU[0] * 14, pc[1] - nU[1] * 14], M.pitch + '/12 · plumb ' + f1(M.plumbDeg) + '° · seat ' + f1(M.seatDeg) + '°', P, { size: 9, fill: P.inkSoft, rot: deg(a) });
     const xq2 = g.xr + (g.xh - g.xr) * (narrow ? 0.3 : 0.13);
     const rp = p([xq2, g.yb(xq2)]);
     const rdTxt = 'ridge 1 1/2" · ya descontado', psTxt = M.pitch + '/12 · plumb ' + f1(M.plumbDeg) + '° · seat ' + f1(M.seatDeg) + '°';
-    // v59 · si los dos rótulos de la orilla de abajo no caben uno junto al otro, el del ridge baja un renglón (16 px más afuera)
+
     const spanPx = Math.hypot(Bw[0] - A[0], Bw[1] - A[1]);
-    // v62 · el rótulo del ridge no se sale de la hoja: si su caja pasa de la orilla izquierda, se recorre sobre la orilla de abajo, hacia la pared
+
     const rdW = labelW(rdTxt, 9), rdH = 15, rdUx = Math.cos(a), rdUy = Math.sin(a);
     const rdAt = (off, sl) => [rp[0] - nU[0] * off + rdUx * sl, rp[1] - nU[1] * off + rdUy * sl];
     const rdSlide = (off) => { const c = rdAt(off, 0), left = c[0] - (rdW / 2) * rdUx - (rdH / 2) * rdUy; return left < 2 ? (2 - left) / rdUx : 0; };
     let rdOff = 14, rdSl = rdSlide(14);
     if (!narrow && (rdW + labelW(psTxt, 9)) / 2 + 8 > 0.37 * spanPx - rdSl) { rdOff = 30; rdSl = rdSlide(30); }
     b += label(rdAt(rdOff, rdSl), rdTxt, P, { size: 9, fill: P.inkSoft, rot: deg(a) });
-    // marcador de la muesca, y el detalle a escala abajo
+
     b += '<circle cx="' + nm[0].toFixed(1) + '" cy="' + nm[1].toFixed(1) + '" r="11" fill="none" stroke="' + col + '" stroke-width="1.6"/>';
     b += text([padL, 15], M.size + ' @ ' + (opt.oc || 16) + '" · run ' + ftin(M.runIn) + (M.over > 0 ? ' · overhang ' + inch(M.over) : ' · a ras') + ' · asiento ' + inch(M.seat), { size: 10.5, weight: 800, fill: P.ink, anchor: 'start', mono: false });
     const det = birdsmouthDetail(M, P, W - 16);
@@ -717,7 +642,6 @@
     return svgWrap(W, Hmain + det.h + 14, P, b, 'Rafter 2D');
   }
 
-  /** El birdsmouth a escala: a la izquierda el dibujo, a la derecha la leyenda numerada. */
   function birdsmouthDetail(M, P, Wd) {
     const g = rafterGeom(M);
     const col = M.ok ? P.ok : P.warn, colSoft = M.ok ? P.okSoft : P.warnSoft;
@@ -738,12 +662,11 @@
     b += poly(g.prof.map(p), P.rafter, P.rafterLine, 2);
     b += poly(g.notchTri.map(p), colSoft, col, 1.4, ' stroke-dasharray="4 3"');
     b += '</g>';
-    // ① HAP a plomo, en la línea de la pared (se marca)
+
     const xH = g.xh + 0.55;
     b += dimLine(p([xH, 0]), p([xH, g.yt(g.xh)]), '', P, { color: P.ink });
     const m1 = [X(xH) + 11, Y(g.yt(g.xh) * 0.8)];
-    // ② la muesca y ③ lo que queda, PERPENDICULAR al canto (lo que juzga el código)
-    // v60 · N230: cada marca con su veredicto: ② la muesca contra el D/4, ③ lo que queda contra los 3 1/2" (v61: las 24" van en su renglón)
+
     const colEnd = M.endOk ? P.ok : P.warn, colRem = M.restOk ? P.ok : P.warn;
     const a = Math.atan(g.m), up = [Math.sin(a), Math.cos(a)];
     const v = [g.xh, 0];
@@ -752,27 +675,27 @@
     b += dimLine(p(onBot), p(v), '', P, { color: colEnd });
     const m4 = [X((g.xi + g.xh) / 2), Y(-0.75)];
     const m2 = [X(onBot[0]) - 12, Y(onBot[1]) + 2];
-    if (Math.hypot(m2[0] - m4[0], m2[1] - m4[1]) < 18) m2[1] = m4[1] - 18;   // v59: la muesca chica junta los dos marcadores
+    if (Math.hypot(m2[0] - m4[0], m2[1] - m4[1]) < 18) m2[1] = m4[1] - 18;
     let m3 = null;
     if (!M.flush) {
       b += dimLine(p(v), p(onTop), '', P, { color: colRem });
       const mt = [(v[0] + onTop[0]) / 2, (v[1] + onTop[1]) / 2];
       m3 = [X(mt[0]) - 13, Y(mt[1]) - 4];
     }
-    // v63 · N266: los círculos numerados al último, en su orden (①, ②, ③ y el del asiento), pa' que ninguna raya les pase por encima
+
     b += marker(m1, 1, P.ink, P);
     b += marker(m2, 2, colEnd, P);
     if (m3) b += marker(m3, 3, colRem, P);
     b += marker(m4, M.flush ? 3 : 4, P.plateLine, P);
-    // la leyenda
+
     const lx = ox + drawW + 16, rows = [
       [1, P.ink, 'HAP ' + inch(M.hap), 'a plomo · se marca'],
       [2, colEnd, 'muesca ' + inch(M.notch), 'perpendicular al canto'],
     ];
-    // v60 · N230: el renglón del D/4 sale siempre; con overhang va antes de lo que queda, y cada uno se pinta con su veredicto
+
     rows.push([0, colEnd, (M.endOk ? '≤ ' : '> ') + 'D/4 = ' + inch(M.endMax), M.flush ? 'a ras · R802.7.1' : 'R802.7.1']);
     if (!M.flush) rows.push([3, colRem, 'queda ' + inch(M.remaining), (M.restOk ? '≥ ' : '< ') + '3 1/2" · R802.7.1.1']);
-    // v61: las 24" del overhang se nombran nomás cuando truenan
+
     if (!M.flush && !M.overOk) rows.push([0, P.warn, 'overhang ' + inch(M.over), '> 24" · R802.7.1.1']);
     rows.push([M.flush ? 3 : 4, P.plateLine, 'asiento ' + inch(M.seat), M.seat > 4 ? 'plato de 2x6' : 'plato de 2x4']);
     let ly = oy + 12;
@@ -785,8 +708,6 @@
     return { body: b, h: Math.max(h + 20, ly - 6) };
   }
 
-  /** Birdsmouth en 3D: dos rafters a su OC sentados en la doble placa, vistos desde afuera
-   *  (proyección espejo: la cola y la cara del muro miran al ojo). */
   function isoBoxM(T, bx, fill, stroke, sw) {
     const [x0, x1, y0, y1, z0, z1] = bx;
     const top = [[x0, y1, z0], [x1, y1, z0], [x1, y1, z1], [x0, y1, z1]];
@@ -811,28 +732,28 @@
     const H = (maxY - minY) * s + pad * 2 + chipH;
     const T = (q) => { const m = proj(q[0], q[1], q[2]); return [pad + (m[0] - minX) * s, H - chipH - pad - (m[1] - minY) * s]; };
     let b = '';
-    // muro: studs, doble placa (de atrás pa' delante)
+
     [oc, 0].forEach((z) => { b += isoBoxM(T, [g.xi, g.xh, -16, -3, z - 0.75, z + 0.75], P.stud, P.studLine); });
     b += isoBoxM(T, [g.xi, g.xh, -3, -1.5, -6, oc + 8], P.plate, P.plateLine);
     b += isoBoxM(T, [g.xi, g.xh, -1.5, 0, -6, oc + 8], P.plate, P.plateLine);
-    // rafters (el de atrás primero)
+
     [oc, 0].forEach((z0) => {
       const z1 = z0 + 1.5;
       const prof = g.prof.filter((q) => q[0] > xa + 0.01);
       const pr = [[xa, g.yt(xa)]].concat(prof).concat([[xa, g.yb(xa)]]);
-      // corte de atrás (donde se corta la vista)
+
       b += poly([T([xa, g.yb(xa), z0]), T([xa, g.yt(xa), z0]), T([xa, g.yt(xa), z1]), T([xa, g.yb(xa), z1])], shade(P.rafter, 0.75), P.rafterLine, 0.8);
-      // orilla de arriba
+
       b += poly([T([xa, g.yt(xa), z0]), T([xEnd, g.yt(xEnd), z0]), T([xEnd, g.yt(xEnd), z1]), T([xa, g.yt(xa), z1])], shade(P.rafter, 1.1), P.rafterLine, 0.9);
-      // corte de la cola (o el corte a ras), que mira al ojo
+
       const yLow = M.over > 0 ? g.yb(xEnd) : 0;
       b += poly([T([xEnd, yLow, z0]), T([xEnd, g.yt(xEnd), z0]), T([xEnd, g.yt(xEnd), z1]), T([xEnd, yLow, z1])], shade(P.rafter, 0.88), P.rafterLine, 0.9);
       if (M.over > 0) b += poly([T([g.xh, g.yb(g.xh), z0]), T([g.xh, 0, z0]), T([g.xh, 0, z1]), T([g.xh, g.yb(g.xh), z1])], shade(P.rafter, 0.88), P.rafterLine, 0.9);
-      // el costado con la muesca
+
       b += poly(pr.map((q) => T([q[0], q[1], z0])), P.rafter, P.rafterLine, 1.4);
       b += poly(g.notchTri.map((q) => T([q[0], q[1], z0])), colSoft, col, 1.1, ' stroke-dasharray="3 2"');
     });
-    // v59 · cada rótulo busca su lugar libre, sin salirse de la hoja ni encimarse con los otros ni con el recibo
+
     const chipTop = H - 16 - 11;
     const obs3 = [[[0, chipTop], [Wpx, chipTop], [Wpx, H], [0, H]]];
     const place3 = (cands, w, h) => { for (const c of cands) { const bx = boxOf([c[0], c[1]], w, h, 0, c[2]); if (inSheet(bx, Wpx, H, 1) && clear(bx, obs3)) { obs3.push(bx); return c; } } return null; };
@@ -848,8 +769,7 @@
     const ocTxt = oc + '" OC', ocW = labelW(ocTxt, 9);
     const occ = place3([[op[0] + 8, op[1] - 6, 'start'], [op[0] - 8, op[1] - 6, 'end'], [op[0] + 8, op[1] + 12, 'start'], [op[0] + 8, op[1] - 24, 'start'], [Math.min(op[0] + 8, Wpx - 6 - ocW), op[1] + 30, 'start']], ocW, 15);
     if (occ) b += label([occ[0], occ[1]], ocTxt, P, { size: 9, anchor: occ[2], fill: P.inkSoft });
-    // v60 · N230: el chip dice el tope que truena. Primero el D/4 del asiento (con overhang o a ras); si ése pasa, con overhang, lo que queda;
-    // v61: y si lo que queda pasa, las 24" del overhang
+
     const chip = !M.endOk
       ? '✕ AGUAS: muesca ' + inch(M.notch) + ' > D/4 ' + inch(M.endMax) + ' · R802.7.1'
       : M.flush
@@ -863,17 +783,16 @@
     return svgWrap(Wpx, H, P, b, 'Birdsmouth 3D');
   }
 
-  // --- 5b · Hip, Valley y Jack: lo que la app SÍ da, en planta ---
   function hipPlan(M, opt) {
     opt = opt || {};
     const P = opt.palette || PAPER;
     const W = opt.width || 360, H = 230;
     let b = '';
-    // planta de la esquina: dos muros y el hip a 45°
+
     const o = [40, 196], L = 150;
     b += poly([[o[0], o[1]], [o[0] + L + 30, o[1]], [o[0] + L + 30, o[1] + 6], [o[0] - 6, o[1] + 6], [o[0] - 6, o[1] - L - 20], [o[0], o[1] - L - 20]], P.plate, P.plateLine, 1);
     const ridgeEnd = [o[0] + L * 0.72, o[1] - L * 0.72];
-    // commons y jacks (líneas finas), el hip grueso
+
     for (let i = 1; i <= 5; i++) {
       const d = i * 22;
       b += line([o[0] + d, o[1]], [o[0] + d, o[1] - d], P.rafterLine, 1.2, ' opacity=".8"');
@@ -884,7 +803,7 @@
     b += line(ridgeEnd, [ridgeEnd[0] + 80, ridgeEnd[1]], P.headerLine, 4);
     b += text([o[0] + 64, o[1] - 70], 'HIP', { size: 10, weight: 800, fill: P.ink, rot: -45, halo: P.bg });
     b += text([o[0] + 118, o[1] - 6], 'jacks @ OC', { size: 9, weight: 600, fill: P.inkSoft, anchor: 'start', halo: P.bg });
-    // el corte de cachete (cheek) doble, arriba del hip, en grande
+
     const cx = W - 92, cy = 70;
     const hw = 9, len = 54;
     const ch = M.cheekDeg * Math.PI / 180;
@@ -903,28 +822,27 @@
     const P = opt.palette || PAPER;
     const W = opt.width || 360, H = W < 480 ? 252 : 240;
     let b = '';
-    // el valley corre donde las dos aguas tienen la misma altura:
-    // (p_menor/12)·x = (p_mayor/12)·y  →  llega al ridge menor en x = run menor
-    const xm = V.runMinorFt, ym = V.runMinorFt * V.pMinor / V.pMajor;      // 10' y 7.5'
-    const sc = Math.min((W < 480 ? W - 150 - 52 : W * 0.52) / xm, 150 / ym);   // v59: en la hoja angosta la planta no se mete debajo del recibo
+
+    const xm = V.runMinorFt, ym = V.runMinorFt * V.pMinor / V.pMajor;
+    const sc = Math.min((W < 480 ? W - 150 - 52 : W * 0.52) / xm, 150 / ym);
     const o = [34, H - (W < 480 ? 52 : 40)];
     const P2 = (x, y) => [o[0] + x * sc, o[1] - y * sc];
-    // muros de la esquina de adentro
+
     b += poly([P2(-0.3, -0.3), P2(xm + 2.2, -0.3), P2(xm + 2.2, 0), P2(0, 0), P2(0, ym + 2.2), P2(-0.3, ym + 2.2)], P.plate, P.plateLine, 1);
-    // ridge menor (llega al valley) en línea punteada
+
     b += line(P2(xm, ym), P2(xm, ym + 2.2), P.headerLine, 3);
     b += line(P2(0, 0), P2(xm, ym), P.rafterLine, 6, ' stroke-linecap="round"');
     b += line(P2(0, 0), P2(xm, ym), P.rafter, 3.6, ' stroke-linecap="round"');
-    // cotas en planta
+
     b += dimLine([P2(0, 0)[0], o[1] + 16], [P2(xm, 0)[0], o[1] + 16], ftin(xm * 12) + ' (run menor)', P, { size: 9, flat: true });
     b += dimLine([o[0] - 16, P2(0, 0)[1]], [o[0] - 16, P2(0, ym)[1]], ftin(ym * 12), P, { size: 9 });
     const mid = P2(xm * 0.5, ym * 0.5);
     b += label([mid[0] + 6, mid[1] - 12], 'VALLEY · planRun ' + V.planRun, P, { size: 9.5, rot: -deg(Math.atan2(ym, xm)) });
-    // v59 · la MAYOR va arriba del valley a la izquierda, lejos de la cabecera; la MENOR a la izquierda del ridge menor
+
     const mayP = W < 480 ? P2(xm * 0.27, ym * 0.86) : P2(xm * 0.22, ym * 0.72);
     b += label([mayP[0], Math.max(mayP[1], 32)], 'agua MAYOR ' + V.pMajor + '/12', P, { size: 9, fill: P.inkSoft });
     b += label(P2(xm - 0.35, ym * 0.3), 'MENOR ' + V.pMinor + '/12', P, { size: 9, fill: P.inkSoft, anchor: 'end' });
-    // el recibo de la app
+
     const rx = W - 150, ry = 30;
     b += '<rect x="' + rx + '" y="' + ry + '" width="140" height="132" rx="9" fill="' + P.craftSoft + '" stroke="' + P.craft + '"/>';
     [['largo', V.length], ['pitch', V.pitchDeg + '°'], ['asiento', V.seat], ['HAP mayor', V.hapMajor], ['HAP menor', V.hapMinor], ['grooving', V.grooving + '°'], ['drop', V.drop]].forEach((r, i) => {
@@ -950,7 +868,7 @@
     b += line([ox, oy], [ox + M.runIn * sc, oy - M.runIn * sc], P.rafterLine, 6, ' stroke-linecap="round"');
     b += line([ox, oy], [ox + M.runIn * sc, oy - M.runIn * sc], P.rafter, 3.6, ' stroke-linecap="round"');
     b += line([ox - 4, oy + 3], [ox + M.runIn * sc + 150, oy + 3], P.plateLine, 5);
-    // v59 · si los rótulos girados quedan a menos de 12 px, se enseña un jack sí y uno no
+
     const stepJ = (M.commonDiff / M.unit) * sc < 12 ? 2 : 1;
     const show = jacks.filter((_, i) => i % stepJ === 0).slice(0, 8);
     show.forEach((jl, i0) => {
