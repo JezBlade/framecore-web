@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Calculadora de escaleras gratis, en pulgadas y al dieciseisavo: risers, run, stringer cortado y cuánta garganta le queda a la zanca, con la misma cuenta de la app FrameCore.">
+<link rel="canonical" href="https://loomframing.com/calculadora-de-escaleras.html">
+<title>Calculadora de escaleras en pulgadas: risers, stringer y garganta | FrameCore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  /* Los tokens de rafter-calculator.html, tal cual: la misma casa. */
+  :root {
+    --gold-500: #b8941f; --gold-700: #816710; --gold-100: #f6eccb; --gold-300: #e3cf8a;
+    --cafe-500: #5a4f3a; --cafe-700: #3d3422; --cafe-800: #2a2418;
+    --cream: #faf9f7; --canvas: #f0ead6; --line: #d9d3c1; --bone: #F8F5F0;
+    --ok: #2e7d32; --ok-soft: #e3f1e4; --bad: #c62828; --bad-soft: #fbe5e4;
+    --warn: #a86a00; --warn-soft: #fbefd6;
+    --el-rafter: #A98E6B; --el-rafter-line: #806949;
+    --el-dim: #4B5563; --el-dim-faint: #B6B0A4;
+    --font-display: "Big Shoulders Display", "Arial Narrow", sans-serif;
+    --font-body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-body); background: var(--cream); color: var(--cafe-800); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+  button, input { font: inherit; color: inherit; }
+  h1, h2, h3 { text-wrap: balance; } p { text-wrap: pretty; }
+  a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible { outline: 3px solid var(--gold-500); outline-offset: 2px; border-radius: 6px; }
+
+  /* ── Cabecera: la de rafter-calculator, en español de entrada ── */
+  .top { background: var(--cafe-800); color: var(--cream); padding: 1.6rem 1.25rem 1.8rem;
+    background-image: linear-gradient(rgba(184,148,31,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(184,148,31,.06) 1px, transparent 1px);
+    background-size: 32px 32px; }
+  .top .in { max-width: 760px; margin: 0 auto; }
+  .top a.back { color: var(--gold-500); text-decoration: none; font-size: .82rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+  .top .kicker { display: flex; align-items: center; gap: 10px; margin-top: 1.1rem; font-family: var(--font-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: #d9bf6a; }
+  .top .kicker::before { content: ""; width: 28px; height: 3px; border-radius: 2px; background: var(--gold-500); }
+  .top h1 { font-family: var(--font-display); font-size: clamp(2.3rem, 8vw, 3.4rem); font-weight: 800; letter-spacing: .02em; line-height: 1; margin-top: .45rem; text-transform: uppercase; }
+  .top .sub { margin-top: .8rem; color: #c9c0ad; max-width: 620px; }
+
+  main { max-width: 760px; margin: 0 auto; padding: 1.25rem 1rem 1rem; }
+  .card { background: white; border: 1px solid var(--line); border-radius: 14px; padding: 1.1rem 1rem; margin-top: 1rem; }
+  .card h2, .sec h2 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 800; letter-spacing: .02em; text-transform: uppercase; line-height: 1.1; }
+
+  /* ── Entradas: las de la app, nomás ésas ── */
+  .field { margin-top: 1rem; }
+  .field:first-of-type { margin-top: .6rem; }
+  .field > label, .field > .lbl { display: block; font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--cafe-500); }
+  .field .hint { font-size: .8rem; color: var(--cafe-500); margin-top: 2px; }
+  .field .hint b { font-family: var(--font-mono); font-weight: 700; }
+  .inrow { display: flex; gap: 8px; align-items: center; margin-top: 6px; flex-wrap: wrap; }
+  .inrow input { width: 8.4rem; padding: 10px 12px; border: 1.5px solid var(--line); border-radius: 10px; background: var(--bone); font-family: var(--font-mono); font-size: 16px; font-weight: 700; }
+  .inrow input.wide { width: 11rem; }
+  .inrow input:focus { border-color: var(--gold-500); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .chips button { min-width: 3.4rem; padding: 8px 11px; border: 1.5px solid var(--line); background: var(--bone); border-radius: 10px; font-family: var(--font-mono); font-size: 14px; font-weight: 700; cursor: pointer; }
+  .chips button.on { background: var(--cafe-800); border-color: var(--cafe-800); color: var(--cream); }
+  .chips button small { display: block; font-family: var(--font-body); font-size: 10.5px; font-weight: 500; opacity: .8; }
+  .err { color: var(--bad); font-size: .8rem; margin-top: 4px; }
+  .err:empty { display: none; }
+
+  details.adv { margin-top: 1.1rem; border-top: 1px dashed var(--line); padding-top: .8rem; }
+  details.adv summary { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--cafe-700); }
+  details.adv summary::-webkit-details-marker { display: none; }
+  details.adv summary::after { content: "+"; font-family: var(--font-mono); font-size: 18px; color: var(--gold-700); }
+  details.adv[open] summary::after { content: "–"; }
+  details.adv .resumen { font-family: var(--font-mono); font-size: 11.5px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--cafe-500); margin-left: auto; margin-right: 10px; }
+  .switch { display: flex; align-items: center; gap: 10px; margin-top: 6px; cursor: pointer; font-size: .92rem; }
+  .switch input { appearance: none; width: 42px; height: 24px; border-radius: 999px; background: var(--line); position: relative; cursor: pointer; flex: none; transition: background .15s; }
+  .switch input::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: white; box-shadow: 0 1px 2px rgba(0,0,0,.25); transition: left .15s; }
+  .switch input:checked { background: var(--cafe-800); }
+  .switch input:checked::after { left: 21px; }
+
+  /* ── El resultado de arriba ── */
+  .hero { background: var(--cafe-800); color: var(--cream); border-radius: 14px; padding: 1.1rem 1rem; margin-top: 1rem; }
+  .hero .k { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--gold-500); }
+  .hero .big { font-family: var(--font-mono); font-size: clamp(2rem, 9vw, 2.7rem); font-weight: 700; line-height: 1.1; margin-top: 2px; }
+  .hero .big .x { color: var(--gold-500); padding: 0 .12em; }
+  .hero .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+  .badge { display: inline-block; font-family: var(--font-mono); font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; }
+  .badge.ok { background: #1B3A1B; color: #8fd694; }
+  .badge.bad { background: #3A1010; color: #ff8a80; }
+  .hero .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: .9rem; padding-top: .9rem; border-top: 1px solid #3d3422; }
+  .hero .pair .v { font-family: var(--font-mono); font-size: 1.35rem; font-weight: 700; }
+  .hero .s { font-family: var(--font-mono); font-size: 12px; color: #c9c0ad; }
+
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 1rem; }
+  .m { background: white; border: 1px solid var(--line); border-radius: 12px; padding: .7rem .8rem; }
+  .m .k { font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--cafe-500); }
+  .m .v { font-family: var(--font-mono); font-size: 1.3rem; font-weight: 700; color: var(--cafe-800); }
+  .m.gold { border-color: var(--gold-300); background: #fffdf6; }
+  .m.gold .v { color: var(--gold-700); }
+  .m .s { font-family: var(--font-mono); font-size: 11px; color: var(--cafe-500); }
+
+  /* ── LA GARGANTA: la firma de la página ── */
+  .garganta { border-radius: 14px; margin-top: 1rem; border: 1.5px solid; overflow: hidden; background: white; }
+  .garganta.ideal { border-color: var(--ok); } .garganta.aguas { border-color: var(--warn); } .garganta.corta { border-color: var(--bad); }
+  .garganta .head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: .85rem .95rem .2rem; flex-wrap: wrap; }
+  .garganta .t { font-weight: 700; font-size: .82rem; letter-spacing: .06em; text-transform: uppercase; }
+  .garganta.ideal .t { color: var(--ok); } .garganta.aguas .t { color: var(--warn); } .garganta.corta .t { color: var(--bad); }
+  .garganta .val { font-family: var(--font-mono); font-size: 1.9rem; font-weight: 700; line-height: 1; }
+  .garganta .b { padding: .15rem .95rem .2rem; font-size: .95rem; }
+  .meter { position: relative; margin: .9rem .95rem .3rem; height: 12px; border-radius: 999px; display: flex; overflow: hidden; }
+  .meter i { display: block; height: 100%; }
+  .meter .z1 { background: var(--bad); opacity: .85; } .meter .z2 { background: #e0a526; } .meter .z3 { background: var(--ok); opacity: .9; }
+  .meter-wrap { position: relative; }
+  .meter-pin { position: absolute; top: -6px; width: 3px; height: 24px; background: var(--cafe-800); border-radius: 2px; transform: translateX(-1.5px); }
+  .meter-pin::after { content: ""; position: absolute; top: -6px; left: -5px; border: 6.5px solid transparent; border-top-color: var(--cafe-800); }
+  .meter-lab { position: relative; height: 18px; margin: 0 .95rem; font-family: var(--font-mono); font-size: 11px; color: var(--cafe-500); }
+  .meter-lab span { position: absolute; transform: translateX(-50%); }
+  .garganta .lesson { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: .6rem; padding: .7rem .95rem; background: var(--canvas); border-top: 1px solid var(--line); text-decoration: none; color: var(--cafe-800); font-size: .9rem; font-weight: 600; }
+  .garganta .lesson::after { content: "→"; color: var(--gold-700); font-family: var(--font-mono); font-weight: 700; }
+  .garganta .lesson:hover { background: #ebe3c9; }
+
+  /* ── El stringer en 2D, desde el mismo perfil del número ── */
+  .diagram { background: var(--bone); border: 1px solid var(--line); border-radius: 14px; margin-top: 1rem; padding: .75rem .5rem .5rem; }
+  .diagram .k { font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--cafe-500); padding: 0 .5rem; }
+  .diagram svg { display: block; width: 100%; height: auto; border-radius: 10px; }
+  .diagram .ajustes { margin: .6rem .3rem .2rem; background: #FDF0D5; border-left: 4px solid #B45309; border-radius: 8px; padding: .7rem .85rem; }
+  .diagram .ajustes .t { font-size: .74rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #B45309; }
+  .diagram .ajustes p { font-size: .9rem; margin-top: 2px; }
+
+  .comp { border-radius: 12px; padding: .85rem .95rem; margin-top: 1rem; border: 1.5px solid; }
+  .comp.ok { background: var(--ok-soft); border-color: var(--ok); }
+  .comp.bad { background: var(--bad-soft); border-color: var(--bad); }
+  .comp.idle { background: white; border-color: var(--line); border-style: dashed; }
+  .comp .t { font-weight: 700; font-size: .82rem; letter-spacing: .06em; text-transform: uppercase; }
+  .comp.ok .t { color: var(--ok); } .comp.bad .t { color: var(--bad); } .comp.idle .t { color: var(--cafe-500); }
+  .comp .v { font-family: var(--font-mono); font-size: 1.35rem; font-weight: 700; margin-top: 2px; }
+  .comp .d { font-size: .88rem; margin-top: 4px; color: var(--cafe-700); }
+  .comp .d b { font-family: var(--font-mono); white-space: nowrap; }
+
+  .two { display: grid; grid-template-columns: 1fr; gap: 0; }
+  .list { list-style: none; margin-top: .5rem; }
+  .list li { display: flex; justify-content: space-between; align-items: baseline; padding: 7px 0; border-top: 1px dashed var(--line); font-size: .92rem; }
+  .list li b { font-family: var(--font-mono); font-size: 1rem; }
+  .card .cap { font-size: .8rem; color: var(--cafe-500); margin-top: 2px; }
+  .alts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: .6rem; }
+  .alts span { font-family: var(--font-mono); font-size: 13px; font-weight: 700; padding: 6px 10px; border-radius: 10px; border: 1.5px solid var(--line); background: var(--bone); }
+  .alts span.on { background: var(--cafe-800); border-color: var(--cafe-800); color: var(--cream); }
+  .alts span.no { color: var(--el-dim-faint); text-decoration: line-through; }
+
+  /* ── Lo de abajo: cómo se usa, la lección y Play ── */
+  .prose { margin-top: 2rem; }
+  .prose h2 { font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; letter-spacing: .02em; padding-bottom: .4rem; border-bottom: 3px solid var(--gold-500); text-transform: uppercase; }
+  .prose p, .prose li { margin-top: .75rem; }
+  .prose ul { padding-left: 1.1rem; }
+  .prose .note { background: var(--canvas); border-left: 4px solid var(--gold-500); border-radius: 8px; padding: .85rem 1rem; margin-top: 1rem; }
+  .mono { font-family: var(--font-mono); }
+  .cta-card { background: var(--cafe-800); color: var(--cream); border-radius: 14px; padding: 1.5rem 1.25rem; margin: 2rem 0 1rem; text-align: center; }
+  .cta-card p { color: #e9e3d3; }
+  .cta-card a.play { display: inline-block; margin-top: .9rem; padding: .8rem 1.1rem; background: var(--gold-500); color: var(--cafe-800); border-radius: 8px; text-decoration: none; font-weight: 700; }
+  .cta-card a.play:hover { background: #cea832; }
+  .foot { text-align: center; padding: 2rem 1.25rem 3rem; border-top: 1px solid var(--line); margin-top: 1.5rem; }
+  .foot a { color: var(--cafe-500); text-decoration: none; font-size: .85rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; margin: 0 .6rem; }
+  .foot p { font-size: .85rem; color: var(--cafe-500); margin-top: .6rem; }
+
+  @media (min-width: 640px) {
+    main { padding: 1.5rem 1.25rem 1rem; }
+    .grid { grid-template-columns: repeat(4, 1fr); }
+    .two { grid-template-columns: 1fr 1fr; gap: 0 12px; }
+  }
+  @media (min-width: 1000px) {
+    /* En compu: las entradas se quedan a la vista mientras baja el resultado. */
+    .layout { max-width: 1120px; display: grid; grid-template-columns: 380px 1fr; gap: 0 24px; align-items: start; }
+    .layout .entradas { position: sticky; top: 16px; }
+    .top .in { max-width: 1120px; }
+    .layout + .bajo { max-width: 760px; }
+    .layout .m .v { font-size: 1.12rem; white-space: nowrap; }
+  }
+</style>
+<meta name="author" content="FrameCore">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Calculadora de escaleras en pulgadas: risers, stringer y garganta | FrameCore">
+<meta property="og:description" content="Calculadora de escaleras gratis, en pulgadas y al dieciseisavo: risers, run, stringer cortado y cuánta garganta le queda a la zanca, con la misma cuenta de la app FrameCore.">
+<meta property="og:image" content="https://loomframing.com/assets/og-framecore-1200x630.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://loomframing.com/calculadora-de-escaleras.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/assets/icons/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Calculadora de escaleras FrameCore","url":"https://loomframing.com/calculadora-de-escaleras.html","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","inLanguage":"es","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Calculadora de escaleras gratis, en pulgadas y al dieciseisavo: risers, run, stringer cortado y cuánta garganta le queda a la zanca, con la misma cuenta de la app FrameCore.","image":"https://loomframing.com/assets/og-framecore-1200x630.png","publisher":{"@type":"Organization","name":"FrameCore"}}
+</script>
+<!-- GA4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBQ9B5CTEK"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      (function(){try{var k='lf_interno',q=new URLSearchParams(location.search).get(k);if(q==='1'){localStorage.setItem(k,'1');}else if(q==='0'){localStorage.removeItem(k);}if(localStorage.getItem(k)==='1'){gtag('set',{traffic_type:'internal'});}}catch(e){}})();
+  gtag('config', 'G-EBQ9B5CTEK');
+    </script>
+</head>
+<body>
+
+<header class="top">
+  <div class="in">
+    <a class="back" href="./">&larr; FrameCore</a>
+    <div class="kicker">En pulgadas · al dieciseisavo</div>
+    <h1>Calculadora de escaleras</h1>
+    <p class="sub">Le metes el rise de piso a piso y el tread, y te saca los risers, el run, el stringer cortado y cuánta garganta le queda a la zanca con la tabla que escojas. Es la misma cuenta de la app.</p>
+  </div>
+</header>
+
+<main class="layout" id="calc">
+  <section class="card entradas" aria-labelledby="inTitle">
+    <h2 id="inTitle">Tu escalera</h2>
+
+    <div class="field">
+      <label for="rise">Rise total (piso a piso)</label>
+      <div class="inrow"><input id="rise" class="wide" inputmode="text" autocomplete="off" value="10' 4" aria-describedby="riseHint"></div>
+      <div class="hint" id="riseHint">ej: <b>10' 4</b> o <b>124</b> · el rise se mide a subfloor</div>
+      <div class="err" id="riseErr"></div>
+    </div>
+
+    <div class="field">
+      <span class="lbl">Tread</span>
+      <div class="chips" id="treadChips">
+        <button type="button" data-v="10" class="on">10"</button>
+        <button type="button" data-v="10 1/4">10 1/4"</button>
+        <button type="button" data-v="10 1/2">10 1/2"</button>
+        <button type="button" data-v="11">11"</button>
+      </div>
+      <div class="inrow"><input id="tread" inputmode="text" autocomplete="off" value="10" aria-label="Tread"></div>
+      <div class="hint">opcional · pa'l run, el stringer y el headroom · el run se mide a nosing</div>
+      <div class="err" id="treadErr"></div>
+    </div>
+
+    <div class="field">
+      <span class="lbl">Tabla del stringer</span>
+      <div class="chips" id="board">
+        <button type="button" data-d="11.875" data-l="Rim 11⅞" class="on">Rim 11⅞<small>el de hoy</small></button>
+        <button type="button" data-d="11.25" data-l="2x12">2x12</button>
+        <button type="button" data-d="13.25" data-l="2x14">2x14</button>
+      </div>
+    </div>
+
+    <details class="adv" id="adv">
+      <summary>Opciones avanzadas <span class="resumen" id="advResumen"></span></summary>
+      <div class="field">
+        <label for="target">Target riser</label>
+        <div class="inrow"><input id="target" inputmode="text" autocomplete="off" placeholder="auto"></div>
+        <div class="hint">vacío = auto (≈ 7"), máx <b>7 3/4"</b></div>
+        <div class="err" id="targetErr"></div>
+      </div>
+      <div class="field">
+        <label for="opening">Opening</label>
+        <div class="inrow"><input id="opening" inputmode="text" autocomplete="off" placeholder="ej: 9' 6"></div>
+        <div class="hint">el largo del hueco · pa' verificar el headroom</div>
+        <div class="err" id="openingErr"></div>
+      </div>
+      <div class="field">
+        <label for="header">Header height</label>
+        <div class="inrow"><input id="header" inputmode="text" autocomplete="off" placeholder='11 1/4"'></div>
+        <div class="hint">vacío = <b>11 1/4"</b> (subfloor + joist + LVL)</div>
+      </div>
+      <div class="field">
+        <span class="lbl">Ajustes del stringer</span>
+        <label class="switch"><input type="checkbox" id="ajustes" checked> Se descuenta el grueso del tread abajo</label>
+        <div class="inrow"><input id="grueso" inputmode="text" autocomplete="off" value='1-1/8"' aria-label="Grueso del tread"><span class="mono" style="font-size:13px;color:var(--cafe-500)">grueso del tread</span></div>
+      </div>
+    </details>
+  </section>
+
+  <section class="resultado" aria-live="polite" aria-label="Resultado">
+    <div class="hero">
+      <div class="k">Risers</div>
+      <div class="big" id="hRisers">—</div>
+      <div class="row"><span class="s" id="hRiserSub"></span><span class="badge ok" id="hBadge">—</span></div>
+      <div class="pair">
+        <div><div class="k">Rise total</div><div class="v" id="hRise">—</div><div class="s">piso a piso, en pulgadas</div></div>
+        <div><div class="k">Treads</div><div class="v" id="hTreads">—</div><div class="s" id="hTreadsSub"></div></div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="m"><div class="k">Run total</div><div class="v" id="mRun">—</div><div class="s">a nosing</div></div>
+      <div class="m gold"><div class="k">Stringer cortado</div><div class="v" id="mStr">—</div><div class="s">lo que se pide y se corta</div></div>
+      <div class="m"><div class="k">1er riser</div><div class="v" id="mFirst">—</div><div class="s" id="mFirstS"></div></div>
+      <div class="m"><div class="k">Último tread</div><div class="v" id="mLast">—</div><div class="s" id="mLastS">del stringer</div></div>
+    </div>
+
+    <div class="garganta ideal" id="gBox">
+      <div class="head"><div class="t" id="gT">Garganta</div><div class="val" id="gV">—</div></div>
+      <div class="b" id="gB"></div>
+      <div class="meter-wrap">
+        <div class="meter" aria-hidden="true"><i class="z1" style="width:43.75%"></i><i class="z2" style="width:18.75%"></i><i class="z3" style="width:37.5%"></i></div>
+        <div class="meter-pin" id="gPin" style="left:50%"></div>
+      </div>
+      <div class="meter-lab" aria-hidden="true"><span style="left:43.75%">3½"</span><span style="left:62.5%">5"</span></div>
+      <a class="lesson" href="blog/stair-stringer-throat-depth.html">¿Por qué 5"? La lección de la garganta</a>
+    </div>
+
+    <div class="diagram">
+      <div class="k">El stringer, de lado · el rise, el run y el 1er riser parejo</div>
+      <div id="stage"></div>
+      <div class="ajustes" id="ajNota">
+        <div class="t">Ajustes del stringer</div>
+        <p id="ajTxt"></p>
+      </div>
+    </div>
+
+    <div class="comp idle" id="hdBox">
+      <div class="t" id="hdT">Headroom</div>
+      <div class="v" id="hdV"></div>
+      <div class="d" id="hdD"></div>
+    </div>
+
+    <div class="two">
+      <div class="card">
+        <h2>Landing heights</h2>
+        <p class="cap">Del piso de abajo al piso terminado del landing</p>
+        <ul class="list" id="landings"></ul>
+      </div>
+      <div class="card">
+        <h2>Alternativas</h2>
+        <p class="cap">El mismo rise, repartido en más o menos risers</p>
+        <div class="alts" id="alts"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<main class="bajo">
+  <section class="prose">
+    <h2>Cómo se usa</h2>
+    <ul>
+      <li><strong>El rise total</strong> va de piso a piso, medido a subfloor. Se puede meter en pies y pulgadas (<span class="mono">10' 4</span>) o nomás en pulgadas (<span class="mono">124</span>).</li>
+      <li><strong>El tread</strong> es opcional, pero sin él no salen el run, el stringer cortado ni la garganta.</li>
+      <li><strong>La tabla:</strong> el rim de 11⅞ es el de hoy pa' stringers. Con 2x12 o 2x14 se ve cuánta garganta se gana o se pierde.</li>
+      <li>Las medidas salen al dieciseisavo, como en la app.</li>
+    </ul>
+    <div class="note"><strong>Lo que no hace:</strong> no dimensiona el header del hueco. El riser máximo (7 3/4") y el headroom (6' 8") son los del IRC: checa qué edición usa tu ciudad.</div>
+  </section>
+
+  <div class="cta-card">
+    <p>En la app sale la hoja del stringer con la marca de cada diente y la vista en 3D, en tu teléfono y off-line en el jale.</p>
+    <a class="play" data-play-slug="calculadora-escaleras" href="https://play.google.com/store/apps/details?id=com.loomframing.app&amp;referrer=utm_source%3Dloomframing.com%26utm_medium%3Dtool%26utm_campaign%3Dcalculadora-escaleras%26utm_content%3Dcalculadora-escaleras" target="_blank" rel="noopener" data-play-slug="calculadora-escaleras">Bájala gratis en Google Play</a>
+  </div>
+</main>
+
+<footer class="foot">
+  <a href="./">FrameCore</a><a href="blog/">Blog</a>
+  <p>Hecha por un framero de Idaho, pa' frameros de todos lados.</p>
+</footer>
+
+<script src="/assets/js/escaleras-cuenta.js"></script>
+<script src="/assets/js/diagramas_439.js"></script>
+<script>
+(function () {
+  var E = window.FrameCoreEscaleras, D = window.FC439;
+  var $ = function (id) { return document.getElementById(id); };
+  var F = function (x) { return E.inchFraction(x); };
+  var FT = function (x) { return E.fmtFt(x); };
+
+  /* Lee «10' 4», «124», «10 1/4», «10-1/4», «1-1/8"». Vacío = null; basura = NaN. */
+  function medida(txt) {
+    var s = String(txt || '').trim().replace(/["”″]/g, '').replace(/[’′]/g, "'");
+    if (!s) return null;
+    var ft = 0, inch = s;
+    var i = s.indexOf("'");
+    if (i >= 0) { ft = parseFloat(s.slice(0, i)); inch = s.slice(i + 1).trim(); if (isNaN(ft)) return NaN; }
+    inch = inch.replace(/^-/, '').trim();
+    var tot = 0;
+    if (inch) {
+      var m = inch.match(/^(\d+(?:\.\d+)?)?(?:[\s-]+)?(?:(\d+)\/(\d+))?$/);
+      if (!m || (!m[1] && !m[2])) return NaN;
+      tot = (m[1] ? parseFloat(m[1]) : 0) + (m[2] ? parseInt(m[2], 10) / parseInt(m[3], 10) : 0);
+      if (m[1] && !m[2] && /\s/.test(inch)) return NaN;
+    }
+    return ft * 12 + tot;
+  }
+
+  var boardDepth = 11.875, boardLabel = 'Rim 11⅞';
+  function chips(id, cb) {
+    $(id).addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      [].forEach.call(this.querySelectorAll('button'), function (x) { x.classList.toggle('on', x === b); });
+      cb(b); run();
+    });
+  }
+  chips('treadChips', function (b) { $('tread').value = b.dataset.v; });
+  chips('board', function (b) { boardDepth = parseFloat(b.dataset.d); boardLabel = b.dataset.l; });
+  ['rise', 'tread', 'target', 'opening', 'header', 'grueso'].forEach(function (id) { $(id).addEventListener('input', run); });
+  $('ajustes').addEventListener('change', run);
+  $('tread').addEventListener('input', function () {
+    [].forEach.call($('treadChips').querySelectorAll('button'), function (x) { x.classList.toggle('on', medida(x.dataset.v) === medida($('tread').value)); });
+  });
+
+  function setErr(id, msg) { $(id).textContent = msg || ''; }
+
+  function run() {
+    var rise = medida($('rise').value), tread = medida($('tread').value);
+    var target = medida($('target').value), opening = medida($('opening').value), header = medida($('header').value);
+    var ajustes = $('ajustes').checked, g = medida($('grueso').value);
+    var grueso = (g == null || isNaN(g) || g < 0.5 || g > 2) ? 1.125 : g;
+    setErr('riseErr', rise == null ? 'Falta el Rise total (piso a piso)' : (isNaN(rise) || rise <= 0) ? 'Ese Rise total no sirve. Tiene que ser mayor que cero.' : '');
+    setErr('treadErr', (tread != null && (isNaN(tread) || tread <= 0)) ? 'Ese Tread no sirve. Tiene que ser mayor que cero.' : (opening != null && tread == null) ? 'Falta el Tread: sin él no se verifica el headroom.' : '');
+    setErr('targetErr', (target != null && (isNaN(target) || target <= 0)) ? 'Ese Target Riser no sirve. Tiene que ser mayor que cero.' : '');
+    setErr('openingErr', (opening != null && (isNaN(opening) || opening <= 0)) ? 'Ese Opening no sirve. Tiene que ser mayor que cero.' : '');
+    var adv = [];
+    if (target) adv.push('target ' + F(target)); if (opening) adv.push('opening ' + FT(opening)); if (header) adv.push('header ' + F(header));
+    $('advResumen').textContent = adv.join(' · ');
+    if (rise == null || isNaN(rise) || rise <= 0) return;
+    if (tread != null && (isNaN(tread) || tread <= 0)) tread = null;
+
+    var res = E.calcStairs({
+      totalRise: rise, targetRiser: (target && target > 0) ? target : null, treadDepth: tread,
+      openingLength: (opening && opening > 0) ? opening : null, headerHeight: (header && header > 0) ? header : null,
+      treadThickness: ajustes ? grueso : 0, boardDepth: boardDepth
+    });
+
+    $('hRisers').innerHTML = res.numRisers + '<span class="x">×</span>' + F(res.riserHeight);
+    $('hRiserSub').textContent = res.numRisers + ' risers de ' + F(res.riserHeight);
+    $('hBadge').className = 'badge ' + (res.codeOk ? 'ok' : 'bad');
+    $('hBadge').textContent = res.codeOk ? '✓ IRC · máx 7 3/4"' : '✗ pasa de 7 3/4"';
+    $('hRise').textContent = F(res.totalRise);
+    $('hTreads').textContent = res.treadsCut;
+    $('hTreadsSub').textContent = tread ? 'de ' + F(tread) : 'sin tread';
+
+    $('mFirst').textContent = F(res.firstRoughRise);
+    $('mFirstS').textContent = ajustes ? 'menos el grueso del tread' : 'sin ajuste';
+
+    var gBox = $('gBox');
+    if (tread) {
+      // El adaptador, como el de la app (escaleras.dart): la escalera terminada y su tabla.
+      var R = { rise: res.finishedTotalRise, n: res.numRisers, r: res.riserHeight, t: tread, treadsCut: res.treadsCut,
+        run: res.totalRun, stringer: res.stringerLength, D: boardDepth, board: boardLabel,
+        throat: res.throat, band: res.throatBand };
+      var opt = { craft: ajustes, treadThk: grueso, palette: D.PAPER };
+      var G = D.stairGeom(R, opt);
+      res._cortado = D.stairBoardMarks(R, G).length;
+      $('mLast').textContent = F(G.teeth[G.m - 1].run);
+      $('mLastS').textContent = ajustes ? 'menos el material del riser' : 'sin ajuste';
+      $('mRun').textContent = FT(res.totalRun);
+      $('mStr').textContent = FT(res._cortado);
+      var band = res.throatBand, th = res.throat;
+      gBox.className = 'garganta ' + band;
+      $('gT').textContent = band === 'ideal' ? 'Garganta — como debe ir' : band === 'aguas' ? 'Garganta — aguas' : 'Garganta — stringer comprometido';
+      $('gV').textContent = F(th);
+      $('gB').textContent = band === 'ideal'
+        ? 'Te quedan ' + F(th) + ' de stringer. El oficio pide 5" y ahí la traes: la tabla aguanta lo que tiene que aguantar.'
+        : band === 'aguas'
+        ? 'Te quedan ' + F(th) + ' de stringer. Aguanta —el mínimo son 3½"— pero el oficio pide 5" y vas abajo. Con tabla más ancha o un tread menos hondo la recuperas.'
+        : 'Te quedan ' + F(th) + ' de stringer: abajo de los 3½" que es lo mínimo que aguanta. Súbele de tabla (2x12 o 2x14) antes de cortar — así el stringer queda flaco donde más carga.';
+      $('gPin').style.left = Math.max(0, Math.min(100, th / 8 * 100)) + '%';
+      gBox.style.display = '';
+      var Wst = Math.max(320, Math.min(720, Math.round($('stage').clientWidth || 680)));
+      opt.width = Wst;
+      $('stage').innerHTML = D.stairs2D(R, opt);
+      $('ajNota').style.display = ajustes ? '' : 'none';
+      $('ajTxt').textContent = 'Los stringers se cortan todos iguales y después se ajustan. OJO con dos cortes: 1) al PRIMER riser bájale el grosor del tread que vayas a usar (mide TU tread; aquí corre a ' + (Math.abs(grueso - 1.125) < 1e-9 ? '1⅛"' : F(grueso)) + '). 2) al ÚLTIMO tread del stringer recórtale el grosor del material de tus risers (con riser de ¾", ese corte del stringer queda en 9¼"; el tread sigue siendo de 10"). Depende del estilo de escalón de tu proyecto: hay variantes y modelos. Tenlo presente, no es regla.';
+    } else {
+      $('mRun').textContent = '—'; $('mStr').textContent = '—'; $('mLast').textContent = '—';
+      gBox.style.display = 'none'; $('ajNota').style.display = 'none'; $('stage').innerHTML = '<p style="padding:1rem;font-size:.9rem;color:var(--cafe-500)">Métele el tread pa' + "'" + ' ver el stringer y su garganta.</p>';
+    }
+
+    var hd = $('hdBox');
+    if (res.headroom != null) {
+      hd.className = 'comp ' + (res.headroomOk ? 'ok' : 'bad');
+      $('hdT').textContent = res.headroomOk ? '✓ Headroom · IRC R311.7.2' : '✗ Headroom · IRC R311.7.2';
+      $('hdV').textContent = FT(res.headroom);
+      $('hdD').innerHTML = 'El mínimo es <b>6\' 8"</b> (80"). Pa' + "'" + ' 80" ocupas <b>' + FT(res.minOpening) + '</b> de opening.';
+    } else if (res.minOpening != null) {
+      hd.className = 'comp idle';
+      $('hdT').textContent = 'Headroom';
+      $('hdV').textContent = '';
+      $('hdD').innerHTML = 'Pa' + "'" + ' los 80" del IRC ocupas <b>' + FT(res.minOpening) + '</b> de opening. Mete el tuyo en «Opciones avanzadas» y te dice si pasa.';
+    } else { hd.className = 'comp idle'; $('hdT').textContent = 'Headroom'; $('hdV').textContent = ''; $('hdD').textContent = 'Con el tread sale el opening que ocupas pa' + "'" + ' los 80".'; }
+
+    var L = Object.keys(res.landingHeights).map(Number).sort(function (a, b) { return a - b; });
+    $('landings').innerHTML = L.map(function (n) { return '<li><span>Después del riser ' + n + '</span><b>' + F(res.landingHeights[n]) + '</b></li>'; }).join('');
+    $('alts').innerHTML = res.alternatives.map(function (a) {
+      return '<span class="' + (a.n === res.numRisers ? 'on' : (!a.ok ? 'no' : '')) + '">' + a.n + ' × ' + F(a.riser) + '</span>';
+    }).join('');
+  }
+  var _w; window.addEventListener('resize', function () { clearTimeout(_w); _w = setTimeout(run, 120); });
+  run();
+})();
+</script>
+<!-- UTM handler (mirrors landing) -->
+<script>
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
+  var captured = {};
+  var hasUtm = false;
+  utmKeys.forEach(function(key) {
+    var val = params.get(key);
+    if (val) { captured[key] = val; hasUtm = true; try { sessionStorage.setItem(key, val); } catch(e) {} }
+    else { try { var stored = sessionStorage.getItem(key); if (stored) captured[key] = stored; } catch(e) {} }
+  });
+  if (hasUtm && typeof gtag === 'function') {
+    var clean = new URLSearchParams(window.location.search);
+    utmKeys.forEach(function(key) { clean.delete(key); });
+    var newUrl = window.location.pathname + (clean.toString() ? '?' + clean.toString() : '') + window.location.hash;
+    gtag('event', 'utm_landing', { utm_source: captured.utm_source || '(none)', utm_medium: captured.utm_medium || '(none)', utm_campaign: captured.utm_campaign || '(none)', utm_content: captured.utm_content || '(none)', event_callback: function() { if (window.history && window.history.replaceState) { window.history.replaceState(null, '', newUrl); } }, event_timeout: 2000 });
+  }
+})();
+</script>
+
+<!-- El clic a Play se avisa en todas las páginas (5-nov-2026), con un solo aviso pa' todos los links. Si el link trae data-play-slug, ése va como article_slug, igual que en la prueba de la tarjeta del 8-oct. -->
+<script>
+document.addEventListener('click', function (e) {
+  var a = e.target && e.target.closest ? e.target.closest('a[href*="play.google.com/store/apps/details"]') : null;
+  if (!a || typeof gtag !== 'function') return;
+  var ref = new URLSearchParams('');
+  try { ref = new URLSearchParams(new URL(a.href).searchParams.get('referrer') || ''); } catch (err) {}
+  var datos = { link_placement: ref.get('utm_content') || '(sin referrer)', link_campaign: ref.get('utm_campaign') || '(sin referrer)', transport_type: 'beacon' };
+  var slug = a.getAttribute('data-play-slug');
+  if (slug) { datos.article_slug = slug; }
+  gtag('event', 'click_play_store', datos);
+});
+</script>
+</body>
+</html>
