@@ -332,4 +332,10 @@
       <video:publication_date>2026-11-24T14:41:37-08:00</video:publication_date>
     </video:video>
   </url>
+  <url>
+    <loc>https://loomframing.com/privacidad.html</loc>
+    <lastmod>2026-11-27T22:55:37Z</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
 </urlset>

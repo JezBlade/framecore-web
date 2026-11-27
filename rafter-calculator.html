@@ -31,9 +31,19 @@
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',region:['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']});
       gtag('js', new Date());
       (function(){try{var k='lf_interno',q=new URLSearchParams(location.search).get(k);if(q==='1'){localStorage.setItem(k,'1');}else if(q==='0'){localStorage.removeItem(k);}if(localStorage.getItem(k)==='1'){gtag('set',{traffic_type:'internal'});}}catch(e){}})();
   gtag('config', 'G-EBQ9B5CTEK');
+    </script>
+    <script type="text/javascript">
+    if(/(^|\.)loomframing\.com$/.test(location.hostname)){
+    (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "zkem1mei5q");
+    }
     </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -312,7 +322,7 @@
 </main>
 
 <footer class="foot">
-  <a href="./" data-i18n="fHome">FrameCore</a><a href="blog/" data-i18n="fBlog">Blog</a>
+  <a href="./" data-i18n="fHome">FrameCore</a><a href="blog/" data-i18n="fBlog">Blog</a><a href="privacidad.html" data-i18n="fPriv">Privacy</a>
   <p data-i18n="fNote">Made by a framer in Idaho, for framers everywhere.</p>
 </footer>
 
@@ -486,7 +496,7 @@
       mSlope:'Angle', mFactor:'Factor (line per foot of run)', mLine:'Line length', mRidge:'Half the ridge, on the rafter',
       mTail:'Tail on the rafter', mCut:'Ridge cut to the tail cut', mRem:'Left of the depth above the notch',
       ctaP:'Hips, valleys and jacks, a cut list that shows where every line comes from and a step-by-step cut sheet, on your phone and off-line on the jobsite.',
-      ctaA:'Get FrameCore on Google Play · free download', fHome:'FrameCore', fBlog:'Blog', fNote:'Made by a framer in Idaho, for framers everywhere.',
+      ctaA:'Get FrameCore on Google Play · free download', fHome:'FrameCore', fBlog:'Blog', fPriv:'Privacy', fNote:'Made by a framer in Idaho, for framers everywhere.',
       broken:'broken', plumbRidge:'plumb cut · −½ ridge',
       heroSub:(c)=>fix(c.lineLen/12,3)+' ft · '+fix(c.lineLen,3)+' in',
       shortSub:(c)=>'− ½ ridge ('+frac16(c.ridgeDeduct)+' on the rafter)', totalSub:(c)=>'+ '+frac16(c.overRafter)+' tail on the rafter',
@@ -516,7 +526,7 @@
       mSlope:'Ángulo', mFactor:'Factor (línea por pie de run)', mLine:'Largo de línea', mRidge:'Medio ridge, sobre el rafter',
       mTail:'Cola sobre el rafter', mCut:'Del corte del ridge al corte de la cola', mRem:'Lo que queda del canto sobre la muesca',
       ctaP:'Hips, valleys y jacks, la cut list con el origen de cada renglón y la hoja de corte paso a paso, en tu teléfono y off-line en el jale.',
-      ctaA:'Bájala de Google Play: FrameCore, la descarga es gratis', fHome:'FrameCore', fBlog:'Blog', fNote:'Hecha por un framero en Idaho, pa\' los frameros de donde sea.',
+      ctaA:'Bájala de Google Play: FrameCore, la descarga es gratis', fHome:'FrameCore', fBlog:'Blog', fPriv:'Privacidad', fNote:'Hecha por un framero en Idaho, pa\' los frameros de donde sea.',
       broken:'quebrado', plumbRidge:'corte a plomo · −½ ridge',
       heroSub:(c)=>fix(c.lineLen/12,3)+' ft · '+fix(c.lineLen,3)+' in',
       shortSub:(c)=>'− ½ ridge ('+frac16(c.ridgeDeduct)+' sobre el rafter)', totalSub:(c)=>'+ '+frac16(c.overRafter)+' de cola sobre el rafter',
